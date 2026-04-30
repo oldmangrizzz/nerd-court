@@ -1,0 +1,40 @@
+name: NerdCourt
+options:
+  bundleIdPrefix: com.grizzlymedicine
+  deploymentTarget:
+    iOS: "26.0"
+  xcodeVersion: "26.5"
+
+settings:
+  base:
+    SWIFT_VERSION: "6.0"
+    OTHER_SWIFT_FLAGS: "-Xfrontend -strict-concurrency=complete"
+
+packages: {}
+
+targets:
+  NerdCourt:
+    type: application
+    platform: iOS
+    sources:
+      - Sources
+      - Resources
+    dependencies:
+      - sdk: SpriteKit.framework
+      - sdk: AVFoundation.framework
+    settings:
+      base:
+        INFOPLIST_FILE: ""
+        PRODUCT_BUNDLE_IDENTIFIER: com.grizzlymedicine.nerdcourt
+        GENERATE_INFOPLIST_FILE: YES
+        INFOPLIST_KEY_NSMicrophoneUsageDescription: "Nerd Court records voice samples for character impersonation during trials."
+        INFOPLIST_KEY_UIApplicationSceneManifest_Generation: YES
+        INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents: YES
+        INFOPLIST_KEY_UILaunchScreen_Generation: YES
+        INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone: "UIInterfaceOrientationPortrait"
+        INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad:
+          - UIInterfaceOrientationPortrait
+          - UIInterfaceOrientationLandscapeLeft
+          - UIInterfaceOrientationLandscapeRight
+    preBuildScripts: []
+    postBuildScripts: []

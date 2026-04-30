@@ -1,0 +1,8 @@
+.build/
+*.xcarchive
+*.xcworkspace
+xcuserdata/
+DerivedData/
+*.ipa
+ExportOptions.plist
+NerdCourt.xcodeproj/

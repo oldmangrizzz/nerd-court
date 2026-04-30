@@ -1,0 +1,39 @@
+name: NerdCourt CI
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build-and-test:
+    runs-on: macos-26
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Generate Xcode project
+        run: xcodegen generate --spec project.yml
+
+      - name: Build
+        run: |
+          xcodebuild build \
+            -project NerdCourt.xcodeproj \
+            -scheme NerdCourt \
+            -destination "platform=iOS Simulator,name=iPhone 17 Pro" \
+            -configuration Debug
+
+  archive-and-deploy:
+    runs-on: macos-26
+    needs: build-and-test
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Generate Xcode project
+        run: xcodegen generate --spec project.yml
+
+      - name: Archive and Upload to TestFlight
+        run: bash ci_scripts/archive_and_upload.sh
+        env:
+          APPLE_ID: ${{ secrets.APPLE_ID }}
+          APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.APPLE_APP_SPECIFIC_PASSWORD }}
