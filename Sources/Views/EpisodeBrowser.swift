@@ -23,7 +23,12 @@ struct EpisodeBrowser: View {
     @State private var isLoading = false
     @State private var errorMessage: String?
 
-    private let convexClient = ConvexClient()
+    private let convexClient: ConvexClient
+
+    init(convexClient: ConvexClient? = nil) {
+        let url = ProcessInfo.processInfo.environment["CONVEX_DEPLOYMENT_URL"] ?? ""
+        self.convexClient = convexClient ?? ConvexClient(deploymentURL: url)
+    }
     private let columns = [GridItem(.adaptive(minimum: 160), spacing: 16)]
 
     var filteredEpisodes: [EpisodeSummary] {

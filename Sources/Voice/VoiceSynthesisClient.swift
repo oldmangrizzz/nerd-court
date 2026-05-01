@@ -1,8 +1,16 @@
 @preconcurrency import AVFoundation
 import Foundation
 
+// MARK: - Voice Synthesis Service Protocol
+
+protocol VoiceSynthesisServiceProtocol: Sendable {
+    func synthesize(speaker: Speaker, text: String) async -> URL
+}
+
+// MARK: - Voice Synthesis Client
+
 @MainActor
-final class VoiceSynthesisClient {
+final class VoiceSynthesisClient: VoiceSynthesisServiceProtocol {
     private var voiceBank: [Speaker: CharacterVoiceID] = [:]
     private var audioCache: [String: URL] = [:]
     private let session: URLSession
@@ -10,14 +18,23 @@ final class VoiceSynthesisClient {
     private var playerNodes: [AVAudioPlayerNode] = []
     private let maxConcurrentVoices = 3
 
+    /// Backend proxy endpoint for voice synthesis. Configurable via init for testing.
+    private let synthesisEndpoint: URL
+
     // MARK: - Init
 
-    init() {
+    init(synthesisEndpoint: URL? = nil, session: URLSession? = nil) {
+        // Default endpoint: local backend proxy that forwards to TTS provider.
+        // No secrets or provider URLs are embedded here — the backend proxy
+        // handles authentication and routing to the actual TTS service.
+        self.synthesisEndpoint = synthesisEndpoint
+            ?? URL(string: "/api/voice/synthesize", relativeTo: nil)!
+
         let config = URLSessionConfiguration.default
         config.timeoutIntervalForRequest = 30
         config.timeoutIntervalForResource = 60
         config.waitsForConnectivity = true
-        self.session = URLSession(configuration: config)
+        self.session = session ?? URLSession(configuration: config)
         self.engine = AVAudioEngine()
         setupAudioSession()
     }
@@ -48,38 +65,27 @@ final class VoiceSynthesisClient {
             return cached
         }
 
-        // Generate via F5-XTTS on Ollama Cloud API
-        let url = await synthesizeViaCloud(voiceID: voiceID, text: text, cacheKey: cacheKey)
+        // Route through backend proxy — no bearer tokens or provider URLs in client code.
+        let url = await synthesizeViaProxy(voiceID: voiceID, text: text, cacheKey: cacheKey)
         return url
     }
 
-    private func synthesizeViaCloud(voiceID: CharacterVoiceID, text: String, cacheKey: String) async -> URL {
+    private func synthesizeViaProxy(voiceID: CharacterVoiceID, text: String, cacheKey: String) async -> URL {
         let fallbackURL = FileManager.default.temporaryDirectory
             .appendingPathComponent("\(voiceID.rawValue)_\(UUID().uuidString).wav")
 
-        let endpoint = "https://ollama.com/api/generate"
-        let prompt = buildTTSPrompt(voiceID: voiceID, text: text)
-
         let body: [String: Any] = [
-            "model": "f5-xtts:v2",
-            "prompt": prompt,
-            "stream": false,
-            "options": [
-                "temperature": 0.2,
-                "num_ctx": 4096,
-                "voice_profile": voiceID.rawValue,
-            ],
+            "voice_profile": voiceID.rawValue,
+            "text": text,
         ]
 
         guard let jsonData = try? JSONSerialization.data(withJSONObject: body) else {
             return fallbackURL
         }
 
-        var request = URLRequest(url: URL(string: endpoint)!)
+        var request = URLRequest(url: synthesisEndpoint)
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.setValue("Bearer e42471f8231349d991e9ebe4d001d9ea.4-l0FMlffIsnnxj65AOfVq0X",
-                        forHTTPHeaderField: "Authorization")
         request.httpBody = jsonData
 
         do {
@@ -100,21 +106,6 @@ final class VoiceSynthesisClient {
         } catch {
             return fallbackURL
         }
-    }
-
-    private func buildTTSPrompt(voiceID: CharacterVoiceID, text: String) -> String {
-        """
-        Generate speech audio for the following character voice.
-
-        Voice: \(voiceID.rawValue)
-        Source material: \(voiceID.sourceMaterial)
-        Text to speak: \(text)
-
-        Requirements:
-        - Match the character's vocal timbre, cadence, and emotional register
-        - Preserve punctuation pacing (commas = micro-pauses, periods = full stops)
-        - Output as base64-encoded WAV, 24kHz sample rate, mono
-        """
     }
 
     // MARK: - Playback

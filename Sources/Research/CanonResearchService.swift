@@ -43,7 +43,7 @@ actor CanonResearchService {
         }
     }
     
-    init(baseURL: URL = URL(string: "https://mcp-search.ninja/api/v1/search")!,
+    init(baseURL: URL,
          apiKey: String? = nil,
          session: URLSession = .shared) {
         self.baseURL = baseURL

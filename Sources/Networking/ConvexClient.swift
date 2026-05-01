@@ -4,11 +4,16 @@ actor ConvexClient {
     private let baseURL: String
     private let session: URLSession
 
-    init(deploymentURL: String = "https://fastidious-wolverine-481.convex.cloud") {
+    /// Create a ConvexClient with an explicit deployment URL and optional session.
+    /// - Parameters:
+    ///   - deploymentURL: The Convex deployment URL (e.g. from environment config). Must not be empty.
+    ///   - session: Optional URLSession for testing; defaults to a standard configuration.
+    init(deploymentURL: String, session: URLSession? = nil) {
+        precondition(!deploymentURL.isEmpty, "Convex deployment URL must be provided via environment config — no hardcoded defaults.")
         self.baseURL = deploymentURL + "/api"
         let config = URLSessionConfiguration.default
         config.timeoutIntervalForRequest = 30
-        self.session = URLSession(configuration: config)
+        self.session = session ?? URLSession(configuration: config)
     }
 
     func query<T: Decodable>(_ path: String) async throws -> T {

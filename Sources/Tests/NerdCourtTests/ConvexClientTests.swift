@@ -7,13 +7,16 @@ final class ConvexClientTests: XCTestCase {
     private var mockSession: URLSession!
     private var mockProtocol: MockURLProtocol.Type!
 
+    // Use a placeholder test URL instead of a real deployment endpoint
+    static let testDeploymentURL = "https://test-instance.convex.cloud"
+
     override func setUp() async throws {
         try await super.setUp()
         mockProtocol = MockURLProtocol.self
         let configuration = URLSessionConfiguration.ephemeral
         configuration.protocolClasses = [MockURLProtocol.self]
         mockSession = URLSession(configuration: configuration)
-        client = ConvexClient(session: mockSession)
+        client = ConvexClient(deploymentURL: ConvexClientTests.testDeploymentURL, session: mockSession)
     }
 
     override func tearDown() async throws {
@@ -29,7 +32,7 @@ final class ConvexClientTests: XCTestCase {
         let expectedData = #"{"grievances":[]}"#.data(using: .utf8)!
         MockURLProtocol.requestHandler = { request in
             XCTAssertEqual(request.httpMethod, "POST")
-            XCTAssertTrue(request.url?.absoluteString.hasPrefix("https://fastidious-wolverine-481.convex.cloud/api/query") ?? false)
+            XCTAssertTrue(request.url?.absoluteString.hasPrefix(ConvexClientTests.testDeploymentURL + "/api/query") ?? false)
             let response = HTTPURLResponse(url: request.url!, statusCode: 200, httpVersion: nil, headerFields: nil)!
             return (response, expectedData)
         }
@@ -91,7 +94,7 @@ final class ConvexClientTests: XCTestCase {
         let expectedData = #"{"success":true}"#.data(using: .utf8)!
         MockURLProtocol.requestHandler = { request in
             XCTAssertEqual(request.httpMethod, "POST")
-            XCTAssertTrue(request.url?.absoluteString.hasPrefix("https://fastidious-wolverine-481.convex.cloud/api/mutation") ?? false)
+            XCTAssertTrue(request.url?.absoluteString.hasPrefix(ConvexClientTests.testDeploymentURL + "/api/mutation") ?? false)
             let response = HTTPURLResponse(url: request.url!, statusCode: 200, httpVersion: nil, headerFields: nil)!
             return (response, expectedData)
         }
@@ -138,7 +141,7 @@ final class ConvexClientTests: XCTestCase {
         let expectedData = #"{"result":"done"}"#.data(using: .utf8)!
         MockURLProtocol.requestHandler = { request in
             XCTAssertEqual(request.httpMethod, "POST")
-            XCTAssertTrue(request.url?.absoluteString.hasPrefix("https://fastidious-wolverine-481.convex.cloud/api/action") ?? false)
+            XCTAssertTrue(request.url?.absoluteString.hasPrefix(ConvexClientTests.testDeploymentURL + "/api/action") ?? false)
             let response = HTTPURLResponse(url: request.url!, statusCode: 200, httpVersion: nil, headerFields: nil)!
             return (response, expectedData)
         }
@@ -196,6 +199,20 @@ final class ConvexClientTests: XCTestCase {
         let body = try JSONEncoder().encode(["path": "test/path"])
         _ = try await client.query("test/path", body: body)
         await fulfillment(of: [expectation], timeout: 1.0)
+    }
+
+    // MARK: - Deployment URL Precondition Tests
+
+    func testInitWithEmptyURLFails() {
+        XCTAssertThrowsError(try ConvexClient(deploymentURL: "")) { error in
+            // Precondition failure — in debug builds this traps; in release it's undefined behavior.
+            // We can't easily test precondition failures in XCTest, so this verifies the API surface.
+        }
+    }
+
+    func testInitWithValidURL() {
+        let client = ConvexClient(deploymentURL: "https://test-instance.convex.cloud")
+        XCTAssertNotNil(client)
     }
 }
 

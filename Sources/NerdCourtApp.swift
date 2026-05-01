@@ -7,7 +7,8 @@ struct NerdCourtApp: App {
 
     init() {
         let ollamaClient = OllamaMaxClient()
-        let convexClient = ConvexClient()
+        let convexDeploymentURL = ProcessInfo.processInfo.environment["CONVEX_DEPLOYMENT_URL"] ?? ""
+        let convexClient = ConvexClient(deploymentURL: convexDeploymentURL)
         self.coordinator = TrialCoordinator(
             ollamaClient: ollamaClient,
             convexClient: convexClient,
