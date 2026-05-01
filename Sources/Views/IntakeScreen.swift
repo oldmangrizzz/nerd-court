@@ -118,8 +118,7 @@ struct IntakeScreen: View {
             id: UUID().uuidString,
             plaintiff: plaintiff.trimmingCharacters(in: .whitespaces),
             defendant: defendant.trimmingCharacters(in: .whitespaces),
-            grievanceText: grievanceText.trimmingCharacters(in: .whitespaces),
-            submittedBy: "anonymous"
+            grievanceText: grievanceText.trimmingCharacters(in: .whitespaces)
         )
         appState.activeGrievance = grievance
         appState.currentDebatePhase = .canonResearch

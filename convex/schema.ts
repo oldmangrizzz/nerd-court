@@ -6,7 +6,6 @@ export default defineSchema({
     plaintiff: v.string(),
     defendant: v.string(),
     grievanceText: v.string(),
-    submittedBy: v.string(),
     submittedAt: v.float64(),
     status: v.union(
       v.literal("pending"),
