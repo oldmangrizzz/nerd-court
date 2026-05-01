@@ -32,11 +32,12 @@ actor EvidenceAssembler {
     /// Assembles evidence for a given grievance by performing canon research
     /// and splitting the results into plaintiff and defendant points.
     func assemble(for grievance: Grievance) async throws -> Evidence {
-        // 1. Perform canon research
-        let researchResult = try await researchService.research(grievance: grievance)
+        // 1. Perform canon research using a query string from the grievance
+        let query = "\(grievance.plaintiff) vs \(grievance.defendant): \(grievance.grievanceText)"
+        let researchResult = try await researchService.research(query: query)
         
         // 2. Convert raw research into evidence points
-        let plaintiffPoints = researchResult.plaintiffArguments.map { raw in
+        let plaintiffPoints = researchResult.plaintiffEvidence.map { raw in
             EvidencePoint(
                 id: UUID().uuidString,
                 text: raw,
@@ -45,7 +46,7 @@ actor EvidenceAssembler {
             )
         }
         
-        let defendantPoints = researchResult.defendantArguments.map { raw in
+        let defendantPoints = researchResult.defendantEvidence.map { raw in
             EvidencePoint(
                 id: UUID().uuidString,
                 text: raw,
@@ -65,18 +66,5 @@ actor EvidenceAssembler {
     }
 }
 
-// MARK: - Canon Research Result (assumed from sibling file)
-
-/// Result of canon research containing raw arguments for both sides.
-struct CanonResearchResult: Codable {
-    let plaintiffArguments: [String]
-    let defendantArguments: [String]
-    let sources: [String]
-}
-
-// MARK: - Canon Research Service Protocol (assumed from sibling file)
-
-/// Service responsible for performing canon research.
-protocol CanonResearchService: Actor {
-    func research(grievance: Grievance) async throws -> CanonResearchResult
-}
+// CanonResearchResult is defined in CanonResearchService.swift
+// CanonResearchService actor is defined in CanonResearchService.swift

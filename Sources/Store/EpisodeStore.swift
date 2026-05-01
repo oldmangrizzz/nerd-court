@@ -33,6 +33,9 @@ private actor FileIOActor {
 @MainActor
 @Observable
 final class EpisodeStore {
+    /// Shared singleton instance for app-wide episode storage.
+    static let shared = EpisodeStore()
+    
     /// The in-memory list of episodes, sorted by generation date (newest first).
     private(set) var episodes: [Episode] = []
     

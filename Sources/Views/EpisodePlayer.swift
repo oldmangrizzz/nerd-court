@@ -3,6 +3,7 @@ import AVFoundation
 
 // MARK: - Episode Player View Model
 
+@MainActor
 @Observable
 final class EpisodePlayerViewModel {
     let episode: Episode
@@ -12,38 +13,32 @@ final class EpisodePlayerViewModel {
 
     private var audioPlayer: AVAudioPlayer?
     private var delegate: AudioPlayerDelegate?
-    private var playbackContinuation: CheckedContinuation<Void, Error>?
 
     init(episode: Episode) {
         self.episode = episode
     }
 
-    func playAudio(for turn: SpeechTurn) {
+    func playAudio(for turn: SpeechTurn) throws {
         guard let audioData = turn.audioData else { return }
 
         stopAudio()
 
-        do {
-            let player = try AVAudioPlayer(data: audioData)
-            let delegate = AudioPlayerDelegate { [weak self] in
-                self?.handlePlaybackFinished()
-            }
-            player.delegate = delegate
-            self.delegate = delegate
-            self.audioPlayer = player
-
-            try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default)
-            try AVAudioSession.sharedInstance().setActive(true)
-
-            player.prepareToPlay()
-            player.play()
-
-            currentPlayingTurnID = turn.id
-            isPlaying = true
-        } catch {
-            errorMessage = "Failed to play audio: \(error.localizedDescription)"
-            stopAudio()
+        let player = try AVAudioPlayer(data: audioData)
+        let delegate = AudioPlayerDelegate { [weak self] in
+            self?.handlePlaybackFinished()
         }
+        player.delegate = delegate
+        self.delegate = delegate
+        self.audioPlayer = player
+
+        try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default)
+        try AVAudioSession.sharedInstance().setActive(true)
+
+        player.prepareToPlay()
+        player.play()
+
+        currentPlayingTurnID = turn.id
+        isPlaying = true
     }
 
     func stopAudio() {
@@ -52,35 +47,31 @@ final class EpisodePlayerViewModel {
         delegate = nil
         currentPlayingTurnID = nil
         isPlaying = false
-        playbackContinuation?.resume(throwing: CancellationError())
-        playbackContinuation = nil
     }
 
     func playAll() async {
         for turn in episode.transcript where turn.audioData != nil {
             guard !Task.isCancelled else { break }
-            await playTurnAudio(turn: turn)
+            playTurnAudio(turn: turn)
+            // Simple delay between turns
+            try? await Task.sleep(nanoseconds: 500_000_000)
         }
     }
 
-    private func playTurnAudio(turn: SpeechTurn) async {
+    private func playTurnAudio(turn: SpeechTurn) {
         guard turn.audioData != nil else { return }
-        return await withCheckedThrowingContinuation { continuation in
-            self.playbackContinuation = continuation
-            self.playAudio(for: turn)
+        do {
+            try playAudio(for: turn)
+        } catch {
+            errorMessage = "Failed to play audio: \(error.localizedDescription)"
         }
     }
 
     private func handlePlaybackFinished() {
-        DispatchQueue.main.async { [weak self] in
-            guard let self else { return }
-            self.isPlaying = false
-            self.currentPlayingTurnID = nil
-            self.audioPlayer = nil
-            self.delegate = nil
-            self.playbackContinuation?.resume(returning: ())
-            self.playbackContinuation = nil
-        }
+        self.isPlaying = false
+        self.currentPlayingTurnID = nil
+        self.audioPlayer = nil
+        self.delegate = nil
     }
 }
 
@@ -121,23 +112,26 @@ struct EpisodePlayerView: View {
                         SpeechTurnRow(
                             turn: turn,
                             isPlaying: viewModel.currentPlayingTurnID == turn.id && viewModel.isPlaying,
-                            onPlay: { viewModel.playAudio(for: turn) },
+                            onPlay: { 
+                                do { try viewModel.playAudio(for: turn) }
+                                catch { viewModel.errorMessage = error.localizedDescription }
+                            },
                             onStop: { viewModel.stopAudio() }
                         )
                     }
                 }
 
                 Section("Verdict") {
-                    VerdictView(verdict: episode.verdict)
+                    if let verdict = episode.verdict {
+                        VerdictView(verdict: verdict)
+                    }
                 }
             }
             .navigationTitle("Episode Replay")
             .toolbar {
                 ToolbarItem(placement: .primaryAction) {
                     Button {
-                        Task {
-                            await viewModel.playAll()
-                        }
+                        Task { await viewModel.playAll() }
                     } label: {
                         Label("Play All", systemImage: "play.fill")
                     }
@@ -209,35 +203,11 @@ struct VerdictView: View {
             }
             Text(verdict.reasoning)
                 .font(.body)
-            Text("Final Thought: \(verdict.finalThought)")
-                .font(.callout)
-                .italic()
-        }
-    }
-}
-
-// MARK: - Speaker Display Name
-
-extension Speaker {
-    var displayName: String {
-        switch self {
-        case .jasonTodd: return "Jason Todd"
-        case .mattMurdock: return "Matt Murdock"
-        case .judgeJerry: return "Judge Jerry"
-        case .deadpool: return "Deadpool"
-        case .guest(let id, let name): return name
-        }
-    }
-}
-
-// MARK: - Verdict Ruling Display Name
-
-extension Verdict.Ruling {
-    var displayName: String {
-        switch self {
-        case .plaintiffWins: return "Plaintiff Wins"
-        case .defendantWins: return "Defendant Wins"
-        case .hugItOut: return "Hug It Out"
+            if let finisher = verdict.finisher {
+                Text(finisher.displayName)
+                    .font(.callout)
+                    .italic()
+            }
         }
     }
 }

@@ -1,25 +1,6 @@
 import SpriteKit
 import UIKit
-
-// MARK: - Supporting Types (defined here for compilation; assumed to exist in sibling files)
-
-enum CameraAngle: String, Codable {
-    case closeUp
-    case mediumShot
-    case wideShot
-    case dutchAngle
-    case overhead
-    case lowAngle
-    case extremeCloseUp
-}
-
-enum FrameRateShift: String, Codable {
-    case normal
-    case slowMo
-    case fastForward
-    case freezeFrame
-    case reverse
-}
+import NerdCourt // For CinematicFrame, CameraAngle, FrameRateShift
 
 // MARK: - SpiderVerseEffects
 
@@ -36,9 +17,11 @@ final class SpiderVerseEffects {
         // Save original state to restore later
         let originalSpeed = scene.speed
         let originalPhysicsSpeed = scene.physicsWorld.speed
-        var originalCameraTransform: CGAffineTransform?
+        var originalCameraPosition: CGPoint?
+        var originalCameraRotation: CGFloat = 0
         if let camera = scene.camera {
-            originalCameraTransform = camera.transform
+            originalCameraPosition = camera.position
+            originalCameraRotation = camera.zRotation
         }
         
         // Root node for all temporary effect nodes
@@ -67,8 +50,9 @@ final class SpiderVerseEffects {
         effectNode.removeFromParent()
         scene.speed = originalSpeed
         scene.physicsWorld.speed = originalPhysicsSpeed
-        if let camera = scene.camera, let originalTransform = originalCameraTransform {
-            camera.transform = originalTransform
+        if let camera = scene.camera, let originalPos = originalCameraPosition {
+            camera.position = originalPos
+            camera.zRotation = originalCameraRotation
         }
     }
     
@@ -152,6 +136,7 @@ final class SpiderVerseEffects {
     }
     
     /// Simulates a camera angle by transforming the scene's camera.
+    /// Note: Some cases map from the main CinematicFrame CameraAngle to sprite-kit-friendly transforms.
     private static func applyCameraAngle(_ angle: CameraAngle, to camera: SKCameraNode?) {
         guard let camera = camera else { return }
         switch angle {
@@ -163,33 +148,37 @@ final class SpiderVerseEffects {
             camera.setScale(0.7)
         case .dutchAngle:
             camera.zRotation = CGFloat.pi / 12
-        case .overhead:
-            camera.position = CGPoint(x: camera.position.x, y: camera.position.y + 200)
-        case .lowAngle:
+        case .lowAngle, .wormsEye:
             camera.position = CGPoint(x: camera.position.x, y: camera.position.y - 150)
-        case .extremeCloseUp:
-            camera.setScale(2.5)
+        case .highAngle, .birdsEye, .overShoulder:
+            camera.position = CGPoint(x: camera.position.x, y: camera.position.y + 200)
+        case .pov:
+            camera.setScale(1.2)
+        case .wormsEye:
+            camera.position = CGPoint(x: camera.position.x, y: camera.position.y - 200)
         }
     }
     
     /// Adjusts the scene's speed to simulate frame rate shifts.
+    /// Maps from CinematicFrame FrameRateShift to SpriteKit scene speed.
     private static func applyFrameRateShift(_ shift: FrameRateShift, scene: SKScene) {
         switch shift {
         case .normal:
             scene.speed = 1.0
             scene.physicsWorld.speed = 1.0
-        case .slowMo:
+        case .slowMotion:
             scene.speed = 0.3
             scene.physicsWorld.speed = 0.3
-        case .fastForward:
+        case .fastMotion:
             scene.speed = 2.0
             scene.physicsWorld.speed = 2.0
         case .freezeFrame:
             scene.speed = 0.0
             scene.physicsWorld.speed = 0.0
-        case .reverse:
-            scene.speed = -1.0
-            scene.physicsWorld.speed = -1.0
+        case .stutter:
+            // Stutter: rapid frame toggling approximated by slowing significantly
+            scene.speed = 0.1
+            scene.physicsWorld.speed = 0.1
         }
     }
     
@@ -200,7 +189,7 @@ final class SpiderVerseEffects {
         
         let colorNode = SKSpriteNode(color: UIColor(hex: firstColor) ?? .white, size: size)
         colorNode.alpha = CGFloat(intensity * 0.3)
-        colorNode.blendMode = .color
+        colorNode.blendMode = .alpha
         colorNode.position = CGPoint(x: size.width / 2, y: size.height / 2)
         parent.addChild(colorNode)
     }

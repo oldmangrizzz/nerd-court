@@ -3,7 +3,7 @@ import Foundation
 
 // MARK: - Episode Summary (lightweight for grid display)
 
-struct EpisodeSummary: Codable, Identifiable {
+struct EpisodeSummary: Codable, Identifiable, Hashable {
     let id: String
     let plaintiff: String
     let defendant: String
@@ -12,6 +12,14 @@ struct EpisodeSummary: Codable, Identifiable {
     let viewCount: Int
     let durationSeconds: Int
     let generatedAt: Date
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
+    
+    static func == (lhs: EpisodeSummary, rhs: EpisodeSummary) -> Bool {
+        lhs.id == rhs.id
+    }
 }
 
 // MARK: - Episode Browser View
@@ -77,7 +85,8 @@ struct EpisodeBrowser: View {
                 Text(errorMessage ?? "")
             }
             .navigationDestination(for: EpisodeSummary.self) { episode in
-                EpisodeDetailView(episodeId: episode.id)
+                // Fetch the full episode and show player
+                EpisodePlayerViewWrapper(episodeId: episode.id, summary: episode)
             }
         }
     }
@@ -87,7 +96,7 @@ struct EpisodeBrowser: View {
             LazyVGrid(columns: columns, spacing: 16) {
                 ForEach(filteredEpisodes) { episode in
                     NavigationLink(value: episode) {
-                        EpisodeCard(episode: episode)
+                        EpisodeSummaryCard(episode: episode)
                     }
                     .buttonStyle(.plain)
                 }
@@ -100,20 +109,18 @@ struct EpisodeBrowser: View {
         isLoading = true
         errorMessage = nil
         do {
-            let data = try await convexClient.query("episodes/list", body: Data())
-            let decoder = JSONDecoder()
-            decoder.dateDecodingStrategy = .iso8601
-            episodes = try decoder.decode([EpisodeSummary].self, from: data)
+            episodes = try await convexClient.query("episodes/list")
+            isLoading = false
         } catch {
             errorMessage = error.localizedDescription
+            isLoading = false
         }
-        isLoading = false
     }
 }
 
 // MARK: - Episode Card
 
-struct EpisodeCard: View {
+struct EpisodeSummaryCard: View {
     let episode: EpisodeSummary
 
     var body: some View {
@@ -182,14 +189,52 @@ extension Verdict.Ruling {
     }
 }
 
-extension FinisherType {
-    var displayName: String {
-        switch self {
-        case .crowbarBeatdown: return "Crowbar Beatdown"
-        case .lazarusPitDunking: return "Lazarus Pit Dunking"
-        case .deadpoolShooting: return "Deadpool Shooting"
-        case .characterMorph: return "Character Morph"
-        case .gavelOfDoom: return "Gavel of Doom"
+// MARK: - Episode Player View Wrapper
+
+@MainActor
+struct EpisodePlayerViewWrapper: View {
+    let episodeId: String
+    let summary: EpisodeSummary
+    @State private var episode: Episode?
+    @State private var isLoading = true
+    @State private var errorMessage: String?
+    
+    private let convexClient: ConvexClient
+    
+    init(episodeId: String, summary: EpisodeSummary) {
+        self.episodeId = episodeId
+        self.summary = summary
+        let url = ProcessInfo.processInfo.environment["CONVEX_DEPLOYMENT_URL"] ?? ""
+        self.convexClient = ConvexClient(deploymentURL: url)
+    }
+    
+    var body: some View {
+        Group {
+            if isLoading {
+                ProgressView("Loading episode...")
+            } else if let episode {
+                EpisodePlayerView(episode: episode)
+            } else {
+                ContentUnavailableView(
+                    "Episode Not Found",
+                    systemImage: "exclamationmark.triangle",
+                    description: Text(errorMessage ?? "The episode could not be loaded.")
+                )
+            }
+        }
+        .task {
+            await loadEpisode()
+        }
+    }
+    
+    private func loadEpisode() async {
+        isLoading = true
+        do {
+            episode = try await convexClient.query("episodes/get")
+            isLoading = false
+        } catch {
+            errorMessage = error.localizedDescription
+            isLoading = false
         }
     }
 }

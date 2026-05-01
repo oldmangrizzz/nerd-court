@@ -15,6 +15,12 @@ actor ConvexClient {
         config.timeoutIntervalForRequest = 30
         self.session = session ?? URLSession(configuration: config)
     }
+    
+    private func makeDecoder() -> JSONDecoder {
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .iso8601
+        return decoder
+    }
 
     func query<T: Decodable>(_ path: String) async throws -> T {
         let url = URL(string: baseURL + "/query")!
@@ -24,7 +30,18 @@ actor ConvexClient {
         req.httpBody = try JSONSerialization.data(withJSONObject: ["path": path, "args": []])
 
         let (data, _) = try await session.data(for: req)
-        return try JSONDecoder().decode(T.self, from: data)
+        return try makeDecoder().decode(T.self, from: data)
+    }
+    
+    func query<T: Decodable>(_ path: String, args: [String: Any]) async throws -> T {
+        let url = URL(string: baseURL + "/query")!
+        var req = URLRequest(url: url)
+        req.httpMethod = "POST"
+        req.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        req.httpBody = try JSONSerialization.data(withJSONObject: ["path": path, "args": args])
+
+        let (data, _) = try await session.data(for: req)
+        return try makeDecoder().decode(T.self, from: data)
     }
 
     func mutation(_ path: String, args: [String: Any]) async throws -> Data {

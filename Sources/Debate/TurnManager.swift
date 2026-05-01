@@ -1,25 +1,5 @@
 import Foundation
 
-// MARK: - Debate Phase Definition
-
-enum DebatePhase: String, Codable, CaseIterable {
-    case openingStatement
-    case plaintiffArgument
-    case defendantArgument
-    case crossExamination
-    case closingStatement
-    case verdict
-    case finished
-
-    var next: DebatePhase? {
-        guard let currentIndex = Self.allCases.firstIndex(of: self),
-              currentIndex + 1 < Self.allCases.count else {
-            return nil
-        }
-        return Self.allCases[currentIndex + 1]
-    }
-}
-
 // MARK: - Turn Manager
 
 actor TurnManager {
@@ -48,19 +28,21 @@ actor TurnManager {
         case .openingStatement:
             return .judgeJerry
 
-        case .plaintiffArgument:
+        case .witnessTestimony:
+            // Plaintiff side witness testimony
             if let guest = nextGuest(for: .plaintiffWitness) {
                 return .guest(id: guest.id, name: guest.name)
             }
             return .jasonTodd
 
-        case .defendantArgument:
+        case .crossExamination:
+            // Defendant side witness speaks during cross-examination phase
             if let guest = nextGuest(for: .defendantWitness) {
                 return .guest(id: guest.id, name: guest.name)
             }
             return .mattMurdock
 
-        case .crossExamination:
+        case .evidencePresentation, .objections:
             // Alternate between plaintiff and defendant attorneys
             if turnCount % 2 == 0 {
                 return .jasonTodd
@@ -68,11 +50,21 @@ actor TurnManager {
                 return .mattMurdock
             }
 
-        case .closingStatement, .verdict:
+        case .closingArguments, .verdictAnnouncement:
             return .judgeJerry
 
-        case .finished:
+        case .finisherExecution, .postTrialCommentary, .deadpoolWrapUp:
+            // Deadpool or guest commentary
+            if let guest = nextGuest(for: .plaintiffWitness) ?? nextGuest(for: .defendantWitness) {
+                return .guest(id: guest.id, name: guest.name)
+            }
+            return .jasonTodd
+
+        case .complete:
             preconditionFailure("No speaker available – debate has finished.")
+
+        default:
+            return .judgeJerry
         }
     }
 
@@ -93,7 +85,7 @@ actor TurnManager {
     // MARK: - Private Helpers
 
     private func nextGuest(for role: GuestRole) -> GuestCharacter? {
-        let candidates = guestCast.filter { $0.role == role }
+        let candidates = guestCast.filter { $0.role == role.rawValue }
         guard !candidates.isEmpty else { return nil }
 
         let currentIndex = guestIndices[role] ?? 0

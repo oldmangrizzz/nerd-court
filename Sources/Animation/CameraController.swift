@@ -1,9 +1,6 @@
 import Foundation
 import RealityKit
-
-/// Represents the camera angle for cinematic framing.
-/// Defined in sibling file; used here for dynamic camera control.
-/// enum CameraAngle { ... }
+import NerdCourt // For CameraAngle and CinematicFrame
 
 /// Dynamic camera controller for Phase 2 3D courtroom scenes.
 /// Manages a RealityKit camera entity and applies cinematic framing
@@ -28,16 +25,24 @@ final class CameraController {
     /// - Returns: The created camera entity.
     @discardableResult
     func setupCamera(in scene: RealityKit.Scene) -> Entity {
-        let camera = PerspectiveCamera()
-        cameraEntity = camera
+        // Create perspective camera component
+        var cameraComponent = PerspectiveCameraComponent()
+        cameraComponent.fieldOfViewInDegrees = 60
+        
+        // Create camera entity with the component
+        let camera = Entity()
+        camera.name = "MainCamera"
+        camera.components.set(cameraComponent)
+        
         // Position camera at a default wide shot location
         camera.transform = Transform(
             scale: .one,
             rotation: simd_quatf(angle: 0, axis: [0, 1, 0]),
             translation: [0, 1.5, 5]
         )
+        
+        cameraEntity = camera
         defaultTransform = camera.transform
-        scene.addAnchor(camera)
         return camera
     }
 
@@ -54,16 +59,15 @@ final class CameraController {
         let targetIntensity = frame.intensity
 
         // Animate camera transform
-        await withCheckedContinuation { continuation in
-            camera.move(
-                to: targetTransform,
-                relativeTo: camera.parent,
-                duration: duration,
-                timingFunction: .easeInOut
-            ).completionHandler = { _ in
-                continuation.resume()
-            }
-        }
+        camera.move(
+            to: targetTransform,
+            relativeTo: camera.parent,
+            duration: duration,
+            timingFunction: .easeInOut
+        )
+        
+        // Wait for animation to complete
+        try? await Task.sleep(nanoseconds: UInt64(duration * 1_000_000_000))
 
         // Update observable state
         currentAngle = frame.cameraAngle
@@ -77,16 +81,17 @@ final class CameraController {
     /// Resets the camera to its default wide shot.
     func resetToDefault(duration: TimeInterval = 0.3) async {
         guard let camera = cameraEntity else { return }
-        await withCheckedContinuation { continuation in
-            camera.move(
-                to: defaultTransform,
-                relativeTo: camera.parent,
-                duration: duration,
-                timingFunction: .easeInOut
-            ).completionHandler = { _ in
-                continuation.resume()
-            }
-        }
+        
+        camera.move(
+            to: defaultTransform,
+            relativeTo: camera.parent,
+            duration: duration,
+            timingFunction: .easeInOut
+        )
+        
+        // Wait for animation to complete
+        try? await Task.sleep(nanoseconds: UInt64(duration * 1_000_000_000))
+        
         currentAngle = .wideShot
         currentIntensity = 0.5
         applyDepthOfField(intensity: 0.5)
@@ -110,15 +115,27 @@ final class CameraController {
         case .overShoulder:
             basePosition = [1.2, 1.4, 2.5]
             baseRotation = simd_quatf(angle: -0.3, axis: [0, 1, 0])
+        case .mediumShot:
+            basePosition = [0, 1.5, 3]
+            baseRotation = simd_quatf(angle: 0, axis: [0, 1, 0])
         case .lowAngle:
             basePosition = [0, 0.5, 3]
             baseRotation = simd_quatf(angle: 0.2, axis: [1, 0, 0])
+        case .highAngle:
+            basePosition = [0, 2.5, 4]
+            baseRotation = simd_quatf(angle: -0.15, axis: [1, 0, 0])
         case .dutchAngle:
             basePosition = [0, 1.5, 4]
             baseRotation = simd_quatf(angle: 0.15, axis: [0, 0, 1])
         case .pov:
             basePosition = [0, 1.6, 0.8]
             baseRotation = simd_quatf(angle: 0, axis: [0, 1, 0])
+        case .birdsEye:
+            basePosition = [0, 5, 0.1]
+            baseRotation = simd_quatf(angle: 0, axis: [0, 1, 0])
+        case .wormsEye:
+            basePosition = [0, 0.2, 2]
+            baseRotation = simd_quatf(angle: 0.5, axis: [1, 0, 0])
         }
 
         // Adjust field of view based on intensity (closer = higher intensity)
@@ -147,14 +164,4 @@ final class CameraController {
     }
 }
 
-// MARK: - CameraAngle Enum (if not defined elsewhere, but assumed to exist)
-// This is a placeholder definition; the actual enum is in a sibling file.
-// We include it here for compilation completeness, but it will be overridden by the project's definition.
-enum CameraAngle: String, Codable, CaseIterable {
-    case wideShot
-    case closeUp
-    case overShoulder
-    case lowAngle
-    case dutchAngle
-    case pov
-}
+// CameraAngle is defined in CinematicFrame.swift and CinematicFrame.swift's CameraAngle is used by other files

@@ -6,6 +6,16 @@ enum Speaker: Codable, Equatable, Hashable {
     case judgeJerry
     case deadpool
     case guest(id: String, name: String)
+    
+    var rawValue: String {
+        switch self {
+        case .jasonTodd: return "jasonTodd"
+        case .mattMurdock: return "mattMurdock"
+        case .judgeJerry: return "judgeJerry"
+        case .deadpool: return "deadpool"
+        case .guest(let id, _): return "guest_\(id)"
+        }
+    }
 
     var displayName: String {
         switch self {

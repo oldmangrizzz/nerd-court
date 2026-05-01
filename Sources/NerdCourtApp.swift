@@ -6,16 +6,18 @@ struct NerdCourtApp: App {
     private let coordinator: TrialCoordinator
 
     init() {
-        let ollamaClient = OllamaMaxClient()
+        let deltaHost = ProcessInfo.processInfo.environment["DELTA_HOST"] ?? "delta.local"
+        let dispatchClient = DeltaDispatchClient(deltaHost: deltaHost)
+        let rotationClient = ModelRotationClient()
         let convexDeploymentURL = ProcessInfo.processInfo.environment["CONVEX_DEPLOYMENT_URL"] ?? ""
         let convexClient = ConvexClient(deploymentURL: convexDeploymentURL)
+        // Pass dispatchClient directly - TrialCoordinator will create GuestCharacterGenerator internally
         self.coordinator = TrialCoordinator(
-            ollamaClient: ollamaClient,
+            ollamaClient: dispatchClient,
             convexClient: convexClient,
-            debateEngine: DebateEngine(ollamaClient: ollamaClient),
+            debateEngine: DebateEngine(ollamaClient: rotationClient),
             researchEngine: CanonResearchEngine(),
-            voiceClient: VoiceSynthesisClient(),
-            guestGenerator: GuestCharacterGenerator(ollamaClient: ollamaClient)
+            voiceClient: VoiceSynthesisClient()
         )
     }
 

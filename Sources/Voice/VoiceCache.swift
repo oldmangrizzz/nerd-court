@@ -143,11 +143,11 @@ actor VoiceCache {
     func diskCacheSize() async -> Int {
         guard let dir = diskCacheDirectory else { return 0 }
         let resourceKeys: [URLResourceKey] = [.fileSizeKey]
-        guard let enumerator = FileManager.default.enumerator(at: dir, includingPropertiesForKeys: resourceKeys) else {
+        guard let contents = try? FileManager.default.contentsOfDirectory(at: dir, includingPropertiesForKeys: resourceKeys) else {
             return 0
         }
         var total = 0
-        for case let fileURL as URL in enumerator {
+        for fileURL in contents {
             guard let values = try? fileURL.resourceValues(forKeys: Set(resourceKeys)),
                   let size = values.fileSize else { continue }
             total += size

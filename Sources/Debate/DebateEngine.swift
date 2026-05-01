@@ -1,10 +1,10 @@
 import Foundation
 
 actor DebateEngine {
-    private let ollamaClient: OllamaMaxClient
+    private let ollamaClient: ModelRotationClient
     private var turns: [SpeechTurn] = []
 
-    init(ollamaClient: OllamaMaxClient) {
+    init(ollamaClient: ModelRotationClient) {
         self.ollamaClient = ollamaClient
     }
 
@@ -208,18 +208,4 @@ actor DebateEngine {
         let avgWPM = 150.0
         return max(2.0, (wordCount / avgWPM) * 60.0)
     }
-}
-
-struct CanonResearchResult: Codable {
-    let sources: [CanonSource]
-    let keyFacts: [String]
-    let plaintiffEvidence: [String]
-    let defendantEvidence: [String]
-}
-
-struct CanonSource: Codable, Identifiable {
-    var id: String
-    let title: String
-    let url: String
-    let excerpt: String
 }

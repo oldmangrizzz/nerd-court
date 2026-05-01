@@ -1,7 +1,7 @@
 import SpriteKit
 
 @MainActor
-final class ComicBeatOverlay {
+final class ComicBeatAnimator {
     private var labelNode: SKLabelNode?
 
     func showBeat(text: String, on scene: SKScene, duration: TimeInterval = 3.0) {

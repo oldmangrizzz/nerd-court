@@ -45,9 +45,11 @@ enum OllamaMaxError: Error, LocalizedError {
     }
 }
 
-// MARK: - OllamaMaxClient
+// MARK: - DeltaDispatchClient
 
-final class OllamaMaxClient {
+/// Real HTTP client for the Delta Ollama Max dispatch harness.
+/// Use this in production; swap with ModelRotationClient for mock/rotation mode.
+final class DeltaDispatchClient: Sendable {
     private let deltaHost: String
     private let session: URLSession
     private let decoder = JSONDecoder()

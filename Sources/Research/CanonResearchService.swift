@@ -7,6 +7,24 @@ struct CanonResearchResult: Codable, Sendable {
     let sources: [CanonSource]
     let summary: String
     let researchedAt: Date
+    /// Key factual findings from canon research.
+    let keyFacts: [String]
+    /// Evidence supporting the plaintiff's position.
+    let plaintiffEvidence: [String]
+    /// Evidence supporting the defendant's position.
+    let defendantEvidence: [String]
+
+    init(query: String, sources: [CanonSource], summary: String,
+         researchedAt: Date, keyFacts: [String] = [],
+         plaintiffEvidence: [String] = [], defendantEvidence: [String] = []) {
+        self.query = query
+        self.sources = sources
+        self.summary = summary
+        self.researchedAt = researchedAt
+        self.keyFacts = keyFacts
+        self.plaintiffEvidence = plaintiffEvidence
+        self.defendantEvidence = defendantEvidence
+    }
 }
 
 struct CanonSource: Codable, Identifiable, Sendable {
@@ -75,7 +93,7 @@ actor CanonResearchService {
     }
     
     func researchFranchise(franchise: Franchise) async throws -> CanonResearchResult {
-        let query = "\(franchise.name) franchise lore rules canon"
+        let query = "\(franchise.displayName) franchise lore rules canon"
         return try await research(query: query)
     }
     

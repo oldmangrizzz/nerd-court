@@ -103,13 +103,15 @@ struct VerdictRevealView: View {
                         .foregroundColor(.white.opacity(0.9))
                         .fixedSize(horizontal: false, vertical: true)
 
-                    Label("Final Thought", systemImage: "quote.bubble")
-                        .font(.headline)
-                        .foregroundColor(.white.opacity(0.8))
-                    Text(verdict.finalThought)
-                        .font(.body.italic())
-                        .foregroundColor(.white.opacity(0.9))
-                        .fixedSize(horizontal: false, vertical: true)
+                    if let finisher = verdict.finisher {
+                        Label("Final Thought", systemImage: "quote.bubble")
+                            .font(.headline)
+                            .foregroundColor(.white.opacity(0.8))
+                        Text(finisher.displayName)
+                            .font(.body.italic())
+                            .foregroundColor(.white.opacity(0.9))
+                            .fixedSize(horizontal: false, vertical: true)
+                    }
                 }
                 .padding()
                 .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 16))
@@ -213,8 +215,9 @@ struct VerdictRevealView: View {
         verdict: Verdict(
             ruling: .plaintiffWins,
             reasoning: "After careful analysis of canon precedents, the plaintiff's argument holds more weight. The defendant's reliance on retcon material was deemed inadmissible.",
-            finalThought: "In the end, the truth is like a crowbar to the face — it hurts, but you can't ignore it.",
-            finisherType: .crowbarBeatdown
+            punishmentOrReward: "The defendant is sentenced to a crowbar beatdown.",
+            judgeJerryWisdom: "When canon is unclear, kindness is clear.",
+            finisher: .crowbarBeatdown
         ),
         finisherType: .crowbarBeatdown,
         onDismiss: { print("Dismissed") }

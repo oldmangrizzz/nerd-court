@@ -136,7 +136,7 @@ private struct GlitchOverlay: View {
             Canvas { context, size in
                 let time = timeline.date.timeIntervalSinceReferenceDate
                 let seed = Int(time * 10) // changes every 0.1s
-                var rng = SeededRandomNumberGenerator(seed: seed)
+                var rng = GlitchRNG(seed: seed)
 
                 let sliceCount = max(1, Int(6 * intensity))
                 for _ in 0..<sliceCount {
@@ -153,7 +153,7 @@ private struct GlitchOverlay: View {
         .blendMode(.screen)
     }
 
-    private func glitchColor(using rng: inout SeededRandomNumberGenerator) -> Color {
+    private func glitchColor(using rng: inout GlitchRNG) -> Color {
         let roll = Int.random(in: 0...2, using: &rng)
         switch roll {
         case 0: return .red
@@ -165,20 +165,6 @@ private struct GlitchOverlay: View {
 }
 
 // MARK: - Helpers
-
-/// Simple deterministic random number generator for glitch effects.
-private struct SeededRandomNumberGenerator: RandomNumberGenerator {
-    private var state: UInt64
-
-    init(seed: Int) {
-        state = UInt64(bitPattern: Int64(seed))
-    }
-
-    mutating func next() -> UInt64 {
-        state = state &* 6364136223846793005 &+ 1442695040888963407
-        return state
-    }
-}
 
 /// Converts a hex string from the palette to a Color, falling back to a default.
 private func colorFromPalette(at index: Int, default defaultColor: Color) -> Color {

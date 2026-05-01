@@ -1,9 +1,10 @@
 import Foundation
 
+/// Generates guest characters by calling the Delta Ollama Max dispatch harness.
 actor GuestCharacterGenerator {
-    private let ollamaClient: OllamaMaxClient
+    private let ollamaClient: DeltaDispatchClient
 
-    init(ollamaClient: OllamaMaxClient) {
+    init(ollamaClient: DeltaDispatchClient) {
         self.ollamaClient = ollamaClient
     }
 
@@ -22,7 +23,11 @@ actor GuestCharacterGenerator {
         Output as a cohesive system prompt that would make an LLM speak AS this character.
         Keep it under 200 words. Be canon-accurate.
         """
-        let personalityPrompt = try await ollamaClient.dispatch(prompt: prompt, tier: "T1")
+        let personalityPrompt = try await ollamaClient.dispatch(
+            systemPrompt: "You are a character personality generator.",
+            debateContext: prompt,
+            turnHistory: []
+        )
 
         return GuestCharacter(
             id: UUID().uuidString,

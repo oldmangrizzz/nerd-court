@@ -2,7 +2,25 @@ import SpriteKit
 
 final class CourtroomScene: SKScene {
     let cinematicEngine = CinematicEngine()
-    let comicBeatOverlay = ComicBeatOverlay()
+    // Default cinematic frame for SpriteKit overlay
+    private var cinematicFrame: CinematicFrame = CinematicFrame(
+        cameraAngle: .mediumShot,
+        intensity: 0.5,
+        colorPalette: [],
+        benDayDots: true,
+        speedLines: false,
+        glitch: false,
+        frameRateShift: .normal,
+        sting: ""
+    )
+    
+    func updateCinematicFrame(_ frame: CinematicFrame) {
+        self.cinematicFrame = frame
+    }
+    
+    private var comicBeatOverlay: ComicBeatOverlay {
+        ComicBeatOverlay(cinematicFrame: cinematicFrame)
+    }
 
     // Ambient layers
     private var backgroundLayer: SKNode?

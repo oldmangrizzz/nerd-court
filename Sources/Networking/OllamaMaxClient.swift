@@ -1,6 +1,6 @@
 import Foundation
 
-actor OllamaMaxClient {
+actor ModelRotationClient {
     private let deltaBaseURL: String
     private var rotationIndex: [String: Int] = [:]
 

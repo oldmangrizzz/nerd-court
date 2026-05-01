@@ -356,6 +356,16 @@ extension FinisherType {
         case .gavelOfDoom: "scalemass.fill"
         }
     }
+    
+    var displayName: String {
+        switch self {
+        case .crowbarBeatdown: return "Crowbar Beatdown"
+        case .lazarusPitDunking: return "Lazarus Pit Dunking"
+        case .deadpoolShooting: return "Deadpool Shooting"
+        case .characterMorph: return "Character Morph"
+        case .gavelOfDoom: return "Gavel of Doom"
+        }
+    }
 }
 
 extension Array where Element == Speaker {

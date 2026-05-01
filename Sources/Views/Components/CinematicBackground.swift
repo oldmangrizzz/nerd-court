@@ -108,7 +108,7 @@ struct SpeedLinesView: View {
             Canvas { context, size in
                 let now = timeline.date.timeIntervalSinceReferenceDate
                 let seed = now.truncatingRemainder(dividingBy: 1000)
-                var rng = SeededRandomNumberGenerator(seed: UInt64(seed * 1000))
+                var rng = GlitchRNG(seed: UInt64(seed * 1000))
 
                 for _ in 0..<lineCount {
                     let x = CGFloat.random(in: 0...size.width, using: &rng)
@@ -145,7 +145,7 @@ struct GlitchEffectView: View {
         TimelineView(.periodic(from: .now, by: 0.1)) { timeline in
             let now = timeline.date.timeIntervalSinceReferenceDate
             let seed = now.truncatingRemainder(dividingBy: 1000)
-            var rng = SeededRandomNumberGenerator(seed: UInt64(seed * 1000))
+            var rng = GlitchRNG(seed: UInt64(seed * 1000))
 
             // Randomly trigger glitch frames
             let shouldGlitch = Double.random(in: 0...1, using: &rng) < intensity * 0.3
@@ -193,7 +193,7 @@ struct GlitchEffectView: View {
         }
     }
 
-    private func randomGlitchOffset(using rng: inout SeededRandomNumberGenerator) -> CGSize {
+    private func randomGlitchOffset(using rng: inout GlitchRNG) -> CGSize {
         CGSize(
             width: CGFloat.random(in: -10...10, using: &rng) * intensity,
             height: CGFloat.random(in: -5...5, using: &rng) * intensity
@@ -202,20 +202,6 @@ struct GlitchEffectView: View {
 }
 
 // MARK: - Helpers
-
-/// A simple deterministic random number generator for use in Canvas/TimelineView.
-struct SeededRandomNumberGenerator: RandomNumberGenerator {
-    private var state: UInt64
-
-    init(seed: UInt64) {
-        self.state = seed
-    }
-
-    mutating func next() -> UInt64 {
-        state = state &* 6364136223846793005 &+ 1442695040888963407
-        return state
-    }
-}
 
 // MARK: - Preview
 

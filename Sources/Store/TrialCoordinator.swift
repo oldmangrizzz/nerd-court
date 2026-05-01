@@ -2,22 +2,22 @@ import Foundation
 
 @MainActor
 @Observable final class TrialCoordinator {
-    private let ollamaClient: OllamaMaxClient
-    private let convexClient: ConvexClient
+    private let ollamaClient: DeltaDispatchClient
+    private let convexClient: ConvexClient?
     private let debateEngine: DebateEngine
     private let researchEngine: CanonResearchEngine
     private let voiceClient: VoiceSynthesisClient
     private let guestGenerator: GuestCharacterGenerator
 
-    init(ollamaClient: OllamaMaxClient, convexClient: ConvexClient,
+    init(ollamaClient: DeltaDispatchClient, convexClient: ConvexClient?,
          debateEngine: DebateEngine, researchEngine: CanonResearchEngine,
-         voiceClient: VoiceSynthesisClient, guestGenerator: GuestCharacterGenerator) {
+         voiceClient: VoiceSynthesisClient) {
         self.ollamaClient = ollamaClient
         self.convexClient = convexClient
         self.debateEngine = debateEngine
         self.researchEngine = researchEngine
         self.voiceClient = voiceClient
-        self.guestGenerator = guestGenerator
+        self.guestGenerator = GuestCharacterGenerator(ollamaClient: ollamaClient)
     }
 
     func startTrial(scene: CourtroomScene, grievance: Grievance) async {
@@ -36,7 +36,13 @@ import Foundation
         }
 
         let researchResult = research ?? CanonResearchResult(
-            sources: [], keyFacts: [], plaintiffEvidence: [], defendantEvidence: []
+            query: "\(grievance.plaintiff) vs \(grievance.defendant)",
+            sources: [],
+            summary: "No canon research available.",
+            researchedAt: .now,
+            keyFacts: [],
+            plaintiffEvidence: [],
+            defendantEvidence: []
         )
 
         if let episode = try? await debateEngine.runDebate(
@@ -47,14 +53,25 @@ import Foundation
     }
 
     private func saveEpisode(_ episode: Episode) {
-        Task {
-            _ = try? await convexClient.mutation("episodes:insert", args: [
-                "grievanceId": episode.grievanceId,
-                "transcript": episode.transcript.map { turn in
+        let episodeToSave = episode
+        let store = EpisodeStore.shared
+        
+        let saveTask: Task<Void, Never> = Task { [episodeToSave, store] in
+            // Persist to local store
+            await store.addEpisode(episodeToSave)
+            
+            // Also sync to Convex if available
+            if let convex = self.convexClient {
+                let turns = episodeToSave.transcript.map { turn in
                     ["speaker": turn.speaker.displayName, "text": turn.text, "phase": turn.phase]
-                },
-                "finisherType": episode.finisherType?.rawValue ?? NSNull(),
-            ])
+                }
+                _ = try? await convex.mutation("episodes:insert", args: [
+                    "grievanceId": episodeToSave.grievanceId,
+                    "transcript": turns,
+                    "finisherType": episodeToSave.finisherType?.rawValue ?? NSNull(),
+                ])
+            }
         }
+        _ = saveTask
     }
 }

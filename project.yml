@@ -17,7 +17,9 @@ targets:
     type: application
     platform: iOS
     sources:
-      - Sources
+      - path: Sources
+        excludes:
+          - Tests/**
       - Resources
     dependencies:
       - sdk: SpriteKit.framework
