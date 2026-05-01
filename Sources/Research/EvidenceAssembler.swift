@@ -65,6 +65,3 @@ actor EvidenceAssembler {
         )
     }
 }
-
-// CanonResearchResult is defined in CanonResearchService.swift
-// CanonResearchService actor is defined in CanonResearchService.swift

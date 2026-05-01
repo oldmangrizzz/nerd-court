@@ -1,10 +1,10 @@
 import Foundation
 
 actor DebateEngine {
-    private let ollamaClient: ModelRotationClient
+    private let ollamaClient: OllamaMaxClient
     private var turns: [SpeechTurn] = []
 
-    init(ollamaClient: ModelRotationClient) {
+    init(ollamaClient: OllamaMaxClient) {
         self.ollamaClient = ollamaClient
     }
 

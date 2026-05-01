@@ -1,5 +1,6 @@
 import XCTest
 
+@MainActor
 final class CourtroomFlowUITests: XCTestCase {
     var app: XCUIApplication!
 

@@ -1,41 +1,5 @@
 import Foundation
 
-// MARK: - Canon Research Result
-
-struct CanonResearchResult: Codable, Sendable {
-    let query: String
-    let sources: [CanonSource]
-    let summary: String
-    let researchedAt: Date
-    /// Key factual findings from canon research.
-    let keyFacts: [String]
-    /// Evidence supporting the plaintiff's position.
-    let plaintiffEvidence: [String]
-    /// Evidence supporting the defendant's position.
-    let defendantEvidence: [String]
-
-    init(query: String, sources: [CanonSource], summary: String,
-         researchedAt: Date, keyFacts: [String] = [],
-         plaintiffEvidence: [String] = [], defendantEvidence: [String] = []) {
-        self.query = query
-        self.sources = sources
-        self.summary = summary
-        self.researchedAt = researchedAt
-        self.keyFacts = keyFacts
-        self.plaintiffEvidence = plaintiffEvidence
-        self.defendantEvidence = defendantEvidence
-    }
-}
-
-struct CanonSource: Codable, Identifiable, Sendable {
-    let id: String
-    let title: String
-    let snippet: String
-    let url: URL
-    let attribution: String
-    let relevanceScore: Double
-}
-
 // MARK: - Research Service
 
 actor CanonResearchService {
@@ -80,9 +44,10 @@ actor CanonResearchService {
         let summary = generateSummary(from: results, query: query)
         
         return CanonResearchResult(
-            query: query,
             sources: results,
-            summary: summary,
+            keyFacts: [summary],
+            plaintiffEvidence: [],
+            defendantEvidence: [],
             researchedAt: Date()
         )
     }
@@ -134,10 +99,8 @@ actor CanonResearchService {
                 CanonSource(
                     id: result.id,
                     title: result.title,
-                    snippet: result.snippet,
-                    url: result.url,
-                    attribution: result.source,
-                    relevanceScore: result.score
+                    url: result.url.absoluteString,
+                    excerpt: result.snippet
                 )
             }
         } catch let decodingError as DecodingError {
@@ -151,9 +114,9 @@ actor CanonResearchService {
         guard !sources.isEmpty else { return "No information found for '\(query)'." }
         
         let topSnippets = sources
-            .sorted(by: { $0.relevanceScore > $1.relevanceScore })
+            .sorted(by: { $0.title.count > $1.title.count })
             .prefix(3)
-            .map { $0.snippet }
+            .map { $0.excerpt }
         
         let combined = topSnippets.joined(separator: " ")
         if combined.count > 500 {

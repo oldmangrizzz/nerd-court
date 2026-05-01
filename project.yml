@@ -18,8 +18,6 @@ targets:
     platform: iOS
     sources:
       - path: Sources
-        excludes:
-          - Tests/**
       - Resources
     dependencies:
       - sdk: SpriteKit.framework
@@ -45,3 +43,27 @@ targets:
           - UIInterfaceOrientationLandscapeRight
     preBuildScripts: []
     postBuildScripts: []
+
+  NerdCourtTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - path: Tests/NerdCourtTests
+    dependencies:
+      - target: NerdCourt
+    settings:
+      base:
+        CODE_SIGNING_ALLOWED: NO
+        TEST_TARGET_NAME: NerdCourt
+
+  NerdCourtUITests:
+    type: bundle.ui-testing
+    platform: iOS
+    sources:
+      - path: Tests/NerdCourtUITests
+    dependencies:
+      - target: NerdCourt
+    settings:
+      base:
+        CODE_SIGNING_ALLOWED: NO
+        TEST_TARGET_NAME: NerdCourt

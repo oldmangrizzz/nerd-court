@@ -36,13 +36,11 @@ import Foundation
         }
 
         let researchResult = research ?? CanonResearchResult(
-            query: "\(grievance.plaintiff) vs \(grievance.defendant)",
             sources: [],
-            summary: "No canon research available.",
-            researchedAt: .now,
-            keyFacts: [],
+            keyFacts: ["No canon research available."],
             plaintiffEvidence: [],
-            defendantEvidence: []
+            defendantEvidence: [],
+            researchedAt: .now
         )
 
         if let episode = try? await debateEngine.runDebate(
