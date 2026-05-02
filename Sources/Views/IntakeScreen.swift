@@ -24,6 +24,21 @@ struct IntakeScreen: View {
                 .padding(.horizontal, 24)
 
                 submitButton
+                
+                Button {
+                    appState.activeGrievance = Grievance(
+                        id: UUID().uuidString,
+                        plaintiff: "Test",
+                        defendant: "Test",
+                        grievanceText: "Quick start test grievance."
+                    )
+                    appState.currentDebatePhase = .canonResearch
+                } label: {
+                    Text("QUICK START")
+                        .font(.system(size: 12, weight: .bold, design: .monospaced))
+                        .foregroundColor(.yellow.opacity(0.6))
+                }
+                .accessibilityIdentifier("quickStartTrialButton")
             }
         }
     }
