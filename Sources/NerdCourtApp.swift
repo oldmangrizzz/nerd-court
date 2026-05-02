@@ -6,11 +6,10 @@ struct NerdCourtApp: App {
     private let coordinator: TrialCoordinator
 
     init() {
-        let deltaHost = ProcessInfo.processInfo.environment["DELTA_HOST"] ?? "delta.local"
+        let deltaHost = AppConfig.deltaHost
         let dispatchClient = DeltaDispatchClient(deltaHost: deltaHost)
         let rotationClient = OllamaMaxClient()
-        let convexDeploymentURL = ProcessInfo.processInfo.environment["CONVEX_DEPLOYMENT_URL"]
-        let convexClient: ConvexClient? = convexDeploymentURL.map { ConvexClient(deploymentURL: $0) }
+        let convexClient = ConvexClient(deploymentURL: AppConfig.convexDeploymentURL)
         // Pass dispatchClient directly - TrialCoordinator will create GuestCharacterGenerator internally
         self.coordinator = TrialCoordinator(
             ollamaClient: dispatchClient,

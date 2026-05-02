@@ -9,7 +9,8 @@ actor ConvexClient {
     ///   - deploymentURL: The Convex deployment URL (e.g. from environment config). Must not be empty.
     ///   - session: Optional URLSession for testing; defaults to a standard configuration.
     init(deploymentURL: String, session: URLSession? = nil) {
-        self.baseURL = deploymentURL.isEmpty ? "" : deploymentURL + "/api"
+        precondition(!deploymentURL.isEmpty, "Convex deployment URL must be provided via environment config or AppConfig — no hardcoded defaults.")
+        self.baseURL = deploymentURL + "/api"
         let config = URLSessionConfiguration.default
         config.timeoutIntervalForRequest = 30
         self.session = session ?? URLSession(configuration: config)
@@ -28,7 +29,11 @@ actor ConvexClient {
         req.setValue("application/json", forHTTPHeaderField: "Content-Type")
         req.httpBody = try JSONSerialization.data(withJSONObject: ["path": path, "args": []])
 
-        let (data, _) = try await session.data(for: req)
+        let (data, response) = try await session.data(for: req)
+        guard let httpResponse = response as? HTTPURLResponse,
+              (200...299).contains(httpResponse.statusCode) else {
+            throw URLError(.badServerResponse)
+        }
         return try makeDecoder().decode(T.self, from: data)
     }
     
@@ -39,7 +44,11 @@ actor ConvexClient {
         req.setValue("application/json", forHTTPHeaderField: "Content-Type")
         req.httpBody = try JSONSerialization.data(withJSONObject: ["path": path, "args": args])
 
-        let (data, _) = try await session.data(for: req)
+        let (data, response) = try await session.data(for: req)
+        guard let httpResponse = response as? HTTPURLResponse,
+              (200...299).contains(httpResponse.statusCode) else {
+            throw URLError(.badServerResponse)
+        }
         return try makeDecoder().decode(T.self, from: data)
     }
 
@@ -50,7 +59,11 @@ actor ConvexClient {
         req.setValue("application/json", forHTTPHeaderField: "Content-Type")
         req.httpBody = try JSONSerialization.data(withJSONObject: ["path": path, "args": args])
 
-        let (data, _) = try await session.data(for: req)
+        let (data, response) = try await session.data(for: req)
+        guard let httpResponse = response as? HTTPURLResponse,
+              (200...299).contains(httpResponse.statusCode) else {
+            throw URLError(.badServerResponse)
+        }
         return data
     }
 
@@ -61,7 +74,11 @@ actor ConvexClient {
         req.setValue("application/json", forHTTPHeaderField: "Content-Type")
         req.httpBody = try JSONSerialization.data(withJSONObject: ["path": path, "args": args])
 
-        let (data, _) = try await session.data(for: req)
+        let (data, response) = try await session.data(for: req)
+        guard let httpResponse = response as? HTTPURLResponse,
+              (200...299).contains(httpResponse.statusCode) else {
+            throw URLError(.badServerResponse)
+        }
         return data
     }
 }
