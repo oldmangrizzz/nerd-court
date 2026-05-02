@@ -143,94 +143,110 @@ final class CourtroomScene: SKScene {
     // MARK: - Public API
 
     func showCharacter(_ speaker: Speaker, emotion: String = "neutral") {
-        cinematicEngine.triggerEffect(.comicPanel, duration: 0.3)
+        highlightSpeaker(speaker)
+        addCharacterSprite(for: speaker)
+    }
 
-        // Pan camera toward speaking character
-        if let slot = characterSlots[speaker], let cam = camera {
+    // MARK: - Highlight Speaker
+
+    func highlightSpeaker(_ speaker: Speaker) {
+        guard let slot = characterSlots[speaker] else { return }
+
+        // 1. Pan camera toward that character's slot
+        if let cam = camera {
             let target = CGPoint(x: slot.x * 0.15, y: slot.y * 0.1)
             let pan = SKAction.move(to: target, duration: 0.4)
             pan.timingMode = .easeInEaseOut
             cam.run(pan)
         }
 
-        // Show character avatar in the scene
-        addCharacterSprite(for: speaker)
+        // 2. Comic panel effect on that slot
+        cinematicEngine.triggerEffect(.comicPanel, duration: 0.3)
+
+        // 3. Pulsing glow on that character's portrait
+        if let existing = characterLayer?.children.first(where: { $0.name == speaker.avatarID }) as? CharacterPortraitNode {
+            existing.setActive(true)
+            // Auto-deactivate others
+            characterLayer?.children.compactMap { $0 as? CharacterPortraitNode }.forEach { node in
+                if node.name != speaker.avatarID {
+                    node.setActive(false)
+                }
+            }
+        }
+
+        // 4. Speed lines if it's Jason or cross-examination phase
+        if speaker == .jasonTodd || speaker == .mattMurdock {
+            cinematicEngine.triggerEffect(.speedLines, duration: 0.5, intensity: 0.5)
+        }
     }
 
     private func addCharacterSprite(for speaker: Speaker) {
         guard let characterLayer else { return }
-        let (color, label): (SKColor, String) = switch speaker {
-        case .jasonTodd: (.red, "JASON")
-        case .mattMurdock: (.cyan, "MATT")
-        case .judgeJerry: (.yellow, "JERRY")
-        case .deadpool: (.magenta, "DP")
-        case .guest(_, let name): (.green, String(name.prefix(2)).uppercased())
-        }
-
         let slot = characterSlots[speaker] ?? .zero
 
-        // Circle avatar
-        let circle = SKShapeNode(circleOfRadius: 40)
-        circle.fillColor = color.withAlphaComponent(0.8)
-        circle.strokeColor = .white
-        circle.lineWidth = 3
-        circle.position = slot
-        circle.glowWidth = 4
-
-        // Initial label
-        let textNode = SKLabelNode(text: label)
-        textNode.fontName = "Courier-Bold"
-        textNode.fontSize = 18
-        textNode.fontColor = .white
-        textNode.position = CGPoint(x: slot.x, y: slot.y - 6)
-        textNode.horizontalAlignmentMode = .center
-        textNode.verticalAlignmentMode = .center
-
-        // Remove any previous sprite for this speaker
+        // Remove any previous portrait for this speaker
         characterLayer.children.filter { $0.name == speaker.avatarID }.forEach { $0.removeFromParent() }
 
-        circle.name = speaker.avatarID
-        textNode.name = speaker.avatarID + "_label"
-
-        circle.alpha = 0
-        textNode.alpha = 0
-        circle.setScale(0.5)
-
-        characterLayer.addChild(circle)
-        characterLayer.addChild(textNode)
-
-        let appear = SKAction.group([
-            .fadeIn(withDuration: 0.2),
-            .scale(to: 1.0, duration: 0.2)
-        ])
-        appear.timingMode = .easeOut
-
-        circle.run(appear)
-        textNode.run(appear)
+        let portrait = CharacterPortraitNode.create(for: speaker, isActive: false)
+        portrait.position = slot
+        portrait.playAppearAnimation()
+        characterLayer.addChild(portrait)
     }
 
     func transitionToPhase(_ phase: DebatePhase) {
         cinematicEngine.triggerEffect(.comicPanel, duration: 0.0, intensity: 1.0)
 
         switch phase {
+        case .openingStatement:
+            cinematicEngine.triggerEffect(.benDayDots, duration: 0.5, intensity: 0.4)
+            cinematicEngine.triggerEffect(.comicPanel, duration: 0.4)
+            cinematicEngine.triggerEffect(.dramaticZoom, duration: 0.8, intensity: 0.2)
+            // Medium shot pan + character appear animation handled by showCharacter calls
+        case .witnessTestimony:
+            cinematicEngine.triggerEffect(.dramaticZoom, duration: 0.6, intensity: 0.35)
+            cinematicEngine.triggerEffect(.benDayDots, duration: 0.3, intensity: 0.25)
+            // Close-up zoom on witness + soft glow handled by highlightSpeaker
+        case .crossExamination:
+            cinematicEngine.triggerEffect(.speedLines, duration: 0.6, intensity: 0.5)
+            cinematicEngine.triggerEffect(.chromaticAberration, duration: 0.5)
+            // Over-shoulder angle handled by camera pan in highlightSpeaker
+        case .closingArguments:
+            cinematicEngine.triggerEffect(.benDayDots, duration: 0.5, intensity: 0.4)
+            cinematicEngine.triggerEffect(.comicPanel, duration: 0.4)
+            cinematicEngine.triggerEffect(.dramaticZoom, duration: 0.6, intensity: 0.2)
+            // Wide shot + both lawyers visible + dramatic lighting
+            resetCamera()
+            camera?.run(SKAction.scale(to: 0.9, duration: 0.5))
+        case .verdictAnnouncement:
+            cinematicEngine.triggerEffect(.dramaticZoom, duration: 1.0, intensity: 0.4)
+            cinematicEngine.triggerEffect(.cameraShake, duration: 0.3, intensity: 0.5)
+            cinematicEngine.triggerEffect(.impactFlash, duration: 0.2)
+            // Low angle on Jerry + dramatic zoom + impact sting
+            if let jerrySlot = characterSlots[.judgeJerry], let cam = camera {
+                let target = CGPoint(x: jerrySlot.x * 0.15, y: (jerrySlot.y - 40) * 0.1)
+                let pan = SKAction.move(to: target, duration: 0.5)
+                pan.timingMode = .easeInEaseOut
+                cam.run(pan)
+                cam.run(SKAction.scale(to: 1.15, duration: 0.5))
+            }
         case .finisherExecution:
             cinematicEngine.triggerEffect(.vignettePulse, duration: 0.6)
             cinematicEngine.triggerEffect(.speedLines, duration: 1.0, intensity: 1.0)
             cinematicEngine.triggerEffect(.cameraShake, duration: 0.8, intensity: 1.5)
             cinematicEngine.triggerEffect(.colorShift, duration: 2.0)
             cinematicEngine.triggerEffect(.chromaticAberration, duration: 1.0)
-        case .verdictAnnouncement:
-            cinematicEngine.triggerEffect(.dramaticZoom, duration: 1.0, intensity: 0.4)
-            cinematicEngine.triggerEffect(.cameraShake, duration: 0.3, intensity: 0.5)
-            cinematicEngine.triggerEffect(.impactFlash, duration: 0.2)
-        case .openingStatement, .closingArguments:
-            cinematicEngine.triggerEffect(.benDayDots, duration: 0.5, intensity: 0.4)
-            cinematicEngine.triggerEffect(.comicPanel, duration: 0.4)
-        case .crossExamination:
-            cinematicEngine.triggerEffect(.speedLines, duration: 0.4, intensity: 0.3)
+            // Dutch angle + red color shift + heavy speed lines + impact flash + vignette pulse
+            camera?.run(SKAction.rotate(byAngle: .pi / 24, duration: 0.3))
         case .deadpoolWrapUp:
             cinematicEngine.triggerEffect(.glitch, duration: 0.6)
             cinematicEngine.triggerEffect(.frameRateShift, duration: 0.5)
+            // Glitch + frame rate stutter + pov angle
+            if let deadpoolSlot = characterSlots[.deadpool], let cam = camera {
+                let target = CGPoint(x: deadpoolSlot.x * 0.2, y: deadpoolSlot.y * 0.15)
+                let pan = SKAction.move(to: target, duration: 0.3)
+                pan.timingMode = .easeOut
+                cam.run(pan)
+            }
         default:
             cinematicEngine.triggerEffect(.benDayDots, duration: 0.4, intensity: 0.3)
         }

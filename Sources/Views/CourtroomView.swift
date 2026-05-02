@@ -119,17 +119,39 @@ struct CourtroomView: View {
 
     private var characterRoster: some View {
         HStack(spacing: 12) {
-            CharacterChip(name: "JASON", color: .red, isActive: isJasonActive)
-            CharacterChip(name: "MATT", color: .red.opacity(0.7), isActive: isMattActive)
-            CharacterChip(name: "JERRY", color: .yellow, isActive: appState.currentDebatePhase == .verdictAnnouncement)
-            CharacterChip(name: "DP", color: .pink, isActive: isDeadpoolActive)
+            characterPortraitChip(speaker: .jasonTodd, isActive: isJasonActive)
+            characterPortraitChip(speaker: .mattMurdock, isActive: isMattActive)
+            characterPortraitChip(speaker: .judgeJerry, isActive: appState.currentDebatePhase == .verdictAnnouncement)
+            characterPortraitChip(speaker: .deadpool, isActive: isDeadpoolActive)
 
             if let guests = appState.activeEpisode?.transcript.compactMap({ $0.speaker }).uniqueGuests,
                !guests.isEmpty {
                 ForEach(Array(guests.prefix(2)), id: \.self) { guest in
-                    CharacterChip(name: guest.initials, color: .cyan, isActive: false)
+                    characterPortraitChip(speaker: guest, isActive: false)
                 }
             }
+        }
+    }
+
+    private func characterPortraitChip(speaker: Speaker, isActive: Bool) -> some View {
+        VStack(spacing: 4) {
+            ZStack {
+                CharacterPortraitShape(speaker: speaker)
+                    .fill(CharacterPortraitShape(speaker: speaker).fillColor(for: speaker))
+                    .shadow(color: .white.opacity(isActive ? 0.5 : 0.15), radius: isActive ? 8 : 2)
+                CharacterPortraitShape(speaker: speaker)
+                    .stroke(.white, lineWidth: 2)
+                Text(speaker.initials)
+                    .font(.system(size: 10, weight: .bold, design: .monospaced))
+                    .foregroundColor(.white)
+            }
+            .frame(width: 44, height: 44)
+            .scaleEffect(isActive ? 1.1 : 1.0)
+            .animation(.spring(response: 0.3, dampingFraction: 0.6), value: isActive)
+
+            Text(speaker.initials)
+                .font(.system(size: 8, weight: .bold, design: .monospaced))
+                .foregroundColor(isActive ? .white : .white.opacity(0.5))
         }
     }
 
@@ -139,9 +161,16 @@ struct CourtroomView: View {
         VStack(alignment: .leading, spacing: 6) {
             if let turn = appState.activeEpisode?.transcript.last {
                 HStack(spacing: 8) {
-                    Circle()
-                        .fill(speakerColor(turn.speaker))
-                        .frame(width: 8, height: 8)
+                    ZStack {
+                        CharacterPortraitShape(speaker: turn.speaker)
+                            .fill(CharacterPortraitShape(speaker: turn.speaker).fillColor(for: turn.speaker))
+                        CharacterPortraitShape(speaker: turn.speaker)
+                            .stroke(.white, lineWidth: 1.5)
+                        Text(turn.speaker.initials)
+                            .font(.system(size: 8, weight: .bold, design: .monospaced))
+                            .foregroundColor(.white)
+                    }
+                    .frame(width: 24, height: 24)
 
                     Text(turn.speaker.displayName.uppercased())
                         .font(.system(size: 11, weight: .bold, design: .monospaced))
@@ -181,47 +210,70 @@ struct CourtroomView: View {
     // MARK: - Verdict Overlay
 
     private func verdictOverlay(_ verdict: Verdict) -> some View {
-        VStack(spacing: 20) {
-            Text(verdict.rulingDisplay.uppercased())
-                .font(.system(size: 36, weight: .black, design: .serif))
-                .foregroundColor(verdict.rulingColor)
+        ZStack {
+            // Dramatic color shift background
+            LinearGradient(
+                colors: [.black, verdict.rulingColor.opacity(0.6), .black],
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+            )
+            .ignoresSafeArea()
 
-            Text("""
+            VStack(spacing: 20) {
+                CharacterPortraitShape(speaker: .judgeJerry)
+                    .frame(width: 120, height: 120)
+                    .shadow(color: .yellow.opacity(0.5), radius: 20, x: 0, y: 0)
+
+                Text(verdict.rulingDisplay.uppercased())
+                    .font(.system(size: 36, weight: .black, design: .serif))
+                    .foregroundColor(verdict.rulingColor)
+
+                Text("""
 "\(verdict.judgeJerryWisdom)"
 """)
-                .font(.system(size: 18, design: .serif))
-                .foregroundColor(.white)
-                .multilineTextAlignment(.center)
-                .padding(.horizontal, 40)
+                    .font(.system(size: 18, design: .serif))
+                    .foregroundColor(.white)
+                    .multilineTextAlignment(.center)
+                    .padding(.horizontal, 40)
 
-            Text("— Judge Jerry Springer")
-                .font(.system(size: 13, design: .serif))
-                .foregroundColor(.white.opacity(0.5))
+                Text("— Judge Jerry Springer")
+                    .font(.system(size: 13, design: .serif))
+                    .foregroundColor(.white.opacity(0.5))
+            }
         }
-        .padding(32)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(.black.opacity(0.85))
         .transition(.opacity)
     }
 
     // MARK: - Finisher Overlay
 
     private func finisherOverlay(_ finisher: FinisherType) -> some View {
-        VStack(spacing: 8) {
-            Image(systemName: finisher.iconName)
-                .font(.system(size: 40))
-                .foregroundColor(.red)
-            Text(finisher.label.uppercased())
-                .font(.system(size: 22, weight: .black, design: .serif))
-                .foregroundColor(.red)
+        ZStack {
+            // Red vignette background
+            RadialGradient(
+                colors: [.red.opacity(0.7), .black],
+                center: .center,
+                startRadius: 0,
+                endRadius: 400
+            )
+            .ignoresSafeArea()
+
+            VStack(spacing: 16) {
+                Image(systemName: finisher.iconName)
+                    .font(.system(size: 60))
+                    .foregroundColor(.red)
+                    .shadow(color: .red.opacity(0.6), radius: 12, x: 0, y: 0)
+
+                Text(finisher.label.uppercased())
+                    .font(.system(size: 32, weight: .black, design: .serif))
+                    .foregroundColor(.red)
+
+                Text(finisher.displayName.uppercased())
+                    .font(.system(size: 14, weight: .bold, design: .monospaced))
+                    .foregroundColor(.white.opacity(0.6))
+            }
         }
-        .padding(24)
-        .background(.black.opacity(0.85))
-        .clipShape(RoundedRectangle(cornerRadius: 16))
-        .overlay(
-            RoundedRectangle(cornerRadius: 16)
-                .stroke(.red.opacity(0.4), lineWidth: 2)
-        )
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
         .transition(.scale.combined(with: .opacity))
     }
 
@@ -250,27 +302,161 @@ struct CourtroomView: View {
     }
 }
 
-// MARK: - Character Chip
+// MARK: - Character Portrait Shape (SwiftUI)
 
-struct CharacterChip: View {
-    let name: String
-    let color: Color
+struct CharacterPortraitShape: Shape {
+    let speaker: Speaker
+
+    func path(in rect: CGRect) -> Path {
+        let size = min(rect.width, rect.height)
+        let cx = rect.midX
+        let cy = rect.midY
+        let half = size / 2
+
+        switch speaker {
+        case .jasonTodd:
+            return jaggedHexagon(cx: cx, cy: cy, half: half)
+        case .mattMurdock:
+            return shield(cx: cx, cy: cy, half: half)
+        case .judgeJerry:
+            return gavel(in: rect)
+        case .deadpool:
+            return chaoticStar(cx: cx, cy: cy, half: half)
+        case .guest:
+            return roundedDiamond(cx: cx, cy: cy, half: half)
+        }
+    }
+
+    private func jaggedHexagon(cx: CGFloat, cy: CGFloat, half: CGFloat) -> Path {
+        var path = Path()
+        let points = 6
+        let inner = half * 0.55
+        for i in 0..<points * 2 {
+            let angle = CGFloat(i) * .pi / CGFloat(points) - .pi / 2
+            let r = (i % 2 == 0) ? half : inner
+            let x = cx + r * cos(angle)
+            let y = cy + r * sin(angle)
+            if i == 0 { path.move(to: CGPoint(x: x, y: y)) }
+            else { path.addLine(to: CGPoint(x: x, y: y)) }
+        }
+        path.closeSubpath()
+        return path
+    }
+
+    private func shield(cx: CGFloat, cy: CGFloat, half: CGFloat) -> Path {
+        var path = Path()
+        let topY = cy - half + half * 0.3
+        let bottomY = cy + half
+        let leftX = cx - half + half * 0.1
+        let rightX = cx + half - half * 0.1
+        path.move(to: CGPoint(x: leftX, y: topY))
+        path.addQuadCurve(to: CGPoint(x: rightX, y: topY),
+                          control: CGPoint(x: cx, y: cy - half - half * 0.1))
+        path.addLine(to: CGPoint(x: rightX, y: topY + half * 0.8))
+        path.addLine(to: CGPoint(x: cx, y: bottomY))
+        path.addLine(to: CGPoint(x: leftX, y: topY + half * 0.8))
+        path.closeSubpath()
+        return path
+    }
+
+    private func gavel(in rect: CGRect) -> Path {
+        var path = Path()
+        let headW = rect.width * 0.85
+        let headH = rect.height * 0.55
+        let headRect = CGRect(
+            x: rect.midX - headW / 2,
+            y: rect.midY - headH / 2,
+            width: headW,
+            height: headH
+        )
+        path.addRoundedRect(in: headRect, cornerSize: CGSize(width: 8, height: 8))
+        let handleW = rect.width * 0.35
+        let handleH = rect.height * 0.22
+        let handleRect = CGRect(
+            x: rect.midX + headW / 2 - 4,
+            y: rect.midY - handleH / 2,
+            width: handleW,
+            height: handleH
+        )
+        path.addRoundedRect(in: handleRect, cornerSize: CGSize(width: 4, height: 4))
+        return path
+    }
+
+    private func chaoticStar(cx: CGFloat, cy: CGFloat, half: CGFloat) -> Path {
+        var path = Path()
+        let points = 5
+        let inner = half * 0.45
+        let warps: [CGFloat] = [0.92, 1.08, 0.88, 1.12, 0.95, 1.05, 0.90, 1.10, 0.97, 1.03]
+        for i in 0..<points * 2 {
+            let angle = CGFloat(i) * .pi / CGFloat(points) - .pi / 2
+            let base = (i % 2 == 0) ? half : inner
+            let r = base * warps[i % warps.count]
+            let x = cx + r * cos(angle)
+            let y = cy + r * sin(angle)
+            if i == 0 { path.move(to: CGPoint(x: x, y: y)) }
+            else { path.addLine(to: CGPoint(x: x, y: y)) }
+        }
+        path.closeSubpath()
+        return path
+    }
+
+    private func roundedDiamond(cx: CGFloat, cy: CGFloat, half: CGFloat) -> Path {
+        var path = Path()
+        let p1 = CGPoint(x: cx, y: cy - half)
+        let p2 = CGPoint(x: cx + half, y: cy)
+        let p3 = CGPoint(x: cx, y: cy + half)
+        let p4 = CGPoint(x: cx - half, y: cy)
+        let t: CGFloat = 0.15
+
+        func midpoint(_ a: CGPoint, _ b: CGPoint, t: CGFloat) -> CGPoint {
+            CGPoint(x: a.x + (b.x - a.x) * t, y: a.y + (b.y - a.y) * t)
+        }
+
+        path.move(to: midpoint(p1, p2, t: t))
+        path.addQuadCurve(to: midpoint(p2, p3, t: t), control: p2)
+        path.addQuadCurve(to: midpoint(p3, p4, t: t), control: p3)
+        path.addQuadCurve(to: midpoint(p4, p1, t: t), control: p4)
+        path.addQuadCurve(to: midpoint(p1, p2, t: t), control: p1)
+        path.closeSubpath()
+        return path
+    }
+}
+
+extension CharacterPortraitShape {
+    func fillColor(for speaker: Speaker) -> Color {
+        switch speaker {
+        case .jasonTodd: Color(red: 0.86, green: 0.08, blue: 0.24)
+        case .mattMurdock: Color(red: 0.70, green: 0.13, blue: 0.13)
+        case .judgeJerry: Color(red: 1.0, green: 0.84, blue: 0.0)
+        case .deadpool: Color(red: 1.0, green: 0.08, blue: 0.58)
+        case .guest: Color(red: 0.0, green: 0.81, blue: 0.82)
+        }
+    }
+}
+
+// MARK: - Character Portrait Chip View
+
+struct CharacterPortraitChip: View {
+    let speaker: Speaker
     let isActive: Bool
 
     var body: some View {
-        Text(name)
-            .font(.system(size: 9, weight: .bold, design: .monospaced))
-            .foregroundColor(isActive ? .black : color)
-            .padding(.horizontal, 8)
-            .padding(.vertical, 4)
-            .background(isActive ? color : color.opacity(0.15))
-            .clipShape(Capsule())
-            .overlay(
-                Capsule()
-                    .stroke(color.opacity(isActive ? 1 : 0.3), lineWidth: 1)
-            )
-            .scaleEffect(isActive ? 1.1 : 1.0)
-            .animation(.spring(response: 0.3, dampingFraction: 0.6), value: isActive)
+        ZStack {
+            CharacterPortraitShape(speaker: speaker)
+                .fill(CharacterPortraitShape(speaker: speaker).fillColor(for: speaker))
+                .overlay(
+                    CharacterPortraitShape(speaker: speaker)
+                        .stroke(.white, lineWidth: 2)
+                )
+                .shadow(color: .white.opacity(0.3), radius: isActive ? 8 : 2)
+
+            Text(speaker.initials)
+                .font(.system(size: 12, weight: .bold, design: .monospaced))
+                .foregroundColor(.white)
+        }
+        .frame(width: 44, height: 44)
+        .scaleEffect(isActive ? 1.1 : 1.0)
+        .animation(.spring(response: 0.3, dampingFraction: 0.6), value: isActive)
     }
 }
 

@@ -4,6 +4,7 @@ struct IntakeScreen: View {
     @State private var plaintiff = ""
     @State private var defendant = ""
     @State private var grievanceText = ""
+    @State private var selectedFranchise: Franchise? = .dc
     @State private var isSubmitting = false
     @Environment(AppState.self) private var appState: AppState
 
@@ -20,6 +21,8 @@ struct IntakeScreen: View {
                     grievanceField(label: "Defendant", placeholder: "e.g. Rey Palpatine", text: $defendant)
                     grievanceField(label: "Grievance", placeholder: "What canon crime was committed and why it matters...",
                                    text: $grievanceText, lineLimit: 5)
+
+                    franchiseSelector
                 }
                 .padding(.horizontal, 24)
 
@@ -30,7 +33,8 @@ struct IntakeScreen: View {
                         id: UUID().uuidString,
                         plaintiff: "Test",
                         defendant: "Test",
-                        grievanceText: "Quick start test grievance."
+                        grievanceText: "Quick start test grievance.",
+                        franchise: selectedFranchise ?? .dc
                     )
                     appState.currentDebatePhase = .canonResearch
                 } label: {
@@ -40,6 +44,15 @@ struct IntakeScreen: View {
                 }
                 .accessibilityIdentifier("quickStartTrialButton")
             }
+        }
+    }
+
+    private var franchiseSelector: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text("FRANCHISE")
+                .font(.system(size: 12, weight: .bold, design: .monospaced))
+                .foregroundColor(.yellow.opacity(0.8))
+            FranchiseTagSelector(selectedFranchise: $selectedFranchise)
         }
     }
 
@@ -133,7 +146,8 @@ struct IntakeScreen: View {
             id: UUID().uuidString,
             plaintiff: plaintiff.trimmingCharacters(in: .whitespaces),
             defendant: defendant.trimmingCharacters(in: .whitespaces),
-            grievanceText: grievanceText.trimmingCharacters(in: .whitespaces)
+            grievanceText: grievanceText.trimmingCharacters(in: .whitespaces),
+            franchise: selectedFranchise ?? .dc
         )
         appState.activeGrievance = grievance
         appState.currentDebatePhase = .canonResearch
