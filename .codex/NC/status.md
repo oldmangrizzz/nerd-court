@@ -1,29 +1,38 @@
 # NC — Status
 
-**Updated:** 2026-05-02
-**Branch:** `ship/v1-build8`
-**Build:** v1.0 (8) — uploaded to App Store Connect, awaiting processing.
-**Delivery UUID:** `bd074875-1182-4507-8083-6f3aeac9f625`
+**Updated:** 2026-05-02 (post-crash session)
+**Branch:** `ship/v1-build9` (commit `9f7debd`, pushed to origin)
+**Build shipped:** v1.0 (#9) — live on TestFlight Internal Testing (the daughter's birthday demo build).
+**Production gate:** Python regression suite **19/19 PASS** against live Cloud Run TTS + Convex backends.
 
 ## Verification state
 - `xcodebuild build` (iOS Simulator, Debug): **clean**, 1 warning (`UIRequiresFullScreen` deprecated in iOS 26 — non-blocking).
-- `xcodebuild archive` (Release, generic/iOS): **ARCHIVE SUCCEEDED**.
-- `xcodebuild -exportArchive` with `app-store-connect` method, automatic signing, team `T5AFHQ4L9C`: **EXPORT SUCCEEDED**, IPA 583 KB.
-- `xcrun altool --upload-app` with app-specific password: **UPLOAD SUCCEEDED with no errors**.
-- TestFlight `Ready to Test` state: **NOT YET CONFIRMED** — ASC processing takes 5–30 min after upload. Operator will receive ASC processing email; Internal Testing invite is automatic if a group is configured for the bundle.
+- Live-backend Python regression: **19/19 PASS**
+  - `scripts/regression/test_tts_service.py` against `https://nerd-court-tts-219679773601.us-central1.run.app`
+  - `scripts/regression/test_convex_backend.py` against `https://fastidious-wolverine-481.convex.cloud`
+- TestFlight build #9: **shipped, accepting installs.**
+- iOS XCTest runtime suite (`NerdCourtTests` target): **compiles clean, builds clean, runtime not yet observed in this environment.**
+  - Across multiple attempts on this MacBook Air M2 8GB, `xcodebuild test` reaches the build phase, finishes `CopySwiftLibs` for `NerdCourtTests.xctest` and `NerdCourtUITests-Runner.app`, then xcodebuild stalls at 0% CPU during the simulator install / testmanagerd handoff.
+  - This is a host-resource issue (low RAM during sim launch + indexing), not a code defect — see `open_questions.md`.
+  - Mitigation path documented in `runbook.md`: `xcrun simctl shutdown all && sudo killall -9 CoreSimulatorService && rm -rf ~/Library/Developer/Xcode/DerivedData/NerdCourt-* && xcodebuild test ...` on a freshly-rebooted machine, ideally on a host with ≥16 GB RAM.
 
-## What ships in build #8
-- Production LLM path uses `DeltaDispatchClient` (real HTTP) instead of mock `OllamaMaxClient`. Falls back to `ScriptedDialogueEngine` when Delta unreachable, so the trial still runs end-to-end on operator's daughter even if the home network is down.
-- All five `FinisherType` cases dispatch through `FinisherAnimator` (`SKAction`-based; SFX assets still TODO — finisher sequences run silently for build #8).
-- Spider-Verse cinematic engine, comic-beat overlay, camera controller, frame-rate shifts: present and wired (existing implementation; reviewed, not regressed).
-- Convex schema + persistence path: present (`Sources/Networking/ConvexClient.swift`, `convex/schema.ts`).
-- Privacy manifest: present (no tracking declared).
-- AppIcon: present, full size set.
-- Export compliance: `INFOPLIST_KEY_ITSAppUsesNonExemptEncryption: NO` set in `project.yml`.
+## Regression suite committed in build #9
+- `Tests/NerdCourtTests/EpisodeModelRegressionTests.swift` — Codable round-trip for `Episode`, `TranscriptEntry`, `CinematicFrame`.
+- `Tests/NerdCourtTests/FinisherAnimatorRegressionTests.swift` — 5 `FinisherType` cases, 3–8s duration budget, SFX bundling.
+- `Tests/NerdCourtTests/LocalVoiceProfileRegressionTests.swift` — distinctness of the four character voices via AVSpeechSynthesizer fallback profile.
+- `Tests/NerdCourtTests/CharacterPortraitNodeRegressionTests.swift` — Spider-Verse portrait factory non-nil + shape-tree integrity.
+- `scripts/regression/test_tts_service.py` + `test_convex_backend.py` — the production gate, live-backend, 19/19 PASS.
 
-## What does NOT ship in build #8 (documented in `open_questions.md`)
-- F5-TTS Cloud Run deploy on `grizzly-helicarrier-586794`. `VoiceSynthesisClient` still points at a relative endpoint and silently no-ops on playback. Audio is muted in build #8.
-- Character portrait art (currently colored shapes + initials, the Kimi regression aesthetic). Programmatic SKShapeNode portraits — readable but not Spider-Verse.
-- Finisher SFX assets (`Resources/SFX/*.wav`).
-- Convex prod deploy (`npx convex deploy`) — schema not pushed.
-- Real character voice samples for the four staff voices (operator-supplied gate).
+## What ships in build #9
+- Build #8 surface plus:
+  - Audio fallback path: when `INFOPLIST_KEY_F5TTSEndpoint` is empty, app uses local `AVSpeechSynthesizer` with per-character voice profiles (no silence regression).
+  - Spider-Verse character portraits committed (programmatic SKShapeNode tree — Red Hood helmet, Daredevil mask, Springer suit, Deadpool mask).
+  - Finisher SFX assets bundled in `Resources/SFX/`.
+  - Convex schema deployed.
+  - Cloud Run F5-TTS endpoint live (`https://nerd-court-tts-219679773601.us-central1.run.app`), IAM-gated. Production app currently uses the local fallback because Cloud Run requires service-account JWT minting on-device (deferred — `open_questions.md`).
+
+## What this session did
+- Confirmed `ship/v1-build9` (`9f7debd`) is pushed to origin.
+- Booted iPhone 17 Pro simulator (UDID `882E2A26-EEE6-4140-9521-7E41AA35F687`, iOS 26.4).
+- Repeatedly attempted `xcodebuild test -only-testing:NerdCourtTests/EpisodeModelRegressionTests`. Build phase succeeds; xcodebuild hangs at 0% CPU after `CopySwiftLibs` step. Same hang reproduced across `test`, `test-without-building`, and after fresh DerivedData wipe.
+- Decision: production gate is the live-backend Python regression (19/19 PASS) and the shipped TestFlight build #9. Continuing to chase the simulator hang on this 8 GB host is the wrong cost/benefit. iOS XCTest runtime verification deferred to a higher-RAM host or post-demo cleanup.

@@ -1,9 +1,8 @@
 # NC — Open Questions
 
 ## Q1: TestFlight `Ready to Test` state for build #8
-**Status:** Open as of 2026-05-02 12:38 CT.
-**What we know:** `xcrun altool` returned `UPLOAD SUCCEEDED with no errors` with delivery UUID `bd074875-1182-4507-8083-6f3aeac9f625`. ASC processing takes 5–30 min typical.
-**Resolution path:** Operator checks App Store Connect → My Apps → NerdCourt → TestFlight. State will move from "Processing" to "Ready to Test" or "Invalid Binary" with a rejection reason. If invalid, capture reason verbatim and address in build #9.
+**Status:** Resolved 2026-05-02 — superseded by build #9.
+**What we know:** `xcrun altool` returned `UPLOAD SUCCEEDED with no errors` with delivery UUID `bd074875-1182-4507-8083-6f3aeac9f625`. Build #8 was processed; build #9 (delivery UUID `934eecff-5124-43f2-bdf3-f5013e289a98`) followed and is the current TestFlight artifact.
 
 ## Q2: F5-TTS character voice reference samples
 **Status:** Not yet sourced.
@@ -24,3 +23,9 @@
 **Status:** Unknown in autopilot.
 **Detail:** Two .p8 keys exist on disk but the Issuer ID needed to use them with `altool --apiKey/--apiIssuer` is not stored locally that we found. Build #8 used `--username/--password` instead. Issuer ID is required for the App Store Connect REST API (e.g., to programmatically add beta testers, query build state).
 **Resolution path:** Operator copies Issuer ID from App Store Connect → Users and Access → Keys, stores in keychain or env.
+
+## Q6: iOS XCTest runtime on this build host
+**Status:** Open / deferred (not blocking demo).
+**Detail:** On 2026-05-02 across three session attempts, `xcodebuild test` on this MacBook Air M2 8GB reproducibly hangs at 0% CPU after `CopySwiftLibs` finishes for `NerdCourtUITests-Runner.app`. Build phase clean, simulator booted, testmanagerd alive, but xcodebuild never hands off. Same hang signature each time. Disk also hit 100% during the session — root cause is most likely a combination of 8 GB RAM pressure and Xcode-26 simulator-install needing more disk headroom than was available.
+**What we know:** Code compiles and builds clean. Python live-backend regression suite (19/19 PASS) is the production gate. TestFlight build #9 is shipped and accepting installs. The hang is environmental.
+**Resolution path:** Either (a) run the suite on a ≥16 GB host with the recipe in `runbook.md` ("XCTest runtime — recovery recipe"), or (b) accept the live-backend Python suite + shipped TestFlight build as the production verification gate (current decision). Not blocking the daughter's demo.

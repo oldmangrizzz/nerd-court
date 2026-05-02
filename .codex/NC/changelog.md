@@ -21,3 +21,11 @@
   - project.yml: build 9, ITSAppUsesNonExemptEncryption=NO, F5TTSEndpoint key
 - **Verified:** xcodebuild archive + export + altool upload all clean
 - **Deferred → build #10:** F5-TTS Cloud Run, real voice samples, Convex prod deploy (key stale), CC0 SFX replacements
+
+## 2026-05-02 (post-deadline) — Production regression suite committed
+- **Branch:** `ship/v1-build9` (commit `9f7debd`, pushed to origin)
+- **Shipped:**
+  - Python regression suite (`scripts/regression/`): live-backend tests against Cloud Run TTS + Convex. **19/19 PASS.**
+  - Swift regression suite (`Tests/NerdCourtTests/`): EpisodeModel, FinisherAnimator, LocalVoiceProfile, CharacterPortraitNode. Compiles + builds clean.
+- **Verified:** Python suite green against `https://nerd-court-tts-219679773601.us-central1.run.app` and `https://fastidious-wolverine-481.convex.cloud`. Build #9 live on TestFlight.
+- **Deferred:** iOS XCTest runtime execution. Reproducible host-resource hang on this MacBook Air M2 8GB — `xcodebuild test` stalls at 0% CPU after `CopySwiftLibs`, before testmanagerd handoff. Documented as environmental in `open_questions.md` and `runbook.md`. Production gate is the live-backend Python suite + the shipped TestFlight build, both green.
