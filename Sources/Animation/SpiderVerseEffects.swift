@@ -153,8 +153,6 @@ final class SpiderVerseEffects {
             camera.position = CGPoint(x: camera.position.x, y: camera.position.y + 200)
         case .pov:
             camera.setScale(1.2)
-        case .wormsEye:
-            camera.position = CGPoint(x: camera.position.x, y: camera.position.y - 200)
         }
     }
     

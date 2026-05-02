@@ -6,3 +6,11 @@ DerivedData/
 *.ipa
 ExportOptions.plist
 NerdCourt.xcodeproj/
+
+# Build artifacts
+build/
+*.xcarchive
+.DS_Store
+
+# Session prompt drop
+SHIP_PROMPT.md

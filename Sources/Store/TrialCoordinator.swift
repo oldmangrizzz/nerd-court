@@ -32,7 +32,8 @@ import SwiftUI
             }
         }
 
-        let debateEngine = DebateEngine(ollamaClient: OllamaMaxClient())
+        let llmClient: any LLMClient = DeltaDispatchClient(deltaHost: AppConfig.deltaHost)
+        let debateEngine = DebateEngine(ollamaClient: llmClient)
         var episode = Episode(id: UUID().uuidString, grievanceId: grievance.id)
         do {
             episode = try await debateEngine.runDebate(grievance: grievance, research: research, guests: guests)
