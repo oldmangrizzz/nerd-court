@@ -2,7 +2,7 @@ import SpriteKit
 
 @MainActor
 final class FinisherAnimator {
-    private let cinematicEngine: CinematicEngine
+    let cinematicEngine: CinematicEngine
 
     init(cinematicEngine: CinematicEngine) {
         self.cinematicEngine = cinematicEngine

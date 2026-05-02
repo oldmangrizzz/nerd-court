@@ -33,7 +33,7 @@ actor ConvexClient {
         return try makeDecoder().decode(T.self, from: data)
     }
     
-    func query<T: Decodable>(_ path: String, args: [String: Any]) async throws -> T {
+    func query<T: Decodable & Sendable>(_ path: String, args: [String: any Sendable]) async throws -> T {
         let url = URL(string: baseURL + "/query")!
         var req = URLRequest(url: url)
         req.httpMethod = "POST"
@@ -44,7 +44,7 @@ actor ConvexClient {
         return try makeDecoder().decode(T.self, from: data)
     }
 
-    func mutation(_ path: String, args: [String: Any]) async throws -> Data {
+    func mutation(_ path: String, args: [String: any Sendable]) async throws -> Data {
         let url = URL(string: baseURL + "/mutation")!
         var req = URLRequest(url: url)
         req.httpMethod = "POST"
@@ -55,7 +55,7 @@ actor ConvexClient {
         return data
     }
 
-    func action(_ path: String, args: [String: Any]) async throws -> Data {
+    func action(_ path: String, args: [String: any Sendable]) async throws -> Data {
         let url = URL(string: baseURL + "/action")!
         var req = URLRequest(url: url)
         req.httpMethod = "POST"

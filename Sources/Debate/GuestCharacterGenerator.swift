@@ -2,9 +2,9 @@ import Foundation
 
 /// Generates guest characters by calling the Delta Ollama Max dispatch harness.
 actor GuestCharacterGenerator {
-    private let ollamaClient: DeltaDispatchClient
+    private let ollamaClient: any LLMClient
 
-    init(ollamaClient: DeltaDispatchClient) {
+    init(ollamaClient: any LLMClient) {
         self.ollamaClient = ollamaClient
     }
 

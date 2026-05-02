@@ -3,9 +3,11 @@ import Foundation
 
 // MARK: - Voice Synthesis Service Protocol
 
-protocol VoiceSynthesisServiceProtocol: Sendable {
+@preconcurrency protocol VoiceSynthesisServiceProtocol: Sendable {
     func synthesize(speaker: Speaker, text: String) async -> URL
+    @MainActor func preloadVoices()
 }
+
 
 // MARK: - Voice Synthesis Client
 

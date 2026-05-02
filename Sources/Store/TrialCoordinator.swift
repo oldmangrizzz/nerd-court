@@ -2,16 +2,16 @@ import Foundation
 
 @MainActor
 @Observable final class TrialCoordinator {
-    private let ollamaClient: DeltaDispatchClient
-    private let convexClient: ConvexClient?
-    private let debateEngine: DebateEngine
-    private let researchEngine: CanonResearchEngine
-    private let voiceClient: VoiceSynthesisClient
+    private let ollamaClient: any LLMClient
+    private let convexClient: (any ConvexPersisting)?
+    private let debateEngine: any DebateEngineProtocol
+    private let researchEngine: any CanonResearchServiceProtocol
+    private let voiceClient: any VoiceSynthesisServiceProtocol
     private let guestGenerator: GuestCharacterGenerator
 
-    init(ollamaClient: DeltaDispatchClient, convexClient: ConvexClient?,
-         debateEngine: DebateEngine, researchEngine: CanonResearchEngine,
-         voiceClient: VoiceSynthesisClient) {
+    init(ollamaClient: any LLMClient, convexClient: (any ConvexPersisting)?,
+         debateEngine: any DebateEngineProtocol, researchEngine: any CanonResearchServiceProtocol,
+         voiceClient: any VoiceSynthesisServiceProtocol) {
         self.ollamaClient = ollamaClient
         self.convexClient = convexClient
         self.debateEngine = debateEngine
