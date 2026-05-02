@@ -46,13 +46,13 @@ struct CourtroomView: View {
             scene = skScene
             appState.courtScene = UIScreen.main.bounds
             if let grievance = appState.activeGrievance {
-                await trialCoordinator.startTrial(scene: skScene, grievance: grievance)
+                await trialCoordinator.startTrial(scene: skScene, grievance: grievance, appState: appState)
             }
         }
         .onChange(of: appState.activeGrievance) { _, newGrievance in
             if let newGrievance, let skScene = scene {
                 Task {
-                    await trialCoordinator.startTrial(scene: skScene, grievance: newGrievance)
+                    await trialCoordinator.startTrial(scene: skScene, grievance: newGrievance, appState: appState)
                 }
             }
         }
