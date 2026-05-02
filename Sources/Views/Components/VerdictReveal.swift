@@ -220,7 +220,7 @@ struct VerdictRevealView: View {
             finisher: .crowbarBeatdown
         ),
         finisherType: .crowbarBeatdown,
-        onDismiss: { print("Dismissed") }
+        onDismiss: {  }
     )
     .preferredColorScheme(.dark)
 }

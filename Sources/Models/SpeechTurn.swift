@@ -12,8 +12,8 @@ struct SpeechTurn: Codable, Identifiable, Equatable, Hashable {
 
     /// Audio data for this speech turn (computed from audioURL or cached)
     var audioData: Data? {
-        // TODO: Implement audio loading from URL or cache
-        return nil
+        guard let urlString = audioURL, let url = URL(string: urlString) else { return nil }
+        return try? Data(contentsOf: url)
     }
 
     init(id: String = UUID().uuidString, speaker: Speaker, text: String,

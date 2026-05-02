@@ -40,7 +40,7 @@ jobs:
             -archivePath build/NerdCourt.xcarchive \
             -destination 'generic/platform=iOS' \
             CODE_SIGNING_ALLOWED=YES \
-            DEVELOPMENT_TEAM=$(JARVIS_DEV_TEAM)
+            DEVELOPMENT_TEAM=T5AFHQ4L9C
 
       - name: Export IPA
         run: |

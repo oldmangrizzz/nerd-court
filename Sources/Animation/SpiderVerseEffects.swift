@@ -1,6 +1,5 @@
 import SpriteKit
 import UIKit
-import NerdCourt // For CinematicFrame, CameraAngle, FrameRateShift
 
 // MARK: - SpiderVerseEffects
 

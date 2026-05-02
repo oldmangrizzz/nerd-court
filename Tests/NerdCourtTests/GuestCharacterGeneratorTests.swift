@@ -1,22 +1,12 @@
 import XCTest
 @testable import NerdCourt
 
-/// Mock LLM client for testing GuestCharacterGenerator without hitting a real server.
-actor MockLLMClient: LLMClient {
-    var cannedResponse: String = "Mock personality prompt for testing purposes."
-
-    func dispatch(systemPrompt: String, debateContext: String, turnHistory: [SpeechTurn]) async throws -> String {
-        return cannedResponse
-    }
-}
-
 final class GuestCharacterGeneratorTests: XCTestCase {
 
     var generator: GuestCharacterGenerator!
 
     override func setUp() async throws {
-        let mockClient = MockLLMClient()
-        generator = GuestCharacterGenerator(ollamaClient: mockClient)
+        generator = GuestCharacterGenerator()
     }
 
     override func tearDown() async throws {
