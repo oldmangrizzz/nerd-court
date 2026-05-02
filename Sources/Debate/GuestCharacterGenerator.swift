@@ -9,6 +9,13 @@ actor GuestCharacterGenerator {
     }
 
     func generate(name: String, universe: String, role: String) async throws -> GuestCharacter {
+        guard !name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
+            throw GuestCharacterError.emptyName
+        }
+        guard !universe.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
+            throw GuestCharacterError.emptyUniverse
+        }
+
         let prompt = """
         CHARACTER GENERATION: Create a character-accurate personality prompt for \(name) from \(universe).
         They will serve as \(role) in a Nerd Court canon trial.
@@ -38,4 +45,9 @@ actor GuestCharacterGenerator {
             generatedAt: .now
         )
     }
+}
+
+enum GuestCharacterError: Error {
+    case emptyName
+    case emptyUniverse
 }
