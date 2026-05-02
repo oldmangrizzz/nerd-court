@@ -36,6 +36,16 @@ enum Speaker: Codable, Equatable, Hashable {
         case .guest: "Witness"
         }
     }
+
+    var avatarID: String {
+        switch self {
+        case .jasonTodd: "avatar_jason"
+        case .mattMurdock: "avatar_matt"
+        case .judgeJerry: "avatar_jerry"
+        case .deadpool: "avatar_deadpool"
+        case .guest(_, let name): "avatar_\(name.replacingOccurrences(of: " ", with: "_"))"
+        }
+    }
 }
 
 enum FixedRole: String, Codable, Equatable {

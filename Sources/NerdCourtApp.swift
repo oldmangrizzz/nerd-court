@@ -6,14 +6,9 @@ struct NerdCourtApp: App {
     private let coordinator: TrialCoordinator
 
     init() {
-        let rotationClient = OllamaMaxClient()
-        let convexClient = ConvexClient(deploymentURL: AppConfig.convexDeploymentURL)
         self.coordinator = TrialCoordinator(
-            ollamaClient: rotationClient,
-            convexClient: convexClient,
-            debateEngine: DebateEngine(ollamaClient: rotationClient),
-            researchEngine: CanonResearchEngine(),
-            voiceClient: VoiceSynthesisClient()
+            voiceClient: VoiceSynthesisClient(),
+            guestGenerator: GuestCharacterGenerator()
         )
     }
 

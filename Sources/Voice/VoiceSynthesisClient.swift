@@ -6,6 +6,7 @@ import Foundation
 @preconcurrency protocol VoiceSynthesisServiceProtocol: Sendable {
     func synthesize(speaker: Speaker, text: String) async -> URL
     @MainActor func preloadVoices()
+    @MainActor func playSting(_ sting: CourtroomSting)
 }
 
 

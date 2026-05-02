@@ -152,6 +152,61 @@ final class CourtroomScene: SKScene {
             pan.timingMode = .easeInEaseOut
             cam.run(pan)
         }
+
+        // Show character avatar in the scene
+        addCharacterSprite(for: speaker)
+    }
+
+    private func addCharacterSprite(for speaker: Speaker) {
+        guard let characterLayer else { return }
+        let (color, label): (SKColor, String) = switch speaker {
+        case .jasonTodd: (.red, "JASON")
+        case .mattMurdock: (.cyan, "MATT")
+        case .judgeJerry: (.yellow, "JERRY")
+        case .deadpool: (.magenta, "DP")
+        case .guest(_, let name): (.green, String(name.prefix(2)).uppercased())
+        }
+
+        let slot = characterSlots[speaker] ?? .zero
+
+        // Circle avatar
+        let circle = SKShapeNode(circleOfRadius: 40)
+        circle.fillColor = color.withAlphaComponent(0.8)
+        circle.strokeColor = .white
+        circle.lineWidth = 3
+        circle.position = slot
+        circle.glowWidth = 4
+
+        // Initial label
+        let textNode = SKLabelNode(text: label)
+        textNode.fontName = "Courier-Bold"
+        textNode.fontSize = 18
+        textNode.fontColor = .white
+        textNode.position = CGPoint(x: slot.x, y: slot.y - 6)
+        textNode.horizontalAlignmentMode = .center
+        textNode.verticalAlignmentMode = .center
+
+        // Remove any previous sprite for this speaker
+        characterLayer.children.filter { $0.name == speaker.avatarID }.forEach { $0.removeFromParent() }
+
+        circle.name = speaker.avatarID
+        textNode.name = speaker.avatarID + "_label"
+
+        circle.alpha = 0
+        textNode.alpha = 0
+        circle.setScale(0.5)
+
+        characterLayer.addChild(circle)
+        characterLayer.addChild(textNode)
+
+        let appear = SKAction.group([
+            .fadeIn(withDuration: 0.2),
+            .scale(to: 1.0, duration: 0.2)
+        ])
+        appear.timingMode = .easeOut
+
+        circle.run(appear)
+        textNode.run(appear)
     }
 
     func transitionToPhase(_ phase: DebatePhase) {
