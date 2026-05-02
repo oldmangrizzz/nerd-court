@@ -15,3 +15,9 @@ build/
 # Session prompt drop
 SHIP_PROMPT.md
 node_modules/
+
+.env.local
+.venv-regress/
+build/
+.DS_Store
+scripts/regression/__pycache__/
