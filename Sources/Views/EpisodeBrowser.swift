@@ -34,8 +34,13 @@ struct EpisodeBrowser: View {
     private let convexClient: ConvexClient
 
     init(convexClient: ConvexClient? = nil) {
-        let url = ProcessInfo.processInfo.environment["CONVEX_DEPLOYMENT_URL"] ?? ""
-        self.convexClient = convexClient ?? ConvexClient(deploymentURL: url)
+        if let client = convexClient {
+            self.convexClient = client
+        } else if let url = ProcessInfo.processInfo.environment["CONVEX_DEPLOYMENT_URL"], !url.isEmpty {
+            self.convexClient = ConvexClient(deploymentURL: url)
+        } else {
+            self.convexClient = ConvexClient(deploymentURL: "")
+        }
     }
     private let columns = [GridItem(.adaptive(minimum: 160), spacing: 16)]
 
@@ -204,8 +209,11 @@ struct EpisodePlayerViewWrapper: View {
     init(episodeId: String, summary: EpisodeSummary) {
         self.episodeId = episodeId
         self.summary = summary
-        let url = ProcessInfo.processInfo.environment["CONVEX_DEPLOYMENT_URL"] ?? ""
-        self.convexClient = ConvexClient(deploymentURL: url)
+        if let url = ProcessInfo.processInfo.environment["CONVEX_DEPLOYMENT_URL"], !url.isEmpty {
+            self.convexClient = ConvexClient(deploymentURL: url)
+        } else {
+            self.convexClient = ConvexClient(deploymentURL: "")
+        }
     }
     
     var body: some View {

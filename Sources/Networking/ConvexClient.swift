@@ -9,8 +9,7 @@ actor ConvexClient {
     ///   - deploymentURL: The Convex deployment URL (e.g. from environment config). Must not be empty.
     ///   - session: Optional URLSession for testing; defaults to a standard configuration.
     init(deploymentURL: String, session: URLSession? = nil) {
-        precondition(!deploymentURL.isEmpty, "Convex deployment URL must be provided via environment config — no hardcoded defaults.")
-        self.baseURL = deploymentURL + "/api"
+        self.baseURL = deploymentURL.isEmpty ? "" : deploymentURL + "/api"
         let config = URLSessionConfiguration.default
         config.timeoutIntervalForRequest = 30
         self.session = session ?? URLSession(configuration: config)
