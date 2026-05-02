@@ -26,7 +26,7 @@ targets:
       base:
         INFOPLIST_FILE: ""
         PRODUCT_BUNDLE_IDENTIFIER: com.grizzlymedicine.nerdcourt
-        DEVELOPMENT_TEAM: $(JARVIS_DEV_TEAM)
+        DEVELOPMENT_TEAM: T5AFHQ4L9C
         CODE_SIGN_STYLE: Automatic
         MARKETING_VERSION: "1.0"
         CURRENT_PROJECT_VERSION: "1"
