@@ -2,6 +2,7 @@ import SpriteKit
 
 final class CourtroomScene: SKScene {
     let cinematicEngine = CinematicEngine()
+    lazy var finisherAnimator = FinisherAnimator(cinematicEngine: cinematicEngine)
     // Default cinematic frame for SpriteKit overlay
     private var cinematicFrame: CinematicFrame = CinematicFrame(
         cameraAngle: .mediumShot,

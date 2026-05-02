@@ -1,6 +1,5 @@
 import Foundation
 import RealityKit
-import NerdCourt // For CameraAngle and CinematicFrame
 
 /// Dynamic camera controller for Phase 2 3D courtroom scenes.
 /// Manages a RealityKit camera entity and applies cinematic framing

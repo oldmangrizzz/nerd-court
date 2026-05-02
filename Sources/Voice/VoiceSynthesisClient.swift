@@ -7,6 +7,7 @@ import Foundation
     func synthesize(speaker: Speaker, text: String) async -> URL
     @MainActor func preloadVoices()
     @MainActor func playSting(_ sting: CourtroomSting)
+    @MainActor func playSync(url: URL, speaker: Speaker) async
 }
 
 

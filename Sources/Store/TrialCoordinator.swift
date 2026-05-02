@@ -18,7 +18,6 @@ import SwiftUI
 
         voiceClient.preloadVoices()
 
-        // Real canon research from embedded database
         let research = CanonDatabase.research(plaintiff: grievance.plaintiff,
                                                defendant: grievance.defendant,
                                                grievance: grievance.grievanceText)
@@ -33,42 +32,87 @@ import SwiftUI
             }
         }
 
-        // Build episode incrementally with live UI updates
+        let debateEngine = DebateEngine(ollamaClient: OllamaMaxClient())
         var episode = Episode(id: UUID().uuidString, grievanceId: grievance.id)
-        episode.transcript = []
+        do {
+            episode = try await debateEngine.runDebate(grievance: grievance, research: research, guests: guests)
+        } catch {
+            episode = fallbackEpisode(grievance: grievance, research: research, guests: guests)
+        }
 
+        saveEpisode(episode)
+
+        for (index, turn) in episode.transcript.enumerated() {
+            let phase = phaseForTurn(turn)
+            appState.currentDebatePhase = phase
+
+            scene.showCharacter(turn.speaker)
+
+            var runningEpisode = Episode(id: episode.id, grievanceId: episode.grievanceId)
+            runningEpisode.transcript = Array(episode.transcript.prefix(index + 1))
+            runningEpisode.verdict = episode.verdict
+            appState.activeEpisode = runningEpisode
+
+            if let frame = turn.cinematicFrame {
+                scene.updateCinematicFrame(frame)
+                let sting = stingFromString(frame.sting)
+                voiceClient.playSting(sting)
+            } else {
+                voiceClient.playSting(phase.sting)
+            }
+
+            let audioURL = await voiceClient.synthesize(speaker: turn.speaker, text: turn.text)
+            await voiceClient.playSync(url: audioURL, speaker: turn.speaker)
+
+            try? await Task.sleep(nanoseconds: 500_000_000)
+        }
+
+        appState.currentDebatePhase = .complete
+        appState.activeEpisode = episode
+
+        if let finisher = episode.verdict?.finisher {
+            await scene.finisherAnimator.execute(finisher, winner: grievance.plaintiff, loser: grievance.defendant, on: scene)
+        }
+    }
+
+    private func fallbackEpisode(grievance: Grievance, research: CanonResearchResult, guests: [GuestCharacter]) -> Episode {
+        var episode = Episode(id: UUID().uuidString, grievanceId: grievance.id)
         let phases: [DebatePhase] = [.openingStatement, .witnessTestimony, .crossExamination,
                                       .evidencePresentation, .objections, .closingArguments,
                                       .juryDeliberation, .verdictAnnouncement, .finisherExecution,
                                       .postTrialCommentary, .deadpoolWrapUp]
-
         for phase in phases {
-            appState.currentDebatePhase = phase
-            scene.transitionToPhase(phase)
-            voiceClient.playSting(phase.sting)
-
             let turns = ScriptedDialogueEngine.dialogueForPhase(phase, grievance: grievance, research: research, guests: guests)
-            for turn in turns {
-                episode.transcript.append(turn)
-                appState.activeEpisode = episode
-                scene.showCharacter(turn.speaker)
-                // Each turn gets half-second render time on device
-                try? await Task.sleep(nanoseconds: 600_000_000)
-            }
+            episode.transcript.append(contentsOf: turns)
         }
+        episode.verdict = ScriptedDialogueEngine.judgeVerdict(plaintiff: grievance.plaintiff,
+                                                               defendant: grievance.defendant,
+                                                               grievance: grievance.grievanceText,
+                                                               plaintiffEvidence: research.plaintiffEvidence,
+                                                               defendantEvidence: research.defendantEvidence)
+        return episode
+    }
 
-        // Final verdict
-        let verdict = ScriptedDialogueEngine.judgeVerdict(plaintiff: grievance.plaintiff,
-                                                           defendant: grievance.defendant,
-                                                           grievance: grievance.grievanceText,
-                                                           plaintiffEvidence: research.plaintiffEvidence,
-                                                           defendantEvidence: research.defendantEvidence)
-        episode.verdict = verdict
-        appState.activeEpisode = episode
+    private func phaseForTurn(_ turn: SpeechTurn) -> DebatePhase {
+        switch turn.phase {
+        case "opening_statement": return .openingStatement
+        case "witness_testimony": return .witnessTestimony
+        case "cross_examination": return .crossExamination
+        case "closing_arguments": return .closingArguments
+        case "verdict_announcement": return .verdictAnnouncement
+        case "deadpool_wrap": return .deadpoolWrapUp
+        case "finisher_execution": return .finisherExecution
+        case "post_trial_commentary": return .postTrialCommentary
+        default: return .complete
+        }
+    }
 
-        saveEpisode(episode)
-        appState.currentDebatePhase = .complete
-        voiceClient.playSting(.dramaticReveal)
+    private func stingFromString(_ value: String) -> CourtroomSting {
+        switch value {
+        case "verdictDrumroll": return .verdictDrumroll
+        case "finisherImpact": return .finisherImpact
+        default: return .phaseTransition
+        }
     }
 
     private func saveEpisode(_ episode: Episode) {

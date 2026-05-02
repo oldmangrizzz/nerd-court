@@ -34,4 +34,23 @@ public enum DebatePhase: String, Codable, Equatable, Sendable {
         case .complete: return nil
         }
     }
+
+    public var displayName: String {
+        switch self {
+        case .intake: return "Intake"
+        case .canonResearch: return "Canon Research"
+        case .openingStatement: return "Opening Statement"
+        case .witnessTestimony: return "Witness Testimony"
+        case .crossExamination: return "Cross Examination"
+        case .evidencePresentation: return "Evidence"
+        case .objections: return "Objections"
+        case .closingArguments: return "Closing Arguments"
+        case .juryDeliberation: return "Jury Deliberation"
+        case .verdictAnnouncement: return "Verdict"
+        case .finisherExecution: return "Finisher"
+        case .postTrialCommentary: return "Commentary"
+        case .deadpoolWrapUp: return "Deadpool Wrap"
+        case .complete: return "Complete"
+        }
+    }
 }

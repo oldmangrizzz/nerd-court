@@ -482,25 +482,6 @@ struct SpriteKitView: UIViewRepresentable {
 // MARK: - Extensions for UI support
 
 extension DebatePhase {
-    var displayName: String {
-        switch self {
-        case .intake: "Intake"
-        case .canonResearch: "Canon Research"
-        case .openingStatement: "Opening Statement"
-        case .witnessTestimony: "Witness Testimony"
-        case .crossExamination: "Cross Examination"
-        case .evidencePresentation: "Evidence"
-        case .objections: "Objections"
-        case .closingArguments: "Closing Arguments"
-        case .juryDeliberation: "Jury Deliberation"
-        case .verdictAnnouncement: "Verdict"
-        case .finisherExecution: "Finisher"
-        case .postTrialCommentary: "Commentary"
-        case .deadpoolWrapUp: "Deadpool Wrap"
-        case .complete: "Complete"
-        }
-    }
-
     var progressFraction: Double {
         switch self {
         case .intake: 0.0
