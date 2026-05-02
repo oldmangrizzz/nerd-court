@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
     <key>method</key>
-    <string>app-store</string>
+    <string>app-store-connect</string>
     <key>teamID</key>
     <string>JARVIS_DEV_TEAM</string>
     <key>uploadBitcode</key>
@@ -12,5 +12,11 @@
     <true/>
     <key>stripSwiftSymbols</key>
     <true/>
+    <key>manageAppVersionAndBuildNumber</key>
+    <false/>
+    <key>testFlightInternalTestingOnly</key>
+    <false/>
+    <key>destination</key>
+    <string>export</string>
 </dict>
 </plist>

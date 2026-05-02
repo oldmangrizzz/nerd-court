@@ -9,6 +9,12 @@ EXPORT_OPTIONS="./build/ExportOptions.plist"
 
 echo "[BUILD] Archiving Nerd Court for TestFlight..."
 
+# Resolve app-specific password from keychain if not already in env
+if [[ -z "${APPLE_APP_SPECIFIC_PASSWORD:-}" ]]; then
+    APPLE_APP_SPECIFIC_PASSWORD=$(security find-generic-password -a "$USER" -s "NerdCourt" -w 2>/dev/null || true)
+    export APPLE_APP_SPECIFIC_PASSWORD
+fi
+
 xcodebuild archive \
     -project "$PROJECT" \
     -scheme "$SCHEME" \

@@ -49,6 +49,13 @@ struct CourtroomView: View {
                 await trialCoordinator.startTrial(scene: skScene, grievance: grievance)
             }
         }
+        .onChange(of: appState.activeGrievance) { _, newGrievance in
+            if let newGrievance, let skScene = scene {
+                Task {
+                    await trialCoordinator.startTrial(scene: skScene, grievance: newGrievance)
+                }
+            }
+        }
     }
 
     // MARK: - Top Bar

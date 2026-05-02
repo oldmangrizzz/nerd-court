@@ -6,13 +6,10 @@ struct NerdCourtApp: App {
     private let coordinator: TrialCoordinator
 
     init() {
-        let deltaHost = AppConfig.deltaHost
-        let dispatchClient = DeltaDispatchClient(deltaHost: deltaHost)
         let rotationClient = OllamaMaxClient()
         let convexClient = ConvexClient(deploymentURL: AppConfig.convexDeploymentURL)
-        // Pass dispatchClient directly - TrialCoordinator will create GuestCharacterGenerator internally
         self.coordinator = TrialCoordinator(
-            ollamaClient: dispatchClient,
+            ollamaClient: rotationClient,
             convexClient: convexClient,
             debateEngine: DebateEngine(ollamaClient: rotationClient),
             researchEngine: CanonResearchEngine(),
@@ -22,15 +19,18 @@ struct NerdCourtApp: App {
 
     var body: some Scene {
         WindowGroup {
-            TabView {
+            TabView(selection: $appState.selectedTab) {
                 IntakeScreen()
                     .tabItem { Label("File", systemImage: "hammer.fill") }
+                    .tag(0)
 
                 CourtroomView(trialCoordinator: coordinator)
                     .tabItem { Label("Courtroom", systemImage: "building.columns.fill") }
+                    .tag(1)
 
                 EpisodeBrowserView()
                     .tabItem { Label("Episodes", systemImage: "tv.fill") }
+                    .tag(2)
             }
             .environment(appState)
         }

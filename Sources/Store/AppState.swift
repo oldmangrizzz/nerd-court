@@ -11,6 +11,7 @@ import Observation
     var currentDebatePhase: DebatePhase = .intake
     var guests: [GuestCharacter] = []
     var courtScene: CGRect = .zero
+    var selectedTab: Int = 0
 
     var decidedEpisodes: [Episode] {
         episodes.filter { $0.verdict != nil }

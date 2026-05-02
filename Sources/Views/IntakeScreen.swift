@@ -137,6 +137,9 @@ struct IntakeScreen: View {
         )
         appState.activeGrievance = grievance
         appState.currentDebatePhase = .canonResearch
+        // Dismiss keyboard and switch to Courtroom tab so the trial is visible
+        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+        appState.selectedTab = 1
         isSubmitting = false
     }
 }
