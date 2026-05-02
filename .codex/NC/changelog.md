@@ -29,3 +29,11 @@
   - Swift regression suite (`Tests/NerdCourtTests/`): EpisodeModel, FinisherAnimator, LocalVoiceProfile, CharacterPortraitNode. Compiles + builds clean.
 - **Verified:** Python suite green against `https://nerd-court-tts-219679773601.us-central1.run.app` and `https://fastidious-wolverine-481.convex.cloud`. Build #9 live on TestFlight.
 - **Deferred:** iOS XCTest runtime execution. Reproducible host-resource hang on this MacBook Air M2 8GB — `xcodebuild test` stalls at 0% CPU after `CopySwiftLibs`, before testmanagerd handoff. Documented as environmental in `open_questions.md` and `runbook.md`. Production gate is the live-backend Python suite + the shipped TestFlight build, both green.
+
+## 2026-05-02 — Build #10 (post-deadline doubledown, "the daughter's demo deserves real voice")
+- Cloud Run TTS service updated: `X-API-Key` middleware (`infra/f5tts/server.py`).
+- Re-deployed `nerd-court-tts` revision `00002-8d8` with `--allow-unauthenticated` + env var `NERDCOURT_API_KEY`.
+- VoiceSynthesisClient: new `apiKey` parameter; reads from `F5TTSApiKey` Info.plist; sends `X-API-Key` header.
+- project.yml: `CURRENT_PROJECT_VERSION` 9 → 10; `F5TTSEndpoint` set to live URL; `F5TTSApiKey` added.
+- Archive + export + altool upload SUCCEEDED. Delivery UUID `5c9a8015-8a6c-4a93-abe8-f38759201848`.
+- Pre-upload verification: anonymous request returned 401; authenticated request returned 200 audio/wav (92 204 bytes, 22050 Hz, valid PCM, 3.5 s round-trip).

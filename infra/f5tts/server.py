@@ -25,10 +25,25 @@ import wave
 from pathlib import Path
 from typing import Dict
 
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, Header, HTTPException
 from fastapi.responses import Response
 from piper import PiperVoice
 from pydantic import BaseModel
+
+API_KEY = os.environ.get("NERDCOURT_API_KEY", "")
+
+
+def require_api_key(x_api_key: str | None) -> None:
+    """Reject requests missing or mismatching the shared secret.
+
+    When NERDCOURT_API_KEY is empty (local dev), auth is skipped. In Cloud
+    Run the env var is set via deploy and must match the iOS bundle's
+    F5TTSApiKey Info.plist value.
+    """
+    if not API_KEY:
+        return
+    if not x_api_key or x_api_key != API_KEY:
+        raise HTTPException(status_code=401, detail="invalid api key")
 
 VOICES_DIR = Path(os.environ.get("PIPER_VOICES", "/app/voices"))
 
@@ -72,7 +87,8 @@ def warm_voices() -> None:
 
 
 @app.get("/")
-def root() -> dict:
+def root(x_api_key: str | None = Header(default=None, alias="X-API-Key")) -> dict:
+    require_api_key(x_api_key)
     return {"service": "nerd-court-tts", "voices": list(VOICE_MAP.keys())}
 
 
@@ -82,7 +98,11 @@ def healthz() -> dict:
 
 
 @app.post("/v1/synthesize")
-def synthesize(req: SynthesizeRequest) -> Response:
+def synthesize(
+    req: SynthesizeRequest,
+    x_api_key: str | None = Header(default=None, alias="X-API-Key"),
+) -> Response:
+    require_api_key(x_api_key)
     if not req.text.strip():
         raise HTTPException(status_code=400, detail="text must be non-empty")
     model_name = VOICE_MAP.get(req.voice_id, VOICE_MAP["guest"])

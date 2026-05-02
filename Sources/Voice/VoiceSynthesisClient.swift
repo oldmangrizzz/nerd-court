@@ -28,6 +28,10 @@ final class VoiceSynthesisClient: NSObject, VoiceSynthesisServiceProtocol, AVSpe
     /// so the trial always has audio.
     private let synthesisEndpoint: URL?
 
+    /// Shared-secret API key sent as `X-API-Key`. Read from `F5TTSApiKey`
+    /// Info.plist value (set via xcconfig at build time).
+    private let apiKey: String?
+
     /// Sentinel URLs returned by `synthesize` when remote TTS is unavailable.
     /// `play` recognizes these and dispatches to `AVSpeechSynthesizer` instead
     /// of attempting file playback.
@@ -40,7 +44,7 @@ final class VoiceSynthesisClient: NSObject, VoiceSynthesisServiceProtocol, AVSpe
 
     // MARK: - Init
 
-    init(synthesisEndpoint: URL? = nil, session: URLSession? = nil) {
+    init(synthesisEndpoint: URL? = nil, apiKey: String? = nil, session: URLSession? = nil) {
         // Resolve endpoint: explicit > Info.plist `F5TTSEndpoint` > nil (local fallback).
         if let synthesisEndpoint {
             self.synthesisEndpoint = synthesisEndpoint
@@ -51,6 +55,15 @@ final class VoiceSynthesisClient: NSObject, VoiceSynthesisServiceProtocol, AVSpe
             self.synthesisEndpoint = url
         } else {
             self.synthesisEndpoint = nil
+        }
+
+        if let apiKey, !apiKey.isEmpty {
+            self.apiKey = apiKey
+        } else if let configured = Bundle.main.object(forInfoDictionaryKey: "F5TTSApiKey") as? String,
+                  !configured.isEmpty {
+            self.apiKey = configured
+        } else {
+            self.apiKey = nil
         }
 
         let config = URLSessionConfiguration.default
@@ -114,6 +127,9 @@ final class VoiceSynthesisClient: NSObject, VoiceSynthesisServiceProtocol, AVSpe
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.setValue("audio/wav, application/json", forHTTPHeaderField: "Accept")
+        if let apiKey {
+            request.setValue(apiKey, forHTTPHeaderField: "X-API-Key")
+        }
         request.httpBody = jsonData
 
         do {
