@@ -14,7 +14,7 @@ import Foundation
 // MARK: - Voice Synthesis Client
 
 @MainActor
-final class VoiceSynthesisClient: VoiceSynthesisServiceProtocol {
+final class VoiceSynthesisClient: NSObject, VoiceSynthesisServiceProtocol, AVSpeechSynthesizerDelegate {
     private var voiceBank: [Speaker: CharacterVoiceID] = [:]
     private var audioCache: [String: URL] = [:]
     private let session: URLSession
@@ -22,17 +22,36 @@ final class VoiceSynthesisClient: VoiceSynthesisServiceProtocol {
     private var playerNodes: [AVAudioPlayerNode] = []
     private let maxConcurrentVoices = 3
 
-    /// Backend proxy endpoint for voice synthesis. Configurable via init for testing.
-    private let synthesisEndpoint: URL
+    /// Optional remote synthesis endpoint (e.g., F5-TTS Cloud Run). Read from
+    /// `F5TTSEndpoint` Info.plist key when nil. When unset or unreachable,
+    /// playback transparently falls back to on-device `AVSpeechSynthesizer`
+    /// so the trial always has audio.
+    private let synthesisEndpoint: URL?
+
+    /// Sentinel URLs returned by `synthesize` when remote TTS is unavailable.
+    /// `play` recognizes these and dispatches to `AVSpeechSynthesizer` instead
+    /// of attempting file playback.
+    private var pendingLocalSpeech: [URL: (Speaker, String)] = [:]
+
+    /// Single shared synthesizer; iOS handles utterance queueing.
+    private let speechSynthesizer = AVSpeechSynthesizer()
+    /// Per-utterance completion callbacks, keyed by `AVSpeechUtterance` identity.
+    private var speechContinuations: [ObjectIdentifier: CheckedContinuation<Void, Never>] = [:]
 
     // MARK: - Init
 
     init(synthesisEndpoint: URL? = nil, session: URLSession? = nil) {
-        // Default endpoint: local backend proxy that forwards to TTS provider.
-        // No secrets or provider URLs are embedded here — the backend proxy
-        // handles authentication and routing to the actual TTS service.
-        self.synthesisEndpoint = synthesisEndpoint
-            ?? URL(string: "/api/voice/synthesize", relativeTo: nil)!
+        // Resolve endpoint: explicit > Info.plist `F5TTSEndpoint` > nil (local fallback).
+        if let synthesisEndpoint {
+            self.synthesisEndpoint = synthesisEndpoint
+        } else if let configured = Bundle.main.object(forInfoDictionaryKey: "F5TTSEndpoint") as? String,
+                  !configured.isEmpty,
+                  let url = URL(string: configured),
+                  url.scheme != nil {
+            self.synthesisEndpoint = url
+        } else {
+            self.synthesisEndpoint = nil
+        }
 
         let config = URLSessionConfiguration.default
         config.timeoutIntervalForRequest = 30
@@ -40,6 +59,8 @@ final class VoiceSynthesisClient: VoiceSynthesisServiceProtocol {
         config.waitsForConnectivity = true
         self.session = session ?? URLSession(configuration: config)
         self.engine = AVAudioEngine()
+        super.init()
+        speechSynthesizer.delegate = self
         setupAudioSession()
     }
 
@@ -69,52 +90,83 @@ final class VoiceSynthesisClient: VoiceSynthesisServiceProtocol {
             return cached
         }
 
-        // Route through backend proxy — no bearer tokens or provider URLs in client code.
-        let url = await synthesizeViaProxy(voiceID: voiceID, text: text, cacheKey: cacheKey)
-        return url
+        // If a remote endpoint is configured, try it; otherwise go straight to local fallback.
+        if let endpoint = synthesisEndpoint {
+            if let remoteURL = await synthesizeViaProxy(endpoint: endpoint, voiceID: voiceID, text: text, cacheKey: cacheKey) {
+                return remoteURL
+            }
+        }
+        return registerLocalSpeech(speaker: speaker, text: text)
     }
 
-    private func synthesizeViaProxy(voiceID: CharacterVoiceID, text: String, cacheKey: String) async -> URL {
-        let fallbackURL = FileManager.default.temporaryDirectory
-            .appendingPathComponent("\(voiceID.rawValue)_\(UUID().uuidString).wav")
-
+    private func synthesizeViaProxy(endpoint: URL, voiceID: CharacterVoiceID, text: String, cacheKey: String) async -> URL? {
         let body: [String: Any] = [
             "voice_profile": voiceID.rawValue,
+            "voice_id": voiceID.rawValue,
             "text": text,
         ]
 
         guard let jsonData = try? JSONSerialization.data(withJSONObject: body) else {
-            return fallbackURL
+            return nil
         }
 
-        var request = URLRequest(url: synthesisEndpoint)
+        var request = URLRequest(url: endpoint)
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.setValue("audio/wav, application/json", forHTTPHeaderField: "Accept")
         request.httpBody = jsonData
 
         do {
             let (data, response) = try await session.data(for: request)
             guard let httpResponse = response as? HTTPURLResponse,
-                  httpResponse.statusCode == 200,
-                  let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
-                  let audioB64 = json["audio"] as? String ?? json["response"] as? String,
-                  let audioData = Data(base64Encoded: audioB64) else {
-                return fallbackURL
+                  httpResponse.statusCode == 200 else {
+                return nil
             }
 
+            // Two acceptable response shapes:
+            //   1. raw audio/wav body (F5-TTS server wraps inference in audio response)
+            //   2. JSON body { "audio": <base64 wav> } or { "response": <base64 wav> }
+            let audioData: Data
+            let contentType = httpResponse.value(forHTTPHeaderField: "Content-Type")?.lowercased() ?? ""
+            if contentType.contains("audio/") {
+                audioData = data
+            } else if let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
+                      let audioB64 = (json["audio"] as? String) ?? (json["response"] as? String),
+                      let decoded = Data(base64Encoded: audioB64) {
+                audioData = decoded
+            } else {
+                return nil
+            }
+
+            guard !audioData.isEmpty else { return nil }
             let outputURL = FileManager.default.temporaryDirectory
                 .appendingPathComponent("\(voiceID.rawValue)_\(UUID().uuidString).wav")
             try audioData.write(to: outputURL)
             audioCache[cacheKey] = outputURL
             return outputURL
         } catch {
-            return fallbackURL
+            return nil
         }
+    }
+
+    /// Registers a sentinel URL whose later playback will be served by
+    /// `AVSpeechSynthesizer` rather than the audio engine. The URL is unique
+    /// per call so the cache map can dispatch correctly.
+    private func registerLocalSpeech(speaker: Speaker, text: String) -> URL {
+        let url = URL(fileURLWithPath: "/dev/null/local-speech-\(UUID().uuidString)")
+        pendingLocalSpeech[url] = (speaker, text)
+        return url
     }
 
     // MARK: - Playback
 
     func play(url: URL, speaker: Speaker, completion: @escaping @Sendable () -> Void = {}) {
+        // If the URL is a sentinel for local TTS, dispatch through AVSpeechSynthesizer.
+        if let pending = pendingLocalSpeech.removeValue(forKey: url) {
+            speakLocally(speaker: pending.0, text: pending.1, completion: completion)
+            return
+        }
+
         guard FileManager.default.fileExists(atPath: url.path) else {
             completion()
             return
@@ -159,6 +211,63 @@ final class VoiceSynthesisClient: VoiceSynthesisServiceProtocol {
                 continuation.resume()
             }
         }
+    }
+
+    // MARK: - Local Speech (AVSpeechSynthesizer)
+
+    /// Speaks `text` through `AVSpeechSynthesizer` using a per-character voice profile.
+    /// Used as a fallback when remote F5-TTS is unavailable, ensuring the trial always
+    /// produces audible speech.
+    private func speakLocally(speaker: Speaker, text: String, completion: @escaping @Sendable () -> Void) {
+        let utterance = AVSpeechUtterance(string: text)
+        let profile = LocalVoiceProfile.profile(for: speaker)
+        utterance.voice = profile.preferredVoice()
+        utterance.rate = profile.rate
+        utterance.pitchMultiplier = profile.pitch
+        utterance.volume = 1.0
+        utterance.preUtteranceDelay = 0
+        utterance.postUtteranceDelay = 0.05
+
+        // Wrap @escaping Sendable completion in a continuation keyed by utterance identity.
+        let key = ObjectIdentifier(utterance)
+        // AVSpeechSynthesizer.speak triggers delegate callbacks asynchronously.
+        // Bridge into a continuation we can resume from the delegate methods.
+        let continuationBox = ContinuationBox(completion: completion)
+        speechCompletions[key] = continuationBox
+
+        speechSynthesizer.speak(utterance)
+    }
+
+    /// Continuation storage for in-flight utterances. `ContinuationBox` lets us
+    /// store `@Sendable` callbacks in a non-Sendable dictionary on the main actor.
+    private var speechCompletions: [ObjectIdentifier: ContinuationBox] = [:]
+
+    private final class ContinuationBox {
+        let completion: @Sendable () -> Void
+        init(completion: @escaping @Sendable () -> Void) {
+            self.completion = completion
+        }
+    }
+
+    nonisolated func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer,
+                                       didFinish utterance: AVSpeechUtterance) {
+        let key = ObjectIdentifier(utterance)
+        Task { @MainActor [weak self] in
+            self?.completeSpeech(key: key)
+        }
+    }
+
+    nonisolated func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer,
+                                       didCancel utterance: AVSpeechUtterance) {
+        let key = ObjectIdentifier(utterance)
+        Task { @MainActor [weak self] in
+            self?.completeSpeech(key: key)
+        }
+    }
+
+    private func completeSpeech(key: ObjectIdentifier) {
+        guard let box = speechCompletions.removeValue(forKey: key) else { return }
+        box.completion()
     }
 
     // MARK: - Sound Design

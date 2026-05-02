@@ -1,8 +1,12 @@
 import SpriteKit
+@preconcurrency import AVFoundation
 
 @MainActor
 final class FinisherAnimator {
     let cinematicEngine: CinematicEngine
+    /// One AVAudioPlayer per finisher SFX, kept alive for the duration of playback.
+    /// Pruned when each finisher returns.
+    private var activeSFXPlayers: [AVAudioPlayer] = []
 
     init(cinematicEngine: CinematicEngine) {
         self.cinematicEngine = cinematicEngine
@@ -28,6 +32,31 @@ final class FinisherAnimator {
         // Post-finisher cleanup
         cinematicEngine.triggerEffect(.glitch, duration: 0.5)
         cinematicEngine.triggerEffect(.impactFlash, duration: 0.3)
+        // Drop SFX players once their audio has fully drained.
+        activeSFXPlayers.removeAll { !$0.isPlaying }
+    }
+
+    // MARK: - SFX
+
+    /// Loads and plays a short impact/whoosh from the bundle's SFX folder.
+    /// Players are retained until idle so the audio session has time to render
+    /// the wav fully on slower simulators.
+    @discardableResult
+    private func playSFX(_ name: String, volume: Float = 1.0) -> AVAudioPlayer? {
+        guard let url = Bundle.main.url(forResource: name, withExtension: "wav")
+                ?? Bundle.main.url(forResource: name, withExtension: "wav", subdirectory: "SFX") else {
+            return nil
+        }
+        do {
+            let player = try AVAudioPlayer(contentsOf: url)
+            player.volume = volume
+            player.prepareToPlay()
+            player.play()
+            activeSFXPlayers.append(player)
+            return player
+        } catch {
+            return nil
+        }
     }
 
     // MARK: - Crowbar Beatdown
@@ -35,6 +64,7 @@ final class FinisherAnimator {
     private func crowbarBeatdown(attacker: String, victim: String, on scene: SKScene) async {
         cinematicEngine.triggerEffect(.speedLines, duration: 2.0, intensity: 1.0)
         cinematicEngine.triggerEffect(.chromaticAberration, duration: 1.5)
+        playSFX("crowbar_impact")
 
         // Impact particles
         spawnImpactParticles(at: CGPoint(x: scene.size.width * 0.55, y: scene.size.height * 0.45),
@@ -82,6 +112,7 @@ final class FinisherAnimator {
     private func lazarusPitDunking(victim: String, on scene: SKScene) async {
         cinematicEngine.triggerEffect(.colorShift, duration: 2.0)
         cinematicEngine.triggerEffect(.dramaticZoom, duration: 1.5, intensity: 0.6)
+        playSFX("splash")
 
         // Glowing pit
         let pit = SKShapeNode(ellipseOf: CGSize(width: scene.size.width * 0.8, height: 60))
@@ -123,6 +154,7 @@ final class FinisherAnimator {
 
     private func deadpoolShooting(target: String, on scene: SKScene) async {
         cinematicEngine.triggerEffect(.speedLines, duration: 1.5, intensity: 0.8)
+        playSFX("gunshot_x4")
 
         for i in 0..<8 {
             let delay = Double(i) * 0.1
@@ -173,6 +205,7 @@ final class FinisherAnimator {
         cinematicEngine.triggerEffect(.halftone, duration: 1.5)
         cinematicEngine.triggerEffect(.colorShift, duration: 2.0)
         cinematicEngine.triggerEffect(.chromaticAberration, duration: 1.0)
+        playSFX("morph_whoosh")
 
         // Morph distortion particles
         for _ in 0..<3 {
@@ -192,6 +225,7 @@ final class FinisherAnimator {
     private func gavelOfDoom(target: String, on scene: SKScene) async {
         cinematicEngine.triggerEffect(.cameraShake, duration: 1.0, intensity: 3.0)
         cinematicEngine.triggerEffect(.dramaticZoom, duration: 1.2, intensity: 0.8)
+        playSFX("gavel_slam")
 
         let gavel = SKShapeNode(rect: CGRect(x: 0, y: 0, width: 60, height: 40), cornerRadius: 3)
         gavel.fillColor = .brown

@@ -1,0 +1,12 @@
+{
+  "name": "nerd-court-convex",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "deploy": "convex deploy",
+    "dev": "convex dev"
+  },
+  "devDependencies": {
+    "convex": "^1.16.0"
+  }
+}

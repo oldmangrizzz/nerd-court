@@ -14,3 +14,4 @@ build/
 
 # Session prompt drop
 SHIP_PROMPT.md
+node_modules/
