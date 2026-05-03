@@ -18,74 +18,56 @@ import SwiftUI
 
         voiceClient.preloadVoices()
 
-        let research = CanonDatabase.research(plaintiff: grievance.plaintiff,
-                                               defendant: grievance.defendant,
-                                               grievance: grievance.grievanceText)
+        let workflow = TrialWorkflowFactory.build(
+            grievance: grievance,
+            scene: scene,
+            voiceClient: voiceClient,
+            guestGenerator: guestGenerator,
+            appState: appState
+        )
+        let (resultTask, events) = workflow.run(grievance)
 
-        var guests: [GuestCharacter] = []
-        if let plaintiffId = grievance.guestPlaintiffId, !plaintiffId.isEmpty {
-            let parts = plaintiffId.components(separatedBy: "|")
-            if parts.count >= 3,
-               let guest = try? await guestGenerator.generate(
-                    name: parts[0], universe: parts[1], role: parts[2]) {
-                guests.append(guest)
+        // Drain the event stream into a structured trace for debugging /
+        // future replay. Fire-and-forget; the workflow drives playback.
+        Task { @MainActor in
+            for await event in events {
+                Self.log(event: event)
             }
         }
 
-        let llmClient: (any LLMClient)? = {
-            do {
-                return try OllamaCloudClient(apiKey: AppConfig.ollamaCloudApiKey)
-            } catch {
-                // Missing key or other init failure: stay alive, run scripted fallback.
-                return nil
-            }
-        }()
-        var episode = Episode(id: UUID().uuidString, grievanceId: grievance.id)
-        if let llmClient {
-            let debateEngine = DebateEngine(ollamaClient: llmClient)
-            do {
-                episode = try await debateEngine.runDebate(grievance: grievance, research: research, guests: guests)
-            } catch {
-                episode = fallbackEpisode(grievance: grievance, research: research, guests: guests)
-            }
-        } else {
-            episode = fallbackEpisode(grievance: grievance, research: research, guests: guests)
+        do {
+            _ = try await resultTask.value
+        } catch {
+            // Workflow runner already emitted the failure event. Nothing more
+            // to do — the playback node was the last user-visible stage and
+            // either ran a real or fallback episode.
+            #if DEBUG
+            print("[TrialCoordinator] workflow failed: \(error.localizedDescription)")
+            #endif
         }
+    }
 
-        saveEpisode(episode)
-
-        for (index, turn) in episode.transcript.enumerated() {
-            let phase = phaseForTurn(turn)
-            appState.currentDebatePhase = phase
-
-            scene.showCharacter(turn.speaker)
-            scene.showSpeechBubble(text: turn.text, for: turn.speaker)
-
-            var runningEpisode = Episode(id: episode.id, grievanceId: episode.grievanceId)
-            runningEpisode.transcript = Array(episode.transcript.prefix(index + 1))
-            runningEpisode.verdict = episode.verdict
-            appState.activeEpisode = runningEpisode
-
-            if let frame = turn.cinematicFrame {
-                scene.updateCinematicFrame(frame)
-                let sting = stingFromString(frame.sting)
-                voiceClient.playSting(sting)
-            } else {
-                voiceClient.playSting(phase.sting)
-            }
-
-            let audioURL = await voiceClient.synthesize(speaker: turn.speaker, text: turn.text)
-            await voiceClient.playSync(url: audioURL, speaker: turn.speaker)
-
-            try? await Task.sleep(nanoseconds: 500_000_000)
+    private static func log(event: WorkflowEvent) {
+        #if DEBUG
+        switch event {
+        case .workflowStarted(let n):
+            print("[trial] ▶︎ \(n)")
+        case .nodeStarted(let n):
+            print("[trial]  · start  \(n)")
+        case .nodeCompleted(let n, let ms):
+            print("[trial]  ✓ \(n) (\(ms)ms)")
+        case .nodeRetry(let n, let attempt, let err):
+            print("[trial]  ↻ retry \(n) #\(attempt) — \(err)")
+        case .nodeFallback(let n, let err):
+            print("[trial]  ⤵︎ fallback \(n) — \(err)")
+        case .workflowCompleted(let n, let ms):
+            print("[trial] ✓ \(n) total \(ms)ms")
+        case .workflowFailed(let n, let node, let err):
+            print("[trial] ✗ \(n) at \(node) — \(err)")
+        case .workflowCancelled(let n):
+            print("[trial] ⦸ \(n) cancelled")
         }
-
-        appState.currentDebatePhase = .complete
-        appState.activeEpisode = episode
-
-        if let finisher = episode.verdict?.finisher {
-            await scene.finisherAnimator.execute(finisher, winner: grievance.plaintiff, loser: grievance.defendant, on: scene)
-        }
+        #endif
     }
 
     private func fallbackEpisode(grievance: Grievance, research: CanonResearchResult, guests: [GuestCharacter]) -> Episode {
