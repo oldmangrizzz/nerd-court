@@ -45,25 +45,25 @@ final class VoiceSynthesisClient: NSObject, VoiceSynthesisServiceProtocol, AVSpe
     // MARK: - Init
 
     init(synthesisEndpoint: URL? = nil, apiKey: String? = nil, session: URLSession? = nil) {
-        // Resolve endpoint: explicit > Info.plist `F5TTSEndpoint` > nil (local fallback).
+        // Resolve endpoint: explicit > AppConfig (RuntimeConfig.plist > env > Info.plist) > nil.
         if let synthesisEndpoint {
             self.synthesisEndpoint = synthesisEndpoint
-        } else if let configured = Bundle.main.object(forInfoDictionaryKey: "F5TTSEndpoint") as? String,
-                  !configured.isEmpty,
-                  let url = URL(string: configured),
-                  url.scheme != nil {
-            self.synthesisEndpoint = url
         } else {
-            self.synthesisEndpoint = nil
+            let configured = AppConfig.f5ttsEndpoint
+            if !configured.isEmpty,
+               let url = URL(string: configured),
+               url.scheme != nil {
+                self.synthesisEndpoint = url
+            } else {
+                self.synthesisEndpoint = nil
+            }
         }
 
         if let apiKey, !apiKey.isEmpty {
             self.apiKey = apiKey
-        } else if let configured = Bundle.main.object(forInfoDictionaryKey: "F5TTSApiKey") as? String,
-                  !configured.isEmpty {
-            self.apiKey = configured
         } else {
-            self.apiKey = nil
+            let configured = AppConfig.f5ttsApiKey
+            self.apiKey = configured.isEmpty ? nil : configured
         }
 
         let config = URLSessionConfiguration.default

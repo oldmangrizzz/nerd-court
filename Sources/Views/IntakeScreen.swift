@@ -6,6 +6,8 @@ struct IntakeScreen: View {
     @State private var grievanceText = ""
     @State private var selectedFranchise: Franchise? = .dc
     @State private var isSubmitting = false
+    @State private var rateLimitMessage: String?
+    private let rateLimiter = SubmissionRateLimiter()
     @Environment(AppState.self) private var appState: AppState
 
     var body: some View {
@@ -27,6 +29,15 @@ struct IntakeScreen: View {
                 .padding(.horizontal, 24)
 
                 submitButton
+
+                if let rateLimitMessage {
+                    Text(rateLimitMessage)
+                        .font(.system(size: 12, weight: .semibold, design: .monospaced))
+                        .foregroundColor(.orange)
+                        .multilineTextAlignment(.center)
+                        .padding(.horizontal, 24)
+                        .accessibilityIdentifier("rateLimitMessage")
+                }
                 
                 Button {
                     appState.activeGrievance = Grievance(
@@ -149,6 +160,13 @@ struct IntakeScreen: View {
             isSubmitting = false
             return
         }
+        let decision = rateLimiter.consume()
+        guard decision.allowed else {
+            rateLimitMessage = decision.humanReason
+            isSubmitting = false
+            return
+        }
+        rateLimitMessage = nil
         let grievance = Grievance(
             id: UUID().uuidString,
             plaintiff: safePlaintiff,

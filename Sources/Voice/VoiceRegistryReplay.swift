@@ -68,12 +68,12 @@ final class VoiceRegistryReplay: @unchecked Sendable {
     /// Convenience: read endpoint + key from Info.plist exactly the way
     /// `VoiceSynthesisClient` does. Returns nil if either is missing.
     static func fromInfoPlist(session: URLSession = .shared) -> VoiceRegistryReplay? {
-        guard let raw = Bundle.main.object(forInfoDictionaryKey: "F5TTSEndpoint") as? String,
-              !raw.isEmpty,
+        let raw = AppConfig.f5ttsEndpoint
+        guard !raw.isEmpty,
               let url = URL(string: raw),
               url.scheme != nil else { return nil }
-        let key = Bundle.main.object(forInfoDictionaryKey: "F5TTSApiKey") as? String
-        return VoiceRegistryReplay(endpoint: url, apiKey: key, session: session)
+        let key = AppConfig.f5ttsApiKey
+        return VoiceRegistryReplay(endpoint: url, apiKey: key.isEmpty ? nil : key, session: session)
     }
 
     /// Bring the server registry up to spec. Safe to call concurrently.

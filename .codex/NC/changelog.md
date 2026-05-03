@@ -67,3 +67,37 @@
 - project.yml: CURRENT_PROJECT_VERSION 12→13
 - Combined sanitiser+replay test run: 14/14 PASS on iPhone 17 Simulator
 - altool UPLOAD SUCCEEDED, ASC VALID, attached to Internal Testers group
+
+## 2026-05-02 22:38 CT — Build #14 (crash fix + hardening)
+
+**Root cause of #13 crash:** `INFOPLIST_KEY_<custom>` build settings are silently
+ignored by Xcode unless the key is in Apple's allowlist. `OllamaApiKey`,
+`F5TTSEndpoint`, `F5TTSApiKey` were never written into the generated Info.plist.
+`AppConfig.ollamaCloudApiKey` returned `""`, the precondition in
+`OllamaCloudClient.init` tripped → `EXC_BREAKPOINT` on every first trial.
+
+**Fix:**
+- NEW `Resources/RuntimeConfig.plist` (gitignored) — real bundle resource
+  holding all API keys / endpoints. Verified shipped in `.app` bundle.
+- NEW `Resources/RuntimeConfig.example.plist` (committed) — schema reference.
+- `.gitignore`: added `Resources/RuntimeConfig.plist`.
+- `Sources/Utils/AppConfig.swift` — `[String:String]` cache reads
+  RuntimeConfig.plist; resolution order env → RuntimeConfig → Info.plist.
+- `Sources/Networking/OllamaCloudClient.swift` — init now `throws
+  OllamaCloudError.missingAPIKey` instead of preconditioning.
+- `Sources/Store/TrialCoordinator.swift` — wraps init in do/catch; when LLM
+  client unavailable, runs ScriptedDialogue fallback so the app never crashes.
+- `Sources/Voice/VoiceSynthesisClient.swift` + `VoiceRegistryReplay.swift` —
+  read F5-TTS config through `AppConfig`.
+- `project.yml` — removed three custom INFOPLIST_KEY_* entries (silent no-ops).
+
+**New hardening (folded in same build):**
+- NEW `Sources/Security/LLMResponseSanitizer.swift` — strips leaked
+  SECURITY CONTRACT, role markers, URLs, code fences from LLM output;
+  caps 800 chars at sentence boundary. Wired into OllamaCloudClient.dispatch.
+- NEW `Sources/Security/SubmissionRateLimiter.swift` — UserDefaults-backed
+  30s cooldown + 20-per-24h-window cap; persists across launches.
+- IntakeScreen: rate limiter consume on submit, user-visible message.
+
+Tests: 27/27 green on iPhone 17 Simulator.
+altool UPLOAD SUCCEEDED, ASC VALID, attached to Internal Testers group.

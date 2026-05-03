@@ -18,8 +18,15 @@ final class VoiceRegistryReplayTests: XCTestCase {
         }
     }
 
-    func testFromInfoPlistReturnsNilWhenEndpointMissing() {
-        // No F5TTSEndpoint in the test bundle's Info.plist.
-        XCTAssertNil(VoiceRegistryReplay.fromInfoPlist())
+    func testFromInfoPlistResolvesWhenEndpointConfigured() {
+        // RuntimeConfig.plist is shipped as a bundle resource for both app and
+        // test targets; if the value is present, the helper must return a real
+        // replay instance, otherwise nil.
+        let result = VoiceRegistryReplay.fromInfoPlist()
+        if AppConfig.f5ttsEndpoint.isEmpty {
+            XCTAssertNil(result)
+        } else {
+            XCTAssertNotNil(result)
+        }
     }
 }

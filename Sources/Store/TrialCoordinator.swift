@@ -32,12 +32,23 @@ import SwiftUI
             }
         }
 
-        let llmClient: any LLMClient = OllamaCloudClient(apiKey: AppConfig.ollamaCloudApiKey)
-        let debateEngine = DebateEngine(ollamaClient: llmClient)
+        let llmClient: (any LLMClient)? = {
+            do {
+                return try OllamaCloudClient(apiKey: AppConfig.ollamaCloudApiKey)
+            } catch {
+                // Missing key or other init failure: stay alive, run scripted fallback.
+                return nil
+            }
+        }()
         var episode = Episode(id: UUID().uuidString, grievanceId: grievance.id)
-        do {
-            episode = try await debateEngine.runDebate(grievance: grievance, research: research, guests: guests)
-        } catch {
+        if let llmClient {
+            let debateEngine = DebateEngine(ollamaClient: llmClient)
+            do {
+                episode = try await debateEngine.runDebate(grievance: grievance, research: research, guests: guests)
+            } catch {
+                episode = fallbackEpisode(grievance: grievance, research: research, guests: guests)
+            }
+        } else {
             episode = fallbackEpisode(grievance: grievance, research: research, guests: guests)
         }
 

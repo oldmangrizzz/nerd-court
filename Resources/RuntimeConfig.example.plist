@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>OllamaApiKey</key>
+    <string>REPLACE_WITH_OLLAMA_CLOUD_API_KEY</string>
+    <key>F5TTSEndpoint</key>
+    <string>https://nerd-court-tts-219679773601.us-east4.run.app</string>
+    <key>F5TTSApiKey</key>
+    <string>REPLACE_WITH_F5TTS_API_KEY</string>
+    <key>ConvexDeploymentURL</key>
+    <string>https://notable-kookabura-259.convex.cloud</string>
+</dict>
+</plist>

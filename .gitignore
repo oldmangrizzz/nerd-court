@@ -21,3 +21,6 @@ node_modules/
 build/
 .DS_Store
 scripts/regression/__pycache__/
+
+# Runtime config — contains API keys, never commit
+Resources/RuntimeConfig.plist

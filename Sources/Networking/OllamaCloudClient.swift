@@ -56,9 +56,11 @@ final class OllamaCloudClient: @unchecked Sendable, LLMClient {
 
     init(apiKey: String,
          modelPool: [String] = OllamaCloudClient.defaultModelPool,
-         session: URLSession = .shared) {
-        precondition(!apiKey.isEmpty, "OllamaCloudClient: apiKey must not be empty")
-        precondition(!modelPool.isEmpty, "OllamaCloudClient: modelPool must not be empty")
+         session: URLSession = .shared) throws {
+        guard !apiKey.isEmpty else { throw OllamaCloudError.missingAPIKey }
+        guard !modelPool.isEmpty else {
+            throw OllamaCloudError.serverError(statusCode: 0, body: "modelPool empty")
+        }
         self.apiKey = apiKey
         self.modelPool = modelPool
         self.session = session
@@ -144,6 +146,11 @@ final class OllamaCloudClient: @unchecked Sendable, LLMClient {
 
         let text = decoded.message.content.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !text.isEmpty else { throw OllamaCloudError.emptyResponse }
-        return text
+        // Defence in depth on the response side: strip prompt-leak markers,
+        // role tokens, URLs, and cap length so a pathological response cannot
+        // blow the TTS budget or exfiltrate the SECURITY CONTRACT.
+        let sanitized = LLMResponseSanitizer.sanitize(text)
+        guard !sanitized.isEmpty else { throw OllamaCloudError.emptyResponse }
+        return sanitized
     }
 }
