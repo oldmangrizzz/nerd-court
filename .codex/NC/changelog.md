@@ -111,3 +111,20 @@ altool UPLOAD SUCCEEDED, ASC VALID, attached to Internal Testers group.
 - DebateNode falls back to ScriptedDialogueEngine if LLM key missing or call fails — guarantees non-empty Episode.
 - 5 new PipelineEngineTests green; 27/27 hardening + regression suites still green.
 - Uploaded as build 15 (Delivery 649d1810-e07b-42bc-a214-59f7ad7f5a0e), processed VALID, attached to "Nerd Court Internal Testers".
+
+## 2026-05-03 — Build #16 — authentic voices + react-to-evidence personas
+- Persona system prompts in Sources/Models/StaffCharacters.swift rewritten
+  to strict structure (Identity → VOICE → INVIOLABLE RULES → TASK).
+  Each persona is told to react to the case file rather than invent facts.
+- F5-TTS reference voices re-sampled server-side (no Swift change required;
+  voice_ids unchanged): jason_todd (Jensen Ackles, Under the Red Hood 2010),
+  matt_murdock (Charlie Cox courtroom monologue), jerry_springer (Final
+  Thought monologue), deadpool_nph (NPH, Dr Horrible video blog).
+  Re-registration tooling added: scripts/register_voices.py.
+- Sources/Voice/VoiceSynthesisClient.swift: URLSession timeouts bumped to
+  180s/240s to absorb Cloud Run cold-start; preloadVoices now warms /healthz
+  so the first courtroom turn lands on real F5-TTS audio rather than
+  silence-fallback.
+- Uploaded as build 16 (Delivery f66c583e-9a8b-4d78-a0b5-2ef1e1317745),
+  ASC processingState NONE → VALID in ~2 min, attached to
+  "Nerd Court Internal Testers" (HTTP 204).
