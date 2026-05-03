@@ -10,6 +10,14 @@ struct NerdCourtApp: App {
             voiceClient: VoiceSynthesisClient(),
             guestGenerator: GuestCharacterGenerator()
         )
+        // Self-heal F5-TTS voice registry on cold-started Cloud Run instances.
+        // Fire-and-forget: synthesis falls back to local TTS if this races,
+        // but on the next trial the staff voices are already there.
+        if let replay = VoiceRegistryReplay.fromInfoPlist() {
+            Task.detached(priority: .utility) {
+                _ = await replay.ensureStaffVoicesRegistered()
+            }
+        }
     }
 
     var body: some Scene {

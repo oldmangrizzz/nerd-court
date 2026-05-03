@@ -54,3 +54,16 @@
 - NEW Tests/NerdCourtTests/InputSanitizerTests.swift — 11/11 PASS
 - project.yml: CURRENT_PROJECT_VERSION 11→12
 - altool UPLOAD SUCCEEDED, ASC VALID, attached to Internal Testers group
+
+## 2026-05-02 22:18 CT — Build #13 (cold-start self-heal)
+
+- NEW Sources/Voice/VoiceRegistryReplay.swift
+  - Async actor that GETs F5-TTS root catalogue and POSTs /v1/voices/register
+    for any of the 4 staff voices missing from a cold-started Cloud Run instance
+  - Manifest = same yt-search sources the regression suite proves work
+  - Fails open: if endpoint unreachable, app keeps using AVSpeechSynthesizer fallback
+- NerdCourtApp.init fires Task.detached(priority: .utility) to run replay on launch
+- NEW Tests/NerdCourtTests/VoiceRegistryReplayTests.swift (3 tests, all green)
+- project.yml: CURRENT_PROJECT_VERSION 12→13
+- Combined sanitiser+replay test run: 14/14 PASS on iPhone 17 Simulator
+- altool UPLOAD SUCCEEDED, ASC VALID, attached to Internal Testers group
