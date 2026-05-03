@@ -67,8 +67,11 @@ final class VoiceSynthesisClient: NSObject, VoiceSynthesisServiceProtocol, AVSpe
         }
 
         let config = URLSessionConfiguration.default
-        config.timeoutIntervalForRequest = 30
-        config.timeoutIntervalForResource = 60
+        // Cloud Run cold-start for F5-TTS can take 60-90s on the first call
+        // after scale-to-zero. Larger budgets keep the first courtroom turn
+        // on real synthesized audio instead of falling back to AVSpeech.
+        config.timeoutIntervalForRequest = 180
+        config.timeoutIntervalForResource = 240
         config.waitsForConnectivity = true
         self.session = session ?? URLSession(configuration: config)
         self.engine = AVAudioEngine()
@@ -91,6 +94,19 @@ final class VoiceSynthesisClient: NSObject, VoiceSynthesisServiceProtocol, AVSpe
         voiceBank[.mattMurdock] = .mattMurdock
         voiceBank[.judgeJerry] = .judgeJerry
         voiceBank[.deadpool] = .deadpoolNPH
+
+        // Wake the Cloud Run instance so the first real turn is fast.
+        // Fire-and-forget; failure is silently ignored, real synthesis path
+        // will still attempt the call when needed.
+        if let endpoint = synthesisEndpoint {
+            Task.detached(priority: .utility) { [session, apiKey] in
+                let url = endpoint.appendingPathComponent("healthz")
+                var req = URLRequest(url: url)
+                if let apiKey { req.setValue(apiKey, forHTTPHeaderField: "X-API-Key") }
+                req.timeoutInterval = 60
+                _ = try? await session.data(for: req)
+            }
+        }
     }
 
     // MARK: - Synthesis
@@ -168,6 +184,9 @@ final class VoiceSynthesisClient: NSObject, VoiceSynthesisServiceProtocol, AVSpe
             audioCache[cacheKey] = outputURL
             return outputURL
         } catch {
+            #if DEBUG
+            print("[VoiceSynthesis] remote F5-TTS failed for \(voiceID.rawValue): \(error.localizedDescription)")
+            #endif
             return nil
         }
     }
