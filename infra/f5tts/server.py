@@ -1,126 +1,214 @@
-"""Nerd Court TTS service.
+"""Nerd Court F5-TTS service (GPU).
 
-Wraps four piper-tts voices behind a /v1/synthesize endpoint compatible with the
-shape Sources/Voice/VoiceSynthesisClient.swift expects: POST JSON with
-{"text": str, "voice_id": str} returning audio/wav bytes.
+Implements the blueprint contract:
+- F5-TTS zero-shot inference: any registered voice_id can synthesize any text.
+- Voices are provisioned at runtime via POST /v1/voices/register {voice_id,
+  youtube_url, clip_start_sec, clip_end_sec, ref_text, display_name}. The
+  server delegates the YouTube/IA/SoundCloud → 24 kHz mono WAV materialization
+  to the off-GCP yt-clipper microservice (Hostinger), because YouTube hard-
+  blocks GCP egress IP ranges. F5-TTS-on-GPU stays on Cloud Run.
+- Unlimited voice count. NO hardcoded staff registry.
 
-voice_id maps:
-  jason_todd     -> en_US-ryan-high (gravel, intense)
-  matt_murdock   -> en_US-lessac-medium (measured, lawyerly)
-  jerry_springer -> en_US-joe-medium (TV host energy)
-  deadpool_nph   -> en_US-hfc_male-medium (theatrical)
-
-All voices are CC0 piper-voices from rhasspy/piper-voices on HuggingFace.
-
-This is the "open-source TTS deployed on Cloud Run" surface required by the
-build #10 contract. F5-TTS itself requires GPU + multi-GB checkpoint and is
-not viable on serverless CPU; piper produces real neural TTS on CPU in <2s
-per utterance and ships character-distinct voices.
+Auth: shared-secret X-API-Key header (env NERDCOURT_API_KEY).
 """
 from __future__ import annotations
 
-import io
+import json
 import os
-import wave
+import threading
+import urllib.error
+import urllib.request
 from pathlib import Path
-from typing import Dict
+from tempfile import NamedTemporaryFile
+from typing import Optional
 
 from fastapi import FastAPI, Header, HTTPException
 from fastapi.responses import Response
-from piper import PiperVoice
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 API_KEY = os.environ.get("NERDCOURT_API_KEY", "")
+YT_CLIPPER_URL = os.environ.get("YT_CLIPPER_URL", "https://yt.grizzlymedicine.icu")
+YT_CLIPPER_KEY = os.environ.get("YT_CLIPPER_KEY", API_KEY)
+REF_DIR = Path(os.environ.get("NC_REF_DIR", "/tmp/nc_refs"))
+REF_DIR.mkdir(parents=True, exist_ok=True)
+
+# Lazy-loaded F5-TTS instance + lock — model is ~1.5 GB, load once.
+_f5_lock = threading.Lock()
+_f5_infer_lock = threading.Lock()
+_f5_instance = None  # type: ignore[var-annotated]
+_voice_meta: dict[str, dict] = {}
+_meta_lock = threading.Lock()
 
 
-def require_api_key(x_api_key: str | None) -> None:
-    """Reject requests missing or mismatching the shared secret.
-
-    When NERDCOURT_API_KEY is empty (local dev), auth is skipped. In Cloud
-    Run the env var is set via deploy and must match the iOS bundle's
-    F5TTSApiKey Info.plist value.
-    """
+def require_api_key(x_api_key: Optional[str]) -> None:
     if not API_KEY:
         return
     if not x_api_key or x_api_key != API_KEY:
         raise HTTPException(status_code=401, detail="invalid api key")
 
-VOICES_DIR = Path(os.environ.get("PIPER_VOICES", "/app/voices"))
 
-VOICE_MAP: Dict[str, str] = {
-    "jason_todd": "en_US-ryan-high",
-    "matt_murdock": "en_US-lessac-medium",
-    "jerry_springer": "en_US-joe-medium",
-    "deadpool_nph": "en_US-hfc_male-medium",
-    "guest": "en_US-lessac-medium",
-}
-
-LOADED: Dict[str, PiperVoice] = {}
+def get_f5tts():
+    global _f5_instance
+    if _f5_instance is None:
+        with _f5_lock:
+            if _f5_instance is None:
+                from f5_tts.api import F5TTS
+                _f5_instance = F5TTS(model="F5TTS_v1_Base")
+    return _f5_instance
 
 
-def load_voice(model_name: str) -> PiperVoice:
-    if model_name in LOADED:
-        return LOADED[model_name]
-    onnx_path = VOICES_DIR / f"{model_name}.onnx"
-    if not onnx_path.exists():
-        raise FileNotFoundError(f"voice model missing: {onnx_path}")
-    voice = PiperVoice.load(str(onnx_path))
-    LOADED[model_name] = voice
-    return voice
+def _materialize_ref_clip(
+    source: str, start_sec: float, end_sec: float, dst_path: Path
+) -> None:
+    """Call yt-clipper microservice to fetch+trim the reference clip."""
+    body = json.dumps({
+        "source": source, "start_sec": start_sec, "end_sec": end_sec,
+    }).encode()
+    req = urllib.request.Request(
+        f"{YT_CLIPPER_URL}/v1/clip",
+        data=body,
+        method="POST",
+        headers={
+            "Content-Type": "application/json",
+            "X-API-Key": YT_CLIPPER_KEY,
+            "User-Agent": "NerdCourt-F5TTS/2.0",
+        },
+    )
+    try:
+        with urllib.request.urlopen(req, timeout=240) as resp:
+            audio = resp.read()
+    except urllib.error.HTTPError as exc:
+        body = exc.read().decode("utf-8", errors="replace")[:400]
+        raise HTTPException(status_code=502, detail=f"yt-clipper {exc.code}: {body}")
+    except Exception as exc:
+        raise HTTPException(status_code=502, detail=f"yt-clipper request failed: {exc}")
+    if not audio.startswith(b"RIFF"):
+        raise HTTPException(status_code=502, detail="yt-clipper returned non-WAV payload")
+    dst_path.write_bytes(audio)
+
+
+def _register_voice(voice_id: str, youtube_url: str, clip_start_sec: float,
+                    clip_end_sec: float, ref_text: str, display_name: str = "") -> dict:
+    ref_path = REF_DIR / f"{voice_id}.ref.wav"
+    _materialize_ref_clip(youtube_url, clip_start_sec, clip_end_sec, ref_path)
+    meta = {
+        "voice_id": voice_id,
+        "display_name": display_name or voice_id,
+        "youtube_url": youtube_url,
+        "clip_start_sec": clip_start_sec,
+        "clip_end_sec": clip_end_sec,
+        "ref_text": ref_text,
+        "ref_path": str(ref_path),
+    }
+    with _meta_lock:
+        _voice_meta[voice_id] = meta
+    return meta
+
+
+# ---------------------------------------------------------------------------
+# FastAPI surface
+# ---------------------------------------------------------------------------
+
+class RegisterRequest(BaseModel):
+    voice_id: str
+    youtube_url: str  # accepts URL or ytsearch1:/iasearch5:/scsearch1: directive
+    clip_start_sec: float = 0.0
+    clip_end_sec: float = 5.0
+    ref_text: str = ""
+    display_name: str = ""
 
 
 class SynthesizeRequest(BaseModel):
+    voice_id: str
     text: str
-    voice_id: str = "jason_todd"
+    nfe_step: int = Field(default=32, ge=8, le=64)
+    speed: float = Field(default=1.0, gt=0.3, lt=2.5)
 
 
-app = FastAPI(title="Nerd Court TTS", version="1.0.0")
-
-
-@app.on_event("startup")
-def warm_voices() -> None:
-    for model_name in set(VOICE_MAP.values()):
-        try:
-            load_voice(model_name)
-        except FileNotFoundError as exc:
-            print(f"WARN: {exc}")
+app = FastAPI(title="Nerd Court F5-TTS", version="2.1.0")
 
 
 @app.get("/")
-def root(x_api_key: str | None = Header(default=None, alias="X-API-Key")) -> dict:
+def root(x_api_key: Optional[str] = Header(default=None, alias="X-API-Key")) -> dict:
     require_api_key(x_api_key)
-    return {"service": "nerd-court-tts", "voices": list(VOICE_MAP.keys())}
+    with _meta_lock:
+        return {
+            "service": "nerd-court-f5tts",
+            "model": "F5TTS_v1_Base",
+            "voices": [
+                {"voice_id": v["voice_id"], "display_name": v["display_name"]}
+                for v in _voice_meta.values()
+            ],
+        }
 
 
 @app.get("/healthz")
 def healthz() -> dict:
-    return {"status": "ok", "loaded": list(LOADED.keys())}
+    with _meta_lock:
+        return {"status": "ok", "voice_count": len(_voice_meta)}
+
+
+@app.post("/v1/voices/register")
+def register_voice(
+    req: RegisterRequest,
+    x_api_key: Optional[str] = Header(default=None, alias="X-API-Key"),
+) -> dict:
+    require_api_key(x_api_key)
+    if not req.voice_id.replace("_", "").replace("-", "").isalnum():
+        raise HTTPException(status_code=400, detail="voice_id must be alphanumeric/underscore/dash")
+    meta = _register_voice(
+        voice_id=req.voice_id,
+        youtube_url=req.youtube_url,
+        clip_start_sec=req.clip_start_sec,
+        clip_end_sec=req.clip_end_sec,
+        ref_text=req.ref_text,
+        display_name=req.display_name,
+    )
+    return {"status": "registered", "voice_id": meta["voice_id"]}
 
 
 @app.post("/v1/synthesize")
 def synthesize(
     req: SynthesizeRequest,
-    x_api_key: str | None = Header(default=None, alias="X-API-Key"),
+    x_api_key: Optional[str] = Header(default=None, alias="X-API-Key"),
 ) -> Response:
     require_api_key(x_api_key)
-    if not req.text.strip():
+    text = req.text.strip()
+    if not text:
         raise HTTPException(status_code=400, detail="text must be non-empty")
-    model_name = VOICE_MAP.get(req.voice_id, VOICE_MAP["guest"])
-    try:
-        voice = load_voice(model_name)
-    except FileNotFoundError as exc:
-        raise HTTPException(status_code=503, detail=str(exc))
 
-    buffer = io.BytesIO()
-    with wave.open(buffer, "wb") as wav:
-        voice.synthesize(req.text, wav)
-    audio_bytes = buffer.getvalue()
+    with _meta_lock:
+        meta = _voice_meta.get(req.voice_id)
+    if meta is None:
+        raise HTTPException(
+            status_code=404,
+            detail=f"voice_id '{req.voice_id}' not registered — POST /v1/voices/register first",
+        )
+
+    f5 = get_f5tts()
+    with NamedTemporaryFile(suffix=".wav", delete=False) as out:
+        out_path = Path(out.name)
+    try:
+        with _f5_infer_lock:
+            f5.infer(
+                ref_file=meta["ref_path"],
+                ref_text=meta.get("ref_text", ""),
+                gen_text=text,
+                nfe_step=req.nfe_step,
+                speed=req.speed,
+                file_wave=str(out_path),
+                seed=None,
+            )
+        audio_bytes = out_path.read_bytes()
+    finally:
+        out_path.unlink(missing_ok=True)
+
     return Response(
         content=audio_bytes,
         media_type="audio/wav",
         headers={
             "X-Voice-Id": req.voice_id,
-            "X-Model": model_name,
+            "X-Model": "F5TTS_v1_Base",
             "Content-Length": str(len(audio_bytes)),
         },
     )

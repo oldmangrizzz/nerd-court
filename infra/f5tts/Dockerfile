@@ -1,34 +1,32 @@
-FROM python:3.11-slim
+FROM nvidia/cuda:12.4.1-cudnn-runtime-ubuntu22.04
 
 ENV PYTHONUNBUFFERED=1 \
     PIP_NO_CACHE_DIR=1 \
-    PIPER_VOICES=/app/voices
+    DEBIAN_FRONTEND=noninteractive \
+    HF_HOME=/app/hf_cache \
+    HUGGINGFACE_HUB_CACHE=/app/hf_cache \
+    PORT=8080
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-        wget ca-certificates ffmpeg \
+        python3.11 python3.11-venv python3-pip \
+        ffmpeg ca-certificates curl git \
+    && ln -sf /usr/bin/python3.11 /usr/bin/python \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
-RUN pip install --no-cache-dir \
+RUN python -m pip install --upgrade pip
+RUN pip install torch==2.4.0 torchaudio==2.4.0 --index-url https://download.pytorch.org/whl/cu124
+RUN pip install \
+        f5-tts==1.1.7 \
         fastapi==0.115.0 \
         uvicorn[standard]==0.30.6 \
-        piper-tts==1.2.0 \
+        pydantic==2.9.2 \
+        soundfile==0.12.1 \
         numpy==1.26.4
-
-RUN mkdir -p ${PIPER_VOICES} && cd ${PIPER_VOICES} && \
-    wget -q https://huggingface.co/rhasspy/piper-voices/resolve/main/en/en_US/ryan/high/en_US-ryan-high.onnx && \
-    wget -q https://huggingface.co/rhasspy/piper-voices/resolve/main/en/en_US/ryan/high/en_US-ryan-high.onnx.json && \
-    wget -q https://huggingface.co/rhasspy/piper-voices/resolve/main/en/en_US/lessac/medium/en_US-lessac-medium.onnx && \
-    wget -q https://huggingface.co/rhasspy/piper-voices/resolve/main/en/en_US/lessac/medium/en_US-lessac-medium.onnx.json && \
-    wget -q https://huggingface.co/rhasspy/piper-voices/resolve/main/en/en_US/joe/medium/en_US-joe-medium.onnx && \
-    wget -q https://huggingface.co/rhasspy/piper-voices/resolve/main/en/en_US/joe/medium/en_US-joe-medium.onnx.json && \
-    wget -q https://huggingface.co/rhasspy/piper-voices/resolve/main/en/en_US/hfc_male/medium/en_US-hfc_male-medium.onnx && \
-    wget -q https://huggingface.co/rhasspy/piper-voices/resolve/main/en/en_US/hfc_male/medium/en_US-hfc_male-medium.onnx.json
 
 COPY server.py /app/server.py
 
-ENV PORT=8080
 EXPOSE 8080
 
-CMD ["uvicorn", "server:app", "--host", "0.0.0.0", "--port", "8080"]
+CMD ["uvicorn", "server:app", "--host", "0.0.0.0", "--port", "8080", "--workers", "1"]
