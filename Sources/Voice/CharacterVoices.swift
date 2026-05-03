@@ -1,10 +1,10 @@
 import Foundation
 
 enum CharacterVoiceID: String {
-    case jasonTodd = "jason_todd_red_hood_v1"
-    case mattMurdock = "matt_murdock_daredevil_v1"
-    case judgeJerry = "judge_jerry_springer_v1"
-    case deadpoolNPH = "deadpool_nph_v1"
+    case jasonTodd = "jason_todd"
+    case mattMurdock = "matt_murdock"
+    case judgeJerry = "jerry_springer"
+    case deadpoolNPH = "deadpool_nph"
 
     var sourceMaterial: String {
         switch self {

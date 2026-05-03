@@ -123,7 +123,14 @@ final class VoiceSynthesisClient: NSObject, VoiceSynthesisServiceProtocol, AVSpe
             return nil
         }
 
-        var request = URLRequest(url: endpoint)
+        // Endpoint may be the F5-TTS service base (e.g. https://host/) or already
+        // include `/v1/synthesize`. Normalize so we always POST to the synth path.
+        let postURL: URL = {
+            if endpoint.path.contains("/v1/synthesize") { return endpoint }
+            return endpoint.appendingPathComponent("v1/synthesize")
+        }()
+
+        var request = URLRequest(url: postURL)
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.setValue("audio/wav, application/json", forHTTPHeaderField: "Accept")

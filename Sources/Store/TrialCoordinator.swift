@@ -48,6 +48,7 @@ import SwiftUI
             appState.currentDebatePhase = phase
 
             scene.showCharacter(turn.speaker)
+            scene.showSpeechBubble(text: turn.text, for: turn.speaker)
 
             var runningEpisode = Episode(id: episode.id, grievanceId: episode.grievanceId)
             runningEpisode.transcript = Array(episode.transcript.prefix(index + 1))

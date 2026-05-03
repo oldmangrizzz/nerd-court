@@ -59,15 +59,27 @@ COLD_START_BUDGET_S = float(os.environ.get("TTS_COLD_START_BUDGET_S", "120.0"))
 
 CAST: List[dict] = [
     # Verified-passing reference clips. The full unbounded-cast claim is
-    # demonstrated by registering 5 voices (>4) across DC / Marvel /
-    # Doctor Who / Breaking Bad universes, plus the staff side. Additional
-    # voices come in via the per-trial backend research pipeline at run
-    # time; this suite proves the *contract* — not an exhaustive registry.
+    # demonstrated by registering 7 voices (>4) across DC / Marvel /
+    # Doctor Who / Breaking Bad / talk-show universes, plus the staff side.
+    # Additional voices come in via the per-trial backend research pipeline at
+    # run time; this suite proves the *contract* — not an exhaustive registry.
     {
         "voice_id": "jason_todd",
         "display_name": "Jason Todd",
         "source": "ytsearch1:Jason Todd Red Hood Arkham Knight angry monologue",
         "line": "Court is in session. I literally died and came back, you do not get to lecture me.",
+    },
+    {
+        "voice_id": "matt_murdock",
+        "display_name": "Matt Murdock",
+        "source": "ytsearch1:Charlie Cox Daredevil courtroom closing argument speech",
+        "line": "Your honor, the evidence speaks louder than the silence in this room.",
+    },
+    {
+        "voice_id": "jerry_springer",
+        "display_name": "Judge Jerry Springer",
+        "source": "ytsearch1:Jerry Springer final thought monologue speech",
+        "line": "Take care of yourselves and each other. Court is in session.",
     },
     {
         "voice_id": "deadpool_nph",
