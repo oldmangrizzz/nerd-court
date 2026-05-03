@@ -15,6 +15,8 @@ import type * as agents_mattMurdock from "../agents/mattMurdock.js";
 import type * as episodes from "../episodes.js";
 import type * as grievances from "../grievances.js";
 import type * as guestCharacters from "../guestCharacters.js";
+import type * as research from "../research.js";
+import type * as researchData from "../researchData.js";
 
 import type {
   ApiFromModules,
@@ -30,6 +32,8 @@ declare const fullApi: ApiFromModules<{
   episodes: typeof episodes;
   grievances: typeof grievances;
   guestCharacters: typeof guestCharacters;
+  research: typeof research;
+  researchData: typeof researchData;
 }>;
 
 /**

@@ -194,7 +194,7 @@ export const runFullResearch = action({
       .slice(0, 6);
 
     // Persist research (mutation runs inside the action)
-    await ctx.runMutation(api.research.saveResearch, {
+    await ctx.runMutation(api.researchData.saveResearch, {
       grievanceId,
       sources: allSources,
       keyFacts,

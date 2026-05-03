@@ -32,7 +32,7 @@ import SwiftUI
             }
         }
 
-        let llmClient: any LLMClient = DeltaDispatchClient(deltaHost: AppConfig.deltaHost)
+        let llmClient: any LLMClient = OllamaCloudClient(apiKey: AppConfig.ollamaCloudApiKey)
         let debateEngine = DebateEngine(ollamaClient: llmClient)
         var episode = Episode(id: UUID().uuidString, grievanceId: grievance.id)
         do {

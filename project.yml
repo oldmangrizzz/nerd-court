@@ -37,18 +37,14 @@ targets:
         INFOPLIST_KEY_CFBundleIconName: "AppIcon"
         INFOPLIST_KEY_UIRequiresFullScreen: YES
         INFOPLIST_KEY_ITSAppUsesNonExemptEncryption: NO
-        INFOPLIST_KEY_F5TTSEndpoint: "https://nerd-court-tts-219679773601.us-central1.run.app/v1/synthesize"
+        INFOPLIST_KEY_F5TTSEndpoint: "https://nerd-court-tts-219679773601.us-east4.run.app"
         INFOPLIST_KEY_F5TTSApiKey: "RudbPuGZGArfE9iEgqvzV-5Pah0vPNAE3mYYefX3hgQ"
+        INFOPLIST_KEY_OllamaApiKey: "0b77ab2c15bf4433bd0f945dba78a15c.vTyQD4XmUArXN9Y2r2hI6tFa"
         INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad:
           - UIInterfaceOrientationPortrait
           - UIInterfaceOrientationLandscapeLeft
           - UIInterfaceOrientationLandscapeRight
         INFOPLIST_KEY_NSAppTransportSecurity_NSAAllowsArbitraryLoads: NO
-        INFOPLIST_KEY_NSAppTransportSecurity_NSAExceptionDomains:
-          "delta.local":
-            NSIncludesSubdomains: YES
-            NSExceptionAllowsInsecureHTTPLoads: YES
-            NSExceptionMinimumTLSVersion: TLSv1.0
     preBuildScripts: []
     postBuildScripts: []
 

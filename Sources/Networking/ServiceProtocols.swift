@@ -27,24 +27,7 @@ protocol CanonResearchServiceProtocol: Sendable {
 
 // MARK: - LLMClient Conformance
 
-extension DeltaDispatchClient: LLMClient {
-    // Already conforms: func dispatch(systemPrompt: String, debateContext: String, turnHistory: [SpeechTurn]) async throws -> String
-}
-
-extension OllamaMaxClient: LLMClient {
-    func dispatch(systemPrompt: String, debateContext: String, turnHistory: [SpeechTurn]) async throws -> String {
-        let prompt = """
-        \(systemPrompt)
-
-        Context:
-        \(debateContext)
-
-        Previous turns:
-        \(turnHistory.map { "\($0.speaker.displayName): \($0.text)" }.joined(separator: "\n"))
-        """
-        return try await self.dispatch(prompt: prompt, tier: "T1")
-    }
-}
+// `OllamaCloudClient` declares `LLMClient` conformance directly (file-local).
 
 // MARK: - DebateEngineProtocol Conformance
 

@@ -57,8 +57,8 @@ final class CharacterPortraitNode: SKNode {
             buildJerrySpringer(into: bodyNode)
         case .deadpool:
             buildDeadpool(into: bodyNode)
-        case .guest(_, let name):
-            buildGuestSilhouette(into: bodyNode, initials: String(name.prefix(2)).uppercased())
+        case .guest(let id, let name):
+            buildGuestFace(into: bodyNode, seedKey: id + name, displayName: name)
         }
         addChild(bodyNode)
 
@@ -117,7 +117,7 @@ final class CharacterPortraitNode: SKNode {
 
 // MARK: - Palette
 
-private enum PortraitPalette {
+enum PortraitPalette {
     static func tint(for speaker: Speaker) -> SKColor {
         switch speaker {
         case .jasonTodd:   return SKColor(red: 0.86, green: 0.08, blue: 0.10, alpha: 1.0)  // Red Hood crimson
@@ -365,6 +365,244 @@ private extension CharacterPortraitNode {
         initialsLabel.horizontalAlignmentMode = .center
         initialsLabel.verticalAlignmentMode = .center
         parent.addChild(initialsLabel)
+    }
+
+    /// Procedural face per guest. Deterministic from seedKey so the same guest
+    /// renders the same face every time. Variation across guests so a courtroom
+    /// of plaintiff + defendant + witnesses doesn't look like clones.
+    func buildGuestFace(into parent: SKNode, seedKey: String, displayName: String) {
+        var rng = SeededGenerator(seed: stableHash(seedKey))
+
+        // Palette pools — skin, hair, eye, shirt.
+        let skinTones: [SKColor] = [
+            SKColor(red: 0.96, green: 0.85, blue: 0.74, alpha: 1.0),
+            SKColor(red: 0.90, green: 0.74, blue: 0.58, alpha: 1.0),
+            SKColor(red: 0.82, green: 0.62, blue: 0.46, alpha: 1.0),
+            SKColor(red: 0.62, green: 0.42, blue: 0.30, alpha: 1.0),
+            SKColor(red: 0.42, green: 0.27, blue: 0.18, alpha: 1.0),
+            SKColor(red: 0.30, green: 0.18, blue: 0.12, alpha: 1.0)
+        ]
+        let hairColors: [SKColor] = [
+            SKColor(red: 0.10, green: 0.08, blue: 0.06, alpha: 1.0), // black
+            SKColor(red: 0.30, green: 0.20, blue: 0.10, alpha: 1.0), // dark brown
+            SKColor(red: 0.55, green: 0.38, blue: 0.18, alpha: 1.0), // medium brown
+            SKColor(red: 0.80, green: 0.62, blue: 0.30, alpha: 1.0), // blonde
+            SKColor(red: 0.78, green: 0.32, blue: 0.18, alpha: 1.0), // red
+            SKColor(red: 0.85, green: 0.85, blue: 0.85, alpha: 1.0), // grey
+            SKColor(red: 0.45, green: 0.32, blue: 0.55, alpha: 1.0)  // dyed
+        ]
+        let eyeColors: [SKColor] = [
+            SKColor(red: 0.18, green: 0.32, blue: 0.55, alpha: 1.0),
+            SKColor(red: 0.35, green: 0.55, blue: 0.30, alpha: 1.0),
+            SKColor(red: 0.42, green: 0.28, blue: 0.18, alpha: 1.0),
+            SKColor(red: 0.20, green: 0.42, blue: 0.55, alpha: 1.0)
+        ]
+        let shirtColors: [SKColor] = [
+            SKColor(red: 0.78, green: 0.20, blue: 0.22, alpha: 1.0),
+            SKColor(red: 0.18, green: 0.32, blue: 0.62, alpha: 1.0),
+            SKColor(red: 0.22, green: 0.50, blue: 0.32, alpha: 1.0),
+            SKColor(red: 0.92, green: 0.78, blue: 0.20, alpha: 1.0),
+            SKColor(red: 0.30, green: 0.30, blue: 0.34, alpha: 1.0),
+            SKColor(red: 0.58, green: 0.32, blue: 0.62, alpha: 1.0)
+        ]
+
+        let skin = skinTones[rng.next(skinTones.count)]
+        let hair = hairColors[rng.next(hairColors.count)]
+        let eye  = eyeColors[rng.next(eyeColors.count)]
+        let shirt = shirtColors[rng.next(shirtColors.count)]
+
+        let hairStyle = rng.next(5) // 0=short, 1=long, 2=bald, 3=mohawk, 4=topknot
+        let hasGlasses = rng.next(3) == 0
+        let hasBeard   = rng.next(4) == 0
+        let hasEarring = rng.next(5) == 0
+
+        // Shoulders / shirt.
+        let shoulders = SKShapeNode(rect: CGRect(x: -36, y: -56, width: 72, height: 28), cornerRadius: 6)
+        shoulders.fillColor = shirt
+        shoulders.strokeColor = SKColor.black.withAlphaComponent(0.85)
+        shoulders.lineWidth = 2.0
+        parent.addChild(shoulders)
+
+        // Neck.
+        let neck = SKShapeNode(rect: CGRect(x: -8, y: -36, width: 16, height: 14), cornerRadius: 3)
+        neck.fillColor = skin
+        neck.strokeColor = SKColor.black.withAlphaComponent(0.7)
+        neck.lineWidth = 1.5
+        parent.addChild(neck)
+
+        // Head.
+        let head = SKShapeNode(ellipseOf: CGSize(width: 56, height: 66))
+        head.fillColor = skin
+        head.strokeColor = SKColor.black.withAlphaComponent(0.9)
+        head.lineWidth = 2.0
+        head.position = CGPoint(x: 0, y: 0)
+        parent.addChild(head)
+
+        // Hair.
+        switch hairStyle {
+        case 0: // short crop
+            let cap = SKShapeNode(path: archPath(width: 56, height: 30, yOffset: 10))
+            cap.fillColor = hair; cap.strokeColor = SKColor.black.withAlphaComponent(0.85); cap.lineWidth = 1.5
+            parent.addChild(cap)
+        case 1: // long flowing
+            let back = SKShapeNode(rect: CGRect(x: -32, y: -30, width: 64, height: 50), cornerRadius: 10)
+            back.fillColor = hair; back.strokeColor = SKColor.black.withAlphaComponent(0.7); back.lineWidth = 1.5
+            back.zPosition = -0.5
+            parent.addChild(back)
+            let cap = SKShapeNode(path: archPath(width: 58, height: 32, yOffset: 8))
+            cap.fillColor = hair; cap.strokeColor = SKColor.black.withAlphaComponent(0.85); cap.lineWidth = 1.5
+            parent.addChild(cap)
+        case 2: // bald
+            break
+        case 3: // mohawk
+            let strip = SKShapeNode(rect: CGRect(x: -5, y: 12, width: 10, height: 28), cornerRadius: 2)
+            strip.fillColor = hair; strip.strokeColor = SKColor.black; strip.lineWidth = 1.5
+            parent.addChild(strip)
+        default: // topknot
+            let bun = SKShapeNode(circleOfRadius: 9)
+            bun.fillColor = hair; bun.strokeColor = SKColor.black.withAlphaComponent(0.85); bun.lineWidth = 1.5
+            bun.position = CGPoint(x: 0, y: 32)
+            parent.addChild(bun)
+            let cap = SKShapeNode(path: archPath(width: 56, height: 22, yOffset: 14))
+            cap.fillColor = hair; cap.strokeColor = SKColor.black.withAlphaComponent(0.85); cap.lineWidth = 1.5
+            parent.addChild(cap)
+        }
+
+        // Eyes.
+        let eyeY: CGFloat = 4
+        for sign in [-1, 1] as [CGFloat] {
+            let sclera = SKShapeNode(ellipseOf: CGSize(width: 10, height: 6))
+            sclera.fillColor = .white
+            sclera.strokeColor = SKColor.black.withAlphaComponent(0.85)
+            sclera.lineWidth = 1.0
+            sclera.position = CGPoint(x: sign * 9, y: eyeY)
+            parent.addChild(sclera)
+
+            let pupil = SKShapeNode(circleOfRadius: 2.6)
+            pupil.fillColor = eye
+            pupil.strokeColor = .clear
+            pupil.position = CGPoint(x: sign * 9, y: eyeY)
+            parent.addChild(pupil)
+        }
+
+        // Brows.
+        for sign in [-1, 1] as [CGFloat] {
+            let brow = SKShapeNode(rect: CGRect(x: sign * 9 - 6, y: eyeY + 6, width: 12, height: 2), cornerRadius: 1)
+            brow.fillColor = hair
+            brow.strokeColor = .clear
+            parent.addChild(brow)
+        }
+
+        // Nose hint.
+        let nose = SKShapeNode(rect: CGRect(x: -1.5, y: -8, width: 3, height: 9), cornerRadius: 1.5)
+        nose.fillColor = skin.darker(by: 0.18)
+        nose.strokeColor = .clear
+        parent.addChild(nose)
+
+        // Mouth.
+        let mouth = SKShapeNode(rect: CGRect(x: -7, y: -18, width: 14, height: 2.5), cornerRadius: 1.2)
+        mouth.fillColor = SKColor(red: 0.50, green: 0.18, blue: 0.20, alpha: 1.0)
+        mouth.strokeColor = .clear
+        parent.addChild(mouth)
+
+        // Beard.
+        if hasBeard {
+            let beard = SKShapeNode(path: archPath(width: 48, height: 20, yOffset: -22, inverted: true))
+            beard.fillColor = hair
+            beard.strokeColor = SKColor.black.withAlphaComponent(0.7)
+            beard.lineWidth = 1.0
+            parent.addChild(beard)
+        }
+
+        // Glasses.
+        if hasGlasses {
+            for sign in [-1, 1] as [CGFloat] {
+                let lens = SKShapeNode(circleOfRadius: 7.5)
+                lens.fillColor = SKColor.black.withAlphaComponent(0.18)
+                lens.strokeColor = SKColor.black
+                lens.lineWidth = 1.5
+                lens.position = CGPoint(x: sign * 9, y: eyeY)
+                parent.addChild(lens)
+            }
+            let bridge = SKShapeNode(rect: CGRect(x: -3, y: eyeY - 0.5, width: 6, height: 1.5))
+            bridge.fillColor = SKColor.black
+            bridge.strokeColor = .clear
+            parent.addChild(bridge)
+        }
+
+        // Earring.
+        if hasEarring {
+            let stud = SKShapeNode(circleOfRadius: 1.8)
+            stud.fillColor = SKColor(red: 1.0, green: 0.84, blue: 0.20, alpha: 1.0)
+            stud.strokeColor = .clear
+            stud.position = CGPoint(x: -28, y: -10)
+            parent.addChild(stud)
+        }
+
+        // Initials badge on shirt — keeps a readable identity hint without dominating the face.
+        let initials = String(displayName.split(separator: " ").compactMap { $0.first }.prefix(2)).uppercased()
+        if !initials.isEmpty {
+            let badge = SKShapeNode(circleOfRadius: 8)
+            badge.fillColor = .white.withAlphaComponent(0.92)
+            badge.strokeColor = SKColor.black.withAlphaComponent(0.6)
+            badge.lineWidth = 1.0
+            badge.position = CGPoint(x: -22, y: -48)
+            parent.addChild(badge)
+
+            let initialsLabel = SKLabelNode(text: initials)
+            initialsLabel.fontName = "AvenirNext-Heavy"
+            initialsLabel.fontSize = 9
+            initialsLabel.fontColor = .black
+            initialsLabel.horizontalAlignmentMode = .center
+            initialsLabel.verticalAlignmentMode = .center
+            initialsLabel.position = CGPoint(x: -22, y: -48)
+            parent.addChild(initialsLabel)
+        }
+    }
+
+    private func archPath(width: CGFloat, height: CGFloat, yOffset: CGFloat, inverted: Bool = false) -> CGPath {
+        let path = UIBezierPath()
+        let rect = CGRect(x: -width / 2, y: yOffset - height / 2, width: width, height: height)
+        if inverted {
+            path.move(to: CGPoint(x: rect.minX, y: rect.maxY))
+            path.addQuadCurve(to: CGPoint(x: rect.maxX, y: rect.maxY),
+                              controlPoint: CGPoint(x: rect.midX, y: rect.minY - height * 0.4))
+            path.close()
+        } else {
+            path.move(to: CGPoint(x: rect.minX, y: rect.minY))
+            path.addQuadCurve(to: CGPoint(x: rect.maxX, y: rect.minY),
+                              controlPoint: CGPoint(x: rect.midX, y: rect.maxY + height * 0.4))
+            path.close()
+        }
+        return path.cgPath
+    }
+}
+
+/// Deterministic 32-bit hash so the same guest name always renders the same face.
+private func stableHash(_ s: String) -> UInt64 {
+    var h: UInt64 = 0xcbf29ce484222325
+    for byte in s.utf8 {
+        h ^= UInt64(byte)
+        h = h &* 0x100000001b3
+    }
+    return h
+}
+
+/// Tiny LCG seeded from a stable hash. Suitable for visual variation, not crypto.
+private struct SeededGenerator {
+    private var state: UInt64
+    init(seed: UInt64) { self.state = seed == 0 ? 0xdeadbeef : seed }
+    mutating func next(_ upperBound: Int) -> Int {
+        state = state &* 6364136223846793005 &+ 1442695040888963407
+        return Int((state >> 33) % UInt64(max(1, upperBound)))
+    }
+}
+
+private extension SKColor {
+    func darker(by amount: CGFloat) -> SKColor {
+        var r: CGFloat = 0, g: CGFloat = 0, b: CGFloat = 0, a: CGFloat = 0
+        getRed(&r, green: &g, blue: &b, alpha: &a)
+        return SKColor(red: max(0, r - amount), green: max(0, g - amount), blue: max(0, b - amount), alpha: a)
     }
 }
 

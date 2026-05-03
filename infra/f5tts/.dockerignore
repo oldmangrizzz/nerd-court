@@ -1,5 +1,6 @@
-# Skip noisy build context
-.git
-.DS_Store
-voices/*.tar.gz
-__pycache__
+voices/
+archetypes/
+*.wav
+*.mp3
+__pycache__/
+.venv/

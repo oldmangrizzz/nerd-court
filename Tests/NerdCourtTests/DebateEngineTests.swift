@@ -2,13 +2,20 @@ import XCTest
 import Foundation
 @testable import NerdCourt
 
+private final class StubLLMClient: LLMClient, @unchecked Sendable {
+    func dispatch(systemPrompt: String,
+                  debateContext: String,
+                  turnHistory: [SpeechTurn]) async throws -> String {
+        return "Stubbed argument for unit test."
+    }
+}
+
 final class DebateEngineTests: XCTestCase {
 
     var engine: DebateEngine!
 
     override func setUp() async throws {
-        let client = OllamaMaxClient()
-        engine = DebateEngine(ollamaClient: client)
+        engine = DebateEngine(ollamaClient: StubLLMClient())
     }
 
     override func tearDown() async throws {
