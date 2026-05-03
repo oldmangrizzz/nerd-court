@@ -101,3 +101,13 @@ ignored by Xcode unless the key is in Apple's allowlist. `OllamaApiKey`,
 
 Tests: 27/27 green on iPhone 17 Simulator.
 altool UPLOAD SUCCEEDED, ASC VALID, attached to Internal Testers group.
+
+## 2026-05-02 — Build #15 — n8n-style trial pipeline
+- Replaced TrialCoordinator inline loop with declarative Workflow graph (Sources/Pipeline/).
+- Nodes: ResearchNode → DebateNode → PersistenceNode → PlaybackNode → FinisherNode.
+- Each node has typed Input/Output, retry policy, and fallback hook.
+- Runner emits AsyncStream<WorkflowEvent> for UI/log subscription.
+- ResearchNode produces a CaseFile with per-persona briefs (argument ladder, counter-points, voice cues) so persona LLMs react in voice rather than reasoning the case from scratch.
+- DebateNode falls back to ScriptedDialogueEngine if LLM key missing or call fails — guarantees non-empty Episode.
+- 5 new PipelineEngineTests green; 27/27 hardening + regression suites still green.
+- Uploaded as build 15 (Delivery 649d1810-e07b-42bc-a214-59f7ad7f5a0e), processed VALID, attached to "Nerd Court Internal Testers".
