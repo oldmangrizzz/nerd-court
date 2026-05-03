@@ -37,3 +37,20 @@
 - project.yml: `CURRENT_PROJECT_VERSION` 9 → 10; `F5TTSEndpoint` set to live URL; `F5TTSApiKey` added.
 - Archive + export + altool upload SUCCEEDED. Delivery UUID `5c9a8015-8a6c-4a93-abe8-f38759201848`.
 - Pre-upload verification: anonymous request returned 401; authenticated request returned 200 audio/wav (92 204 bytes, 22050 Hz, valid PCM, 3.5 s round-trip).
+
+## 2026-05-02 21:53 CT — Build #12 (security hardening)
+
+- NEW Sources/Security/InputSanitizer.swift
+  - 10 hostile-input regex patterns: role markers, "ignore previous instructions",
+    DAN/jailbreak preludes, code fences, ${...} placeholders, ANSI escapes
+  - Strips control chars + zero-width + bidi-override scalars
+  - Hard length caps: party 80, grievance 600
+  - DoS guard: 4× pre-truncation before regex work
+- IntakeScreen now sanitises plaintiff/defendant/grievance at submit chokepoint
+  and blocks submit when sanitisation empties the field
+- OllamaCloudClient wraps debate context in <USER_DATA>...</USER_DATA> with a
+  SECURITY CONTRACT system block (defence-in-depth: even if sanitiser misses
+  something, the LLM is told to treat the block as untrusted data)
+- NEW Tests/NerdCourtTests/InputSanitizerTests.swift — 11/11 PASS
+- project.yml: CURRENT_PROJECT_VERSION 11→12
+- altool UPLOAD SUCCEEDED, ASC VALID, attached to Internal Testers group

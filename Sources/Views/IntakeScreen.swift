@@ -135,18 +135,25 @@ struct IntakeScreen: View {
     }
 
     private var isFormValid: Bool {
-        !plaintiff.trimmingCharacters(in: .whitespaces).isEmpty &&
-        !defendant.trimmingCharacters(in: .whitespaces).isEmpty &&
-        !grievanceText.trimmingCharacters(in: .whitespaces).isEmpty
+        !InputSanitizer.sanitize(plaintiff, field: .party).isEmpty &&
+        !InputSanitizer.sanitize(defendant, field: .party).isEmpty &&
+        !InputSanitizer.sanitize(grievanceText, field: .grievance).isEmpty
     }
 
     private func submitGrievance() {
         isSubmitting = true
+        let safePlaintiff = InputSanitizer.sanitize(plaintiff, field: .party)
+        let safeDefendant = InputSanitizer.sanitize(defendant, field: .party)
+        let safeGrievance = InputSanitizer.sanitize(grievanceText, field: .grievance)
+        guard !safePlaintiff.isEmpty, !safeDefendant.isEmpty, !safeGrievance.isEmpty else {
+            isSubmitting = false
+            return
+        }
         let grievance = Grievance(
             id: UUID().uuidString,
-            plaintiff: plaintiff.trimmingCharacters(in: .whitespaces),
-            defendant: defendant.trimmingCharacters(in: .whitespaces),
-            grievanceText: grievanceText.trimmingCharacters(in: .whitespaces),
+            plaintiff: safePlaintiff,
+            defendant: safeDefendant,
+            grievanceText: safeGrievance,
             franchise: selectedFranchise ?? .dc
         )
         appState.activeGrievance = grievance
