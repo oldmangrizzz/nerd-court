@@ -1,0 +1,73 @@
+flowchart TD
+  subgraph ORIGINAL["PINNED SOURCES — NONE MERGED"]
+    UE["UATU Genesis / Agent Zero"]
+    UF["Centrifuge prototype"]
+    GK["Grizzly Knights UATU compiler / scripts"]
+    NC["Nerd Court advanced Swift / Convex"]
+    LEG["Nerdscourt Canon Core precedents"]
+    EV["Nerdcourt deterministic scoring"]
+  end
+
+  subgraph INTAKE["UATU: NERD COURT CASTING EDITION — PROPOSED"]
+    I["Viewer grievance / named entities"]
+    CLS["Entity classifier: actor | character | portrayal"]
+    VR["Specific continuity / variant resolver"]
+    EVD["Canon source ledger: citations, uncertainty"]
+    GES["Gestalt archetype reference"]
+    PROF["Variant-exclusive psychological compiler"]
+    REL["Variant-scoped relationship graph"]
+    ECHO["Episode-bounded performance echo"]
+    CAST["Immutable CastManifest + voice and visual briefs"]
+    I --> CLS --> VR --> EVD
+    VR --> PROF
+    GES --> PROF
+    EVD --> PROF --> REL --> ECHO --> CAST
+  end
+
+  subgraph COURT["NERD COURT — PROPOSED"]
+    ARG["Prosecution/defense research briefs"]
+    SCRIPT["Character-faithful scene and debate runner"]
+    JUDGE["Evidence-backed verdict"]
+    FIN["Conditional dramatic finisher"]
+    EVD --> ARG
+    CAST --> SCRIPT
+    ARG --> SCRIPT --> JUDGE --> FIN
+  end
+
+  subgraph MEDIA["TELEVISION PRODUCTION — NOT YET PROVEN"]
+    BOARD["Camera shots / boards / timing"]
+    SND["Voice / music / effects mix"]
+    VID["Animation render and video encode"]
+    QC["Duration, sync and media QA"]
+    PUBLISH["Published episode video + captions"]
+    WEB["Web / phone / TV playback"]
+    SCRIPT --> BOARD
+    FIN --> BOARD
+    CAST --> SND
+    BOARD --> VID
+    SND --> VID --> QC --> PUBLISH --> WEB
+  end
+
+  subgraph GOVERN["CROSS-CUTTING GATES"]
+    GATE["Source / variant / actor boundaries"]
+    MEMORY["Episode-only memory; optional snapshot"]
+    JOBS["Durable job queue and cost limits"]
+    PROV["Immutable provenance and evidence"]
+    TESTS["Character, video and recovery acceptance"]
+  end
+
+  UE -.candidate source.-> VR
+  UE -.identity lifecycle needs redesign.-> ECHO
+  UF -.optional.-> PROF
+  GK -.deep profile compiler.-> PROF
+  NC -.workflow and animation reference.-> SCRIPT
+  NC -.SpriteKit visual reference.-> BOARD
+  LEG -.case precedents.-> ARG
+  EV -.scoring experiment.-> JUDGE
+
+  GATE -.governs.-> VR
+  GATE -.governs.-> CAST
+  MEMORY -.governs.-> ECHO
+  JOBS -.governs.-> VID
+  PROV -.governs.-> EVD
+  TESTS -.verifies.-> QC
