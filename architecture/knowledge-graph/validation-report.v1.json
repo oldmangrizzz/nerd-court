@@ -1,0 +1,65 @@
+{
+  "schema": "nerd-court-graph-validation-report/v1",
+  "audit_date": "2026-10-28",
+  "git_branch": "architecture/unified-knowledge-graph-v1",
+  "result": "metadata-and-join-assertions-passed",
+  "verified": {
+    "source_repositories": 6,
+    "source_files": 3926,
+    "folder_nodes": 340,
+    "semantic_nodes": 162,
+    "reviewed_source_modules": 89,
+    "graph_nodes_total": 4428,
+    "graph_edges_total": 4650,
+    "semantic_edges": 295,
+    "tree_edges": 4266,
+    "bridges": 89,
+    "source_hash_paths_joined": true,
+    "semantic_endpoints_exist": true,
+    "source_tree_endpoints_exist": true,
+    "source_snapshots_pinned": true,
+    "source_modules_not_claimed_runtime_verified": true,
+    "targets_marked_planned": true
+  },
+  "schema_drafts": [
+    {
+      "name": "entity-reference",
+      "syntax": "valid JSON object",
+      "schema_version": "draft-2020-12",
+      "standards_validation": "not-run"
+    },
+    {
+      "name": "evidence-claim",
+      "syntax": "valid JSON object",
+      "schema_version": "draft-2020-12",
+      "standards_validation": "not-run"
+    },
+    {
+      "name": "echo-snapshot",
+      "syntax": "valid JSON object",
+      "schema_version": "draft-2020-12",
+      "standards_validation": "not-run"
+    },
+    {
+      "name": "cast-manifest",
+      "syntax": "valid JSON object",
+      "schema_version": "draft-2020-12",
+      "standards_validation": "not-run"
+    },
+    {
+      "name": "episode-job",
+      "syntax": "valid JSON object",
+      "schema_version": "draft-2020-12",
+      "standards_validation": "not-run"
+    }
+  ],
+  "local_unit_test_evidence": "Six validator tests passed with synthetic fixtures in an isolated Python 3.13 environment (not full source-app tests).",
+  "not_verified": [
+    "End-to-end execution of source repositories",
+    "Complete symbol-level import/call/data lineage",
+    "Full Draft 2020-12 validation of contract files",
+    "CI completion on GitHub",
+    "Actual video render/encoding and streaming deployment",
+    "Runtime character fidelity or continuity separation"
+  ]
+}
