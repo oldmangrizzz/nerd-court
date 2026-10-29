@@ -1,0 +1,163 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:nerdcourt:contracts:v0:evidence-claim",
+  "title": "EvidenceClaim (PROPOSED DRAFT)",
+  "description": "Distinguishes observed canon, documented facts, inferences, disputed accounts and fictional court events. A source citation is not equivalent to a conclusion.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "claim_id",
+    "statement",
+    "claim_kind",
+    "adjudication",
+    "source_ids"
+  ],
+  "properties": {
+    "claim_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "statement": {
+      "type": "string",
+      "minLength": 1
+    },
+    "claim_kind": {
+      "enum": [
+        "canonical_fact",
+        "historical_fact",
+        "psychological_inference",
+        "character_interpretation",
+        "court_show_event"
+      ]
+    },
+    "adjudication": {
+      "enum": [
+        "supported",
+        "disputed",
+        "unresolved",
+        "show-only"
+      ]
+    },
+    "source_variant_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "source_ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string"
+      }
+    },
+    "source_locator": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "source_id",
+          "locator",
+          "source_tier"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "source_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "locator": {
+            "type": "string",
+            "minLength": 1
+          },
+          "source_tier": {
+            "enum": [
+              "primary-canon",
+              "firsthand-record",
+              "official-reference",
+              "licensed-secondary",
+              "fan-secondary",
+              "unknown"
+            ]
+          },
+          "uri": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "publisher": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        }
+      }
+    },
+    "confidence": {
+      "type": [
+        "number",
+        "null"
+      ],
+      "minimum": 0,
+      "maximum": 1
+    },
+    "disputed_by": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "reason": {
+      "type": [
+        "string",
+        "null"
+      ]
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "claim_kind": {
+            "enum": [
+              "canonical_fact",
+              "historical_fact"
+            ]
+          }
+        },
+        "required": [
+          "claim_kind"
+        ]
+      },
+      "then": {
+        "properties": {
+          "source_ids": {
+            "minItems": 1
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "claim_kind": {
+            "const": "court_show_event"
+          }
+        },
+        "required": [
+          "claim_kind"
+        ]
+      },
+      "then": {
+        "properties": {
+          "adjudication": {
+            "const": "show-only"
+          }
+        }
+      }
+    }
+  ]
+}
