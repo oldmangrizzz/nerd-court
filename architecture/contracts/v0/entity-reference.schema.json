@@ -1,0 +1,168 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:nerdcourt:contracts:v0:entity-reference",
+  "title": "EntityReference (PROPOSED DRAFT)",
+  "description": "Separates real performers and historic persons from fictional individuals and portrayals. Source authority and exact universe/version must be recorded before casting.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "entity_id",
+    "entity_kind",
+    "display_name",
+    "source_scope"
+  ],
+  "properties": {
+    "entity_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "entity_kind": {
+      "enum": [
+        "performer",
+        "historical_person",
+        "fictional_character",
+        "portrayal",
+        "meta_character"
+      ]
+    },
+    "display_name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "archetype_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "performed_by_entity_id": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Only for a specific portrayal; cannot be treated as the same person."
+    },
+    "portrays_entity_id": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Continuity-specific fictional/historical role when entity_kind=portrayal"
+    },
+    "source_scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "franchise",
+        "medium"
+      ],
+      "properties": {
+        "franchise": {
+          "type": "string",
+          "minLength": 1
+        },
+        "medium": {
+          "enum": [
+            "comics",
+            "film",
+            "television",
+            "animation",
+            "game",
+            "novel",
+            "radio",
+            "real-world",
+            "other"
+          ]
+        },
+        "continuity_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "production_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "era_marker": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "source_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "uniqueItems": true
+        }
+      }
+    },
+    "resolution_status": {
+      "enum": [
+        "resolved",
+        "ambiguous",
+        "unresolved"
+      ]
+    },
+    "candidate_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "notes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "entity_kind": {
+            "const": "portrayal"
+          }
+        },
+        "required": [
+          "entity_kind"
+        ]
+      },
+      "then": {
+        "required": [
+          "performed_by_entity_id",
+          "portrays_entity_id"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "entity_kind": {
+            "const": "fictional_character"
+          }
+        },
+        "required": [
+          "entity_kind"
+        ]
+      },
+      "then": {
+        "properties": {
+          "source_scope": {
+            "required": [
+              "franchise",
+              "medium",
+              "continuity_id"
+            ]
+          }
+        }
+      }
+    }
+  ]
+}
