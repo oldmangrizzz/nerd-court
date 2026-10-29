@@ -1,0 +1,55 @@
+{
+ "format": "nerd-court-source-inventory/v1",
+ "repository": "oldmangrizzz/uatu-engine-final",
+ "branch": "main",
+ "commit": "9a67e62c411accd3a3c6d3374ca84dffac4a2b01",
+ "scope": "tracked file paths and blob metadata only; no contents, no executable verification",
+ "truncated": false,
+ "files": [
+  {
+   "path": ".gitignore",
+   "sha": "a29db0f66b609e3a7e1a3b014ca8349b74826d9a",
+   "bytes": 165
+  },
+  {
+   "path": "README.md",
+   "sha": "7ddc1636ad8b3e17b4e65d76d2dbf3263c665ca7",
+   "bytes": 2465
+  },
+  {
+   "path": "deployment/Dockerfile.template",
+   "sha": "f50232557e51d1cc1e8502fedfcf189039a4cf33",
+   "bytes": 1149
+  },
+  {
+   "path": "deployment/docker-compose.template.yml",
+   "sha": "5e67efe486cce670e0d1bc3246d4f87092fc1afe",
+   "bytes": 1324
+  },
+  {
+   "path": "docs/topology.md",
+   "sha": "cd5d32cff6789292d91c80cd5015d2c2462e1417",
+   "bytes": 2788
+  },
+  {
+   "path": "server_uatu_snippet.py",
+   "sha": "4319ee5b253a6098162e6669fd2c0b53435690ce",
+   "bytes": 859
+  },
+  {
+   "path": "uatu/__init__.py",
+   "sha": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+   "bytes": 0
+  },
+  {
+   "path": "uatu/centrifuge.py",
+   "sha": "ad3598e7d7052e089416079d963f6a69aeaf2e5e",
+   "bytes": 8115
+  },
+  {
+   "path": "uatu/immune.py",
+   "sha": "56366d71d12fece7f09f3bc2a00b00d371e6c4eb",
+   "bytes": 4397
+  }
+ ]
+}
