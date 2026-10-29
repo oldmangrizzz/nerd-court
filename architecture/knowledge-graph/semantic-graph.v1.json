@@ -1,0 +1,3561 @@
+{
+  "schema": "nerd-court-knowledge-graph/v1",
+  "created": "2026-10-28",
+  "purpose": "Evidence-backed semantic dependency and migration graph for unifying UATU and Nerd Court. Explicitly distinguishes source presence, runtime verification and planned capability.",
+  "source_pins": [
+    {
+      "repository": "oldmangrizzz/uatu-engine",
+      "commit": "efeb4be539d0d22260c6c8bec97344bfa9e74504"
+    },
+    {
+      "repository": "oldmangrizzz/uatu-engine-final",
+      "commit": "9a67e62c411accd3a3c6d3374ca84dffac4a2b01"
+    },
+    {
+      "repository": "oldmangrizzz/grizzly-knights",
+      "commit": "78c32e607d7a726edd6d51f8f998980fb9c6f562"
+    },
+    {
+      "repository": "oldmangrizzz/nerd-court",
+      "commit": "b6b19b52045b8a641ac6d34c4045c7ded40943b7"
+    },
+    {
+      "repository": "oldmangrizzz/nerdcourt",
+      "commit": "3886276aaab72c1d38df475bc8591bc088cf5aa9"
+    },
+    {
+      "repository": "oldmangrizzz/nerdscourt-canon-core",
+      "commit": "30564853301258bf534a291b3decbcd410729a98"
+    }
+  ],
+  "legend": {
+    "node_kinds": [
+      "repository",
+      "module",
+      "target",
+      "requirement",
+      "test",
+      "risk"
+    ],
+    "source_presence_note": "module node status=file-present-not-runtime-verified is NOT proof of working functionality",
+    "edge_types": "contains,calls,produces,feeds,depends-on,requires,acceptance-test,candidate-for,mitigated-by and other named typed links",
+    "unverified_status": "All proposed integration edges are design hypotheses requiring tests."
+  },
+  "stats": {
+    "nodes": 162,
+    "edges": 295,
+    "kinds": {
+      "repository": 6,
+      "module": 89,
+      "target": 34,
+      "requirement": 12,
+      "test": 10,
+      "risk": 11
+    },
+    "edge_types": {
+      "acceptance-test": 11,
+      "calls": 12,
+      "candidate-dependency": 5,
+      "candidate-for": 47,
+      "candidate-support": 1,
+      "case-example": 1,
+      "consumes": 1,
+      "contains": 89,
+      "contributes-to": 1,
+      "depends-on": 62,
+      "evaluated-by": 1,
+      "fallback-to": 1,
+      "feeds": 4,
+      "influences": 1,
+      "input-for": 1,
+      "mitigated-by": 11,
+      "produces": 4,
+      "produces-input-for": 1,
+      "reads": 1,
+      "related": 1,
+      "requires": 22,
+      "supports": 5,
+      "tests": 1,
+      "uses": 9,
+      "writes": 2
+    }
+  },
+  "nodes": [
+    {
+      "id": "repo:uatu-engine",
+      "label": "uatu-engine",
+      "kind": "repository",
+      "details": "Original multiversal intake, genesis, persistent identity and Agent Zero integration",
+      "status": "repository-indexed",
+      "disposition": "source-only",
+      "repository": "oldmangrizzz/uatu-engine",
+      "commit": "efeb4be539d0d22260c6c8bec97344bfa9e74504",
+      "source_url": "https://github.com/oldmangrizzz/uatu-engine/tree/efeb4be539d0d22260c6c8bec97344bfa9e74504"
+    },
+    {
+      "id": "repo:uatu-engine-final",
+      "label": "uatu-engine-final",
+      "kind": "repository",
+      "details": "Separate Centrifuge vector and immune-layer prototype",
+      "status": "repository-indexed",
+      "disposition": "source-only",
+      "repository": "oldmangrizzz/uatu-engine-final",
+      "commit": "9a67e62c411accd3a3c6d3374ca84dffac4a2b01",
+      "source_url": "https://github.com/oldmangrizzz/uatu-engine-final/tree/9a67e62c411accd3a3c6d3374ca84dffac4a2b01"
+    },
+    {
+      "id": "repo:grizzly-knights",
+      "label": "grizzly-knights",
+      "kind": "repository",
+      "details": "UATU psychological compiler, character corpora, heterogeneous reasoners, continuity and episode experiments",
+      "status": "repository-indexed",
+      "disposition": "source-only",
+      "repository": "oldmangrizzz/grizzly-knights",
+      "commit": "78c32e607d7a726edd6d51f8f998980fb9c6f562",
+      "source_url": "https://github.com/oldmangrizzz/grizzly-knights/tree/78c32e607d7a726edd6d51f8f998980fb9c6f562"
+    },
+    {
+      "id": "repo:nerd-court",
+      "label": "nerd-court",
+      "kind": "repository",
+      "details": "Advanced iOS Swift court, Convex functions, voice and SpriteKit playback; historical show blueprint",
+      "status": "repository-indexed",
+      "disposition": "source-only",
+      "repository": "oldmangrizzz/nerd-court",
+      "commit": "b6b19b52045b8a641ac6d34c4045c7ded40943b7",
+      "source_url": "https://github.com/oldmangrizzz/nerd-court/tree/b6b19b52045b8a641ac6d34c4045c7ded40943b7"
+    },
+    {
+      "id": "repo:nerdcourt",
+      "label": "nerdcourt",
+      "kind": "repository",
+      "details": "Python deterministic scoring prototype and tests",
+      "status": "repository-indexed",
+      "disposition": "source-only",
+      "repository": "oldmangrizzz/nerdcourt",
+      "commit": "3886276aaab72c1d38df475bc8591bc088cf5aa9",
+      "source_url": "https://github.com/oldmangrizzz/nerdcourt/tree/3886276aaab72c1d38df475bc8591bc088cf5aa9"
+    },
+    {
+      "id": "repo:nerdscourt-canon-core",
+      "label": "nerdscourt-canon-core",
+      "kind": "repository",
+      "details": "Legacy canon archive, trial precedents, persona and model-routing modules",
+      "status": "repository-indexed",
+      "disposition": "source-only",
+      "repository": "oldmangrizzz/nerdscourt-canon-core",
+      "commit": "30564853301258bf534a291b3decbcd410729a98",
+      "source_url": "https://github.com/oldmangrizzz/nerdscourt-canon-core/tree/30564853301258bf534a291b3decbcd410729a98"
+    },
+    {
+      "id": "u:swarm",
+      "label": "Genesis orchestrator",
+      "kind": "module",
+      "details": "Coordinates multiversal character research agents and compiles a CharacterProfile",
+      "status": "file-present-not-runtime-verified",
+      "disposition": "adapt",
+      "repository": "oldmangrizzz/uatu-engine",
+      "commit": "efeb4be539d0d22260c6c8bec97344bfa9e74504",
+      "path": "uatu_genesis_engine/orchestrator.py",
+      "source_url": "https://github.com/oldmangrizzz/uatu-engine/blob/efeb4be539d0d22260c6c8bec97344bfa9e74504/uatu_genesis_engine/orchestrator.py"
+    },
+    {
+      "id": "u:character",
+      "label": "Character information agent",
+      "kind": "module",
+      "details": "Aggregates aliases, identities, sources, constants and variables across continuities",
+      "status": "file-present-not-runtime-verified",
+      "disposition": "adapt",
+      "repository": "oldmangrizzz/uatu-engine",
+      "commit": "efeb4be539d0d22260c6c8bec97344bfa9e74504",
+      "path": "uatu_genesis_engine/agents/character_info_agent.py",
+      "source_url": "https://github.com/oldmangrizzz/uatu-engine/blob/efeb4be539d0d22260c6c8bec97344bfa9e74504/uatu_genesis_engine/agents/character_info_agent.py"
+    },
+    {
+      "id": "u:economics",
+      "label": "Economic history agent",
+      "kind": "module",
+      "details": "Collects economic history and wealth estimates; optional enrichment for court",
+      "status": "file-present-not-runtime-verified",
+      "disposition": "defer",
+      "repository": "oldmangrizzz/uatu-engine",
+      "commit": "efeb4be539d0d22260c6c8bec97344bfa9e74504",
+      "path": "uatu_genesis_engine/agents/economic_history_agent.py",
+      "source_url": "https://github.com/oldmangrizzz/uatu-engine/blob/efeb4be539d0d22260c6c8bec97344bfa9e74504/uatu_genesis_engine/agents/economic_history_agent.py"
+    },
+    {
+      "id": "u:domains",
+      "label": "Knowledge-domain agent",
+      "kind": "module",
+      "details": "Maps fictional expertise into categories and analogues",
+      "status": "file-present-not-runtime-verified",
+      "disposition": "adapt",
+      "repository": "oldmangrizzz/uatu-engine",
+      "commit": "efeb4be539d0d22260c6c8bec97344bfa9e74504",
+      "path": "uatu_genesis_engine/agents/knowledge_domain_agent.py",
+      "source_url": "https://github.com/oldmangrizzz/uatu-engine/blob/efeb4be539d0d22260c6c8bec97344bfa9e74504/uatu_genesis_engine/agents/knowledge_domain_agent.py"
+    },
+    {
+      "id": "u:profile",
+      "label": "CharacterProfile / MultiversalIdentity schema",
+      "kind": "module",
+      "details": "Profile includes multiversal identities, constants, variables, data_sources and completeness score",
+      "status": "file-present-not-runtime-verified",
+      "disposition": "adapt",
+      "repository": "oldmangrizzz/uatu-engine",
+      "commit": "efeb4be539d0d22260c6c8bec97344bfa9e74504",
+      "path": "uatu_genesis_engine/models/__init__.py",
+      "source_url": "https://github.com/oldmangrizzz/uatu-engine/blob/efeb4be539d0d22260c6c8bec97344bfa9e74504/uatu_genesis_engine/models/__init__.py"
+    },
+    {
+      "id": "u:anchor",
+      "label": "Soul Anchor exporter",
+      "kind": "module",
+      "details": "Exports one primary persona anchor with a list of multiversal identities; not variant-exclusive",
+      "status": "file-present-not-runtime-verified",
+      "disposition": "adapt",
+      "repository": "oldmangrizzz/uatu-engine",
+      "commit": "efeb4be539d0d22260c6c8bec97344bfa9e74504",
+      "path": "uatu_genesis_engine/orchestrator.py",
+      "source_url": "https://github.com/oldmangrizzz/uatu-engine/blob/efeb4be539d0d22260c6c8bec97344bfa9e74504/uatu_genesis_engine/orchestrator.py"
+    },
+    {
+      "id": "u:transformer",
+      "label": "Persona Transformer",
+      "kind": "module",
+      "details": "Transforms Agent Zero prompts to first-person persona narrative",
+      "status": "file-present-not-runtime-verified",
+      "disposition": "reference",
+      "repository": "oldmangrizzz/uatu-engine",
+      "commit": "efeb4be539d0d22260c6c8bec97344bfa9e74504",
+      "path": "uatu_genesis_engine/agent_zero_integration/persona_transformer.py",
+      "source_url": "https://github.com/oldmangrizzz/uatu-engine/blob/efeb4be539d0d22260c6c8bec97344bfa9e74504/uatu_genesis_engine/agent_zero_integration/persona_transformer.py"
+    },
+    {
+      "id": "u:instantiator",
+      "label": "Agent Zero instantiator",
+      "kind": "module",
+      "details": "Writes dedicated per-name persona folder and prompts, aligned to persistent identity lifecycle",
+      "status": "file-present-not-runtime-verified",
+      "disposition": "reference",
+      "repository": "oldmangrizzz/uatu-engine",
+      "commit": "efeb4be539d0d22260c6c8bec97344bfa9e74504",
+      "path": "uatu_genesis_engine/agent_zero_integration/agent_instantiator.py",
+      "source_url": "https://github.com/oldmangrizzz/uatu-engine/blob/efeb4be539d0d22260c6c8bec97344bfa9e74504/uatu_genesis_engine/agent_zero_integration/agent_instantiator.py"
+    },
+    {
+      "id": "u:psych",
+      "label": "Digital Psyche Middleware configuration",
+      "kind": "module",
+      "details": "Lightweight configuration scaffold for emotion and homeostasis, not verified clinical validity",
+      "status": "file-present-not-runtime-verified",
+      "disposition": "review",
+      "repository": "oldmangrizzz/uatu-engine",
+      "commit": "efeb4be539d0d22260c6c8bec97344bfa9e74504",
+      "path": "uatu_genesis_engine/agent_zero_integration/digital_psyche_middleware.py",
+      "source_url": "https://github.com/oldmangrizzz/uatu-engine/blob/efeb4be539d0d22260c6c8bec97344bfa9e74504/uatu_genesis_engine/agent_zero_integration/digital_psyche_middleware.py"
+    },
+    {
+      "id": "u:dialectic",
+      "label": "Dialectic inference",
+      "kind": "module",
+      "details": "Models thesis, antithesis and synthesis; candidate for character debate controls",
+      "status": "file-present-not-runtime-verified",
+      "disposition": "review",
+      "repository": "oldmangrizzz/uatu-engine",
+      "commit": "efeb4be539d0d22260c6c8bec97344bfa9e74504",
+      "path": "uatu_genesis_engine/agent_zero_integration/dialectic_inference.py",
+      "source_url": "https://github.com/oldmangrizzz/uatu-engine/blob/efeb4be539d0d22260c6c8bec97344bfa9e74504/uatu_genesis_engine/agent_zero_integration/dialectic_inference.py"
+    },
+    {
+      "id": "u:neuro",
+      "label": "Neurotransmitter analog engine",
+      "kind": "module",
+      "details": "Numeric analogue state; research hypothesis, not scientifically validated affect model",
+      "status": "file-present-not-runtime-verified",
+      "disposition": "defer",
+      "repository": "oldmangrizzz/uatu-engine",
+      "commit": "efeb4be539d0d22260c6c8bec97344bfa9e74504",
+      "path": "uatu_genesis_engine/agent_zero_integration/neurotransmitter_engine.py",
+      "source_url": "https://github.com/oldmangrizzz/uatu-engine/blob/efeb4be539d0d22260c6c8bec97344bfa9e74504/uatu_genesis_engine/agent_zero_integration/neurotransmitter_engine.py"
+    },
+    {
+      "id": "u:ledger",
+      "label": "Soul Anchor Ledger",
+      "kind": "module",
+      "details": "Contains hash/integrity logic for anchor; cryptographic trust model requires validation",
+      "status": "file-present-not-runtime-verified",
+      "disposition": "adapt",
+      "repository": "oldmangrizzz/uatu-engine",
+      "commit": "efeb4be539d0d22260c6c8bec97344bfa9e74504",
+      "path": "uatu_genesis_engine/agent_zero_integration/soul_anchor_ledger.py",
+      "source_url": "https://github.com/oldmangrizzz/uatu-engine/blob/efeb4be539d0d22260c6c8bec97344bfa9e74504/uatu_genesis_engine/agent_zero_integration/soul_anchor_ledger.py"
+    },
+    {
+      "id": "u:gate",
+      "label": "Emergence gate",
+      "kind": "module",
+      "details": "Admin authorization/state transitions and event audit; original permanent-agent scope",
+      "status": "file-present-not-runtime-verified",
+      "disposition": "review",
+      "repository": "oldmangrizzz/uatu-engine",
+      "commit": "efeb4be539d0d22260c6c8bec97344bfa9e74504",
+      "path": "uatu_genesis_engine/agent_zero_integration/emergence_gate.py",
+      "source_url": "https://github.com/oldmangrizzz/uatu-engine/blob/efeb4be539d0d22260c6c8bec97344bfa9e74504/uatu_genesis_engine/agent_zero_integration/emergence_gate.py"
+    },
+    {
+      "id": "u:convexlog",
+      "label": "Convex state logger",
+      "kind": "module",
+      "details": "State-event persistence adapter",
+      "status": "file-present-not-runtime-verified",
+      "disposition": "adapt",
+      "repository": "oldmangrizzz/uatu-engine",
+      "commit": "efeb4be539d0d22260c6c8bec97344bfa9e74504",
+      "path": "uatu_genesis_engine/agent_zero_integration/convex_state_logger.py",
+      "source_url": "https://github.com/oldmangrizzz/uatu-engine/blob/efeb4be539d0d22260c6c8bec97344bfa9e74504/uatu_genesis_engine/agent_zero_integration/convex_state_logger.py"
+    },
+    {
+      "id": "u:voice",
+      "label": "Voice TTS adapter",
+      "kind": "module",
+      "details": "Persona-dependent voice manifest adapter; not final episode mix",
+      "status": "file-present-not-runtime-verified",
+      "disposition": "adapt",
+      "repository": "oldmangrizzz/uatu-engine",
+      "commit": "efeb4be539d0d22260c6c8bec97344bfa9e74504",
+      "path": "uatu_genesis_engine/agent_zero_integration/tts_voice_adapter.py",
+      "source_url": "https://github.com/oldmangrizzz/uatu-engine/blob/efeb4be539d0d22260c6c8bec97344bfa9e74504/uatu_genesis_engine/agent_zero_integration/tts_voice_adapter.py"
+    },
+    {
+      "id": "u:graph",
+      "label": "UATU graph generator",
+      "kind": "module",
+      "details": "Produces graph outputs from character profiles; does not replace cross-repository software graph",
+      "status": "file-present-not-runtime-verified",
+      "disposition": "reference",
+      "repository": "oldmangrizzz/uatu-engine",
+      "commit": "efeb4be539d0d22260c6c8bec97344bfa9e74504",
+      "path": "uatu_genesis_engine/graph/graph_generator.py",
+      "source_url": "https://github.com/oldmangrizzz/uatu-engine/blob/efeb4be539d0d22260c6c8bec97344bfa9e74504/uatu_genesis_engine/graph/graph_generator.py"
+    },
+    {
+      "id": "u:graphmert",
+      "label": "GraphMERT compiler",
+      "kind": "module",
+      "details": "Knowledge/domain graph experiment",
+      "status": "file-present-not-runtime-verified",
+      "disposition": "defer",
+      "repository": "oldmangrizzz/uatu-engine",
+      "commit": "efeb4be539d0d22260c6c8bec97344bfa9e74504",
+      "path": "uatu_genesis_engine/graphmert/compiler.py",
+      "source_url": "https://github.com/oldmangrizzz/uatu-engine/blob/efeb4be539d0d22260c6c8bec97344bfa9e74504/uatu_genesis_engine/graphmert/compiler.py"
+    },
+    {
+      "id": "u:deploy",
+      "label": "Cloud deployer",
+      "kind": "module",
+      "details": "Deployment utilities for original persistent person design",
+      "status": "file-present-not-runtime-verified",
+      "disposition": "defer",
+      "repository": "oldmangrizzz/uatu-engine",
+      "commit": "efeb4be539d0d22260c6c8bec97344bfa9e74504",
+      "path": "uatu_genesis_engine/deployment/cloud_deployer.py",
+      "source_url": "https://github.com/oldmangrizzz/uatu-engine/blob/efeb4be539d0d22260c6c8bec97344bfa9e74504/uatu_genesis_engine/deployment/cloud_deployer.py"
+    },
+    {
+      "id": "u:api",
+      "label": "UATU main entry",
+      "kind": "module",
+      "details": "CLI argument handling and coordinated research, export and instantiation options",
+      "status": "file-present-not-runtime-verified",
+      "disposition": "adapt",
+      "repository": "oldmangrizzz/uatu-engine",
+      "commit": "efeb4be539d0d22260c6c8bec97344bfa9e74504",
+      "path": "main.py",
+      "source_url": "https://github.com/oldmangrizzz/uatu-engine/blob/efeb4be539d0d22260c6c8bec97344bfa9e74504/main.py"
+    },
+    {
+      "id": "u:tests",
+      "label": "UATU profile/test suite",
+      "kind": "module",
+      "details": "One representative test module; inventory contains additional focused tests",
+      "status": "file-present-not-runtime-verified",
+      "disposition": "reference",
+      "repository": "oldmangrizzz/uatu-engine",
+      "commit": "efeb4be539d0d22260c6c8bec97344bfa9e74504",
+      "path": "tests/test_soul_anchor_ledger.py",
+      "source_url": "https://github.com/oldmangrizzz/uatu-engine/blob/efeb4be539d0d22260c6c8bec97344bfa9e74504/tests/test_soul_anchor_ledger.py"
+    },
+    {
+      "id": "u:docs",
+      "label": "UATU original intent",
+      "kind": "module",
+      "details": "One-person-one-container and permanent memory documented; source of current lifecycle conflict",
+      "status": "file-present-not-runtime-verified",
+      "disposition": "reference",
+      "repository": "oldmangrizzz/uatu-engine",
+      "commit": "efeb4be539d0d22260c6c8bec97344bfa9e74504",
+      "path": "README.md",
+      "source_url": "https://github.com/oldmangrizzz/uatu-engine/blob/efeb4be539d0d22260c6c8bec97344bfa9e74504/README.md"
+    },
+    {
+      "id": "uf:centrifuge",
+      "label": "Centrifuge identity vector",
+      "kind": "module",
+      "details": "Parses SOUL.md into an analogue state vector; specialized extension not required for court MVP",
+      "status": "file-present-not-runtime-verified",
+      "disposition": "defer",
+      "repository": "oldmangrizzz/uatu-engine-final",
+      "commit": "9a67e62c411accd3a3c6d3374ca84dffac4a2b01",
+      "path": "uatu/centrifuge.py",
+      "source_url": "https://github.com/oldmangrizzz/uatu-engine-final/blob/9a67e62c411accd3a3c6d3374ca84dffac4a2b01/uatu/centrifuge.py"
+    },
+    {
+      "id": "uf:immune",
+      "label": "Centrifuge drift monitor",
+      "kind": "module",
+      "details": "Drift-monitoring and reanchor logic in separate prototype",
+      "status": "file-present-not-runtime-verified",
+      "disposition": "review",
+      "repository": "oldmangrizzz/uatu-engine-final",
+      "commit": "9a67e62c411accd3a3c6d3374ca84dffac4a2b01",
+      "path": "uatu/immune.py",
+      "source_url": "https://github.com/oldmangrizzz/uatu-engine-final/blob/9a67e62c411accd3a3c6d3374ca84dffac4a2b01/uatu/immune.py"
+    },
+    {
+      "id": "uf:api",
+      "label": "UATU state API snippet",
+      "kind": "module",
+      "details": "Sample route exposing state; not standalone deployed service proof",
+      "status": "file-present-not-runtime-verified",
+      "disposition": "reference",
+      "repository": "oldmangrizzz/uatu-engine-final",
+      "commit": "9a67e62c411accd3a3c6d3374ca84dffac4a2b01",
+      "path": "server_uatu_snippet.py",
+      "source_url": "https://github.com/oldmangrizzz/uatu-engine-final/blob/9a67e62c411accd3a3c6d3374ca84dffac4a2b01/server_uatu_snippet.py"
+    },
+    {
+      "id": "uf:docs",
+      "label": "Centrifuge design",
+      "kind": "module",
+      "details": "Separate readme documents soul vector/immune design",
+      "status": "file-present-not-runtime-verified",
+      "disposition": "reference",
+      "repository": "oldmangrizzz/uatu-engine-final",
+      "commit": "9a67e62c411accd3a3c6d3374ca84dffac4a2b01",
+      "path": "README.md",
+      "source_url": "https://github.com/oldmangrizzz/uatu-engine-final/blob/9a67e62c411accd3a3c6d3374ca84dffac4a2b01/README.md"
+    },
+    {
+      "id": "g:compiler",
+      "label": "Deep UATU profile compiler",
+      "kind": "module",
+      "details": "Two-stage canonical analysis and structured behavioral profile compilation and validation",
+      "status": "file-present-not-runtime-verified",
+      "disposition": "adapt",
+      "repository": "oldmangrizzz/grizzly-knights",
+      "commit": "78c32e607d7a726edd6d51f8f998980fb9c6f562",
+      "path": "engine/uatu_compiler.py",
+      "source_url": "https://github.com/oldmangrizzz/grizzly-knights/blob/78c32e607d7a726edd6d51f8f998980fb9c6f562/engine/uatu_compiler.py"
+    },
+    {
+      "id": "g:compiler-method",
+      "label": "UATU methodological paper",
+      "kind": "module",
+      "details": "Specifies independent assessment, psyche schema, model heterogeneity and falsifiable fidelity protocol",
+      "status": "file-present-not-runtime-verified",
+      "disposition": "reference",
+      "repository": "oldmangrizzz/grizzly-knights",
+      "commit": "78c32e607d7a726edd6d51f8f998980fb9c6f562",
+      "path": "docs/UATU_framework_paper.md",
+      "source_url": "https://github.com/oldmangrizzz/grizzly-knights/blob/78c32e607d7a726edd6d51f8f998980fb9c6f562/docs/UATU_framework_paper.md"
+    },
+    {
+      "id": "g:gold-profile",
+      "label": "Structured character corpus",
+      "kind": "module",
+      "details": "Example character profile; catalog contains many more structured character files",
+      "status": "file-present-not-runtime-verified",
+      "disposition": "adapt",
+      "repository": "oldmangrizzz/grizzly-knights",
+      "commit": "78c32e607d7a726edd6d51f8f998980fb9c6f562",
+      "path": "universe/characters/johnny_storm.yaml",
+      "source_url": "https://github.com/oldmangrizzz/grizzly-knights/blob/78c32e607d7a726edd6d51f8f998980fb9c6f562/universe/characters/johnny_storm.yaml"
+    },
+    {
+      "id": "g:validate",
+      "label": "Profile validation gate",
+      "kind": "module",
+      "details": "Existing profile verification script, not independently executed in this audit",
+      "status": "file-present-not-runtime-verified",
+      "disposition": "adapt",
+      "repository": "oldmangrizzz/grizzly-knights",
+      "commit": "78c32e607d7a726edd6d51f8f998980fb9c6f562",
+      "path": "scripts/verify_profiles.py",
+      "source_url": "https://github.com/oldmangrizzz/grizzly-knights/blob/78c32e607d7a726edd6d51f8f998980fb9c6f562/scripts/verify_profiles.py"
+    },
+    {
+      "id": "g:source-research",
+      "label": "Clinical and canon research",
+      "kind": "module",
+      "details": "Example research-source record; clinical inference must stay distinct from canon fact",
+      "status": "file-present-not-runtime-verified",
+      "disposition": "adapt",
+      "repository": "oldmangrizzz/grizzly-knights",
+      "commit": "78c32e607d7a726edd6d51f8f998980fb9c6f562",
+      "path": "recovery_research/_sources/frank_castle.txt",
+      "source_url": "https://github.com/oldmangrizzz/grizzly-knights/blob/78c32e607d7a726edd6d51f8f998980fb9c6f562/recovery_research/_sources/frank_castle.txt"
+    },
+    {
+      "id": "g:persona-runtime",
+      "label": "Heterogeneous person simulation",
+      "kind": "module",
+      "details": "Agent simulation runtime; original use is persistent world, not episode-bounded echo",
+      "status": "file-present-not-runtime-verified",
+      "disposition": "reference",
+      "repository": "oldmangrizzz/grizzly-knights",
+      "commit": "78c32e607d7a726edd6d51f8f998980fb9c6f562",
+      "path": "fanfic_town/convex/aiTown/agent.ts",
+      "source_url": "https://github.com/oldmangrizzz/grizzly-knights/blob/78c32e607d7a726edd6d51f8f998980fb9c6f562/fanfic_town/convex/aiTown/agent.ts"
+    },
+    {
+      "id": "g:model-router",
+      "label": "Per-character model routing",
+      "kind": "module",
+      "details": "Resolves characterModels[name] for dialogue calls",
+      "status": "file-present-not-runtime-verified",
+      "disposition": "adapt",
+      "repository": "oldmangrizzz/grizzly-knights",
+      "commit": "78c32e607d7a726edd6d51f8f998980fb9c6f562",
+      "path": "fanfic_town/convex/agent/conversation.ts",
+      "source_url": "https://github.com/oldmangrizzz/grizzly-knights/blob/78c32e607d7a726edd6d51f8f998980fb9c6f562/fanfic_town/convex/agent/conversation.ts"
+    },
+    {
+      "id": "g:conversation-memory",
+      "label": "Agent conversation memory",
+      "kind": "module",
+      "details": "Conversation memory in simulation; partition before using in case-specific echoes",
+      "status": "file-present-not-runtime-verified",
+      "disposition": "adapt",
+      "repository": "oldmangrizzz/grizzly-knights",
+      "commit": "78c32e607d7a726edd6d51f8f998980fb9c6f562",
+      "path": "fanfic_town/convex/agent/memory.ts",
+      "source_url": "https://github.com/oldmangrizzz/grizzly-knights/blob/78c32e607d7a726edd6d51f8f998980fb9c6f562/fanfic_town/convex/agent/memory.ts"
+    },
+    {
+      "id": "g:script",
+      "label": "Scene script generator",
+      "kind": "module",
+      "details": "Character scene text script generation experiments",
+      "status": "file-present-not-runtime-verified",
+      "disposition": "adapt",
+      "repository": "oldmangrizzz/grizzly-knights",
+      "commit": "78c32e607d7a726edd6d51f8f998980fb9c6f562",
+      "path": "engine/script_generator.py",
+      "source_url": "https://github.com/oldmangrizzz/grizzly-knights/blob/78c32e607d7a726edd6d51f8f998980fb9c6f562/engine/script_generator.py"
+    },
+    {
+      "id": "g:episode",
+      "label": "Episode runner",
+      "kind": "module",
+      "details": "Three-act seven-scene text episode orchestrator with continuity/arc hooks",
+      "status": "file-present-not-runtime-verified",
+      "disposition": "adapt",
+      "repository": "oldmangrizzz/grizzly-knights",
+      "commit": "78c32e607d7a726edd6d51f8f998980fb9c6f562",
+      "path": "engine/episode_runner.py",
+      "source_url": "https://github.com/oldmangrizzz/grizzly-knights/blob/78c32e607d7a726edd6d51f8f998980fb9c6f562/engine/episode_runner.py"
+    },
+    {
+      "id": "g:continuity",
+      "label": "Continuity engine",
+      "kind": "module",
+      "details": "Episode continuity logic candidate for court session state separation",
+      "status": "file-present-not-runtime-verified",
+      "disposition": "adapt",
+      "repository": "oldmangrizzz/grizzly-knights",
+      "commit": "78c32e607d7a726edd6d51f8f998980fb9c6f562",
+      "path": "engine/continuity.py",
+      "source_url": "https://github.com/oldmangrizzz/grizzly-knights/blob/78c32e607d7a726edd6d51f8f998980fb9c6f562/engine/continuity.py"
+    },
+    {
+      "id": "g:arc",
+      "label": "Arc manager",
+      "kind": "module",
+      "details": "Story-arc progression logic; distinguish entertainment chronology from canon",
+      "status": "file-present-not-runtime-verified",
+      "disposition": "adapt",
+      "repository": "oldmangrizzz/grizzly-knights",
+      "commit": "78c32e607d7a726edd6d51f8f998980fb9c6f562",
+      "path": "engine/arc_manager.py",
+      "source_url": "https://github.com/oldmangrizzz/grizzly-knights/blob/78c32e607d7a726edd6d51f8f998980fb9c6f562/engine/arc_manager.py"
+    },
+    {
+      "id": "g:showrunner",
+      "label": "Showrunner",
+      "kind": "module",
+      "details": "Orchestration candidate for coordinating drama and cast",
+      "status": "file-present-not-runtime-verified",
+      "disposition": "review",
+      "repository": "oldmangrizzz/grizzly-knights",
+      "commit": "78c32e607d7a726edd6d51f8f998980fb9c6f562",
+      "path": "engine/showrunner.py",
+      "source_url": "https://github.com/oldmangrizzz/grizzly-knights/blob/78c32e607d7a726edd6d51f8f998980fb9c6f562/engine/showrunner.py"
+    },
+    {
+      "id": "g:voice",
+      "label": "Voice assignment",
+      "kind": "module",
+      "details": "Voice allocation utility, not proof of final media quality",
+      "status": "file-present-not-runtime-verified",
+      "disposition": "adapt",
+      "repository": "oldmangrizzz/grizzly-knights",
+      "commit": "78c32e607d7a726edd6d51f8f998980fb9c6f562",
+      "path": "scripts/assign_voices.py",
+      "source_url": "https://github.com/oldmangrizzz/grizzly-knights/blob/78c32e607d7a726edd6d51f8f998980fb9c6f562/scripts/assign_voices.py"
+    },
+    {
+      "id": "g:assets",
+      "label": "Portraits and visual assets",
+      "kind": "module",
+      "details": "Voice map under world viewer; other media assets inventoried at file level",
+      "status": "file-present-not-runtime-verified",
+      "disposition": "reference",
+      "repository": "oldmangrizzz/grizzly-knights",
+      "commit": "78c32e607d7a726edd6d51f8f998980fb9c6f562",
+      "path": "world_view/voice_map.json",
+      "source_url": "https://github.com/oldmangrizzz/grizzly-knights/blob/78c32e607d7a726edd6d51f8f998980fb9c6f562/world_view/voice_map.json"
+    },
+    {
+      "id": "g:unity",
+      "label": "Unity scene client",
+      "kind": "module",
+      "details": "Alternative animated world client; different technical track from SpriteKit",
+      "status": "file-present-not-runtime-verified",
+      "disposition": "review",
+      "repository": "oldmangrizzz/grizzly-knights",
+      "commit": "78c32e607d7a726edd6d51f8f998980fb9c6f562",
+      "path": "unity_client/Assets/Scripts/AgentSpawner.cs",
+      "source_url": "https://github.com/oldmangrizzz/grizzly-knights/blob/78c32e607d7a726edd6d51f8f998980fb9c6f562/unity_client/Assets/Scripts/AgentSpawner.cs"
+    },
+    {
+      "id": "g:graphsubstrate",
+      "label": "Holograph graph substrate",
+      "kind": "module",
+      "details": "Experimental graph/memory code; audit before production adoption",
+      "status": "file-present-not-runtime-verified",
+      "disposition": "defer",
+      "repository": "oldmangrizzz/grizzly-knights",
+      "commit": "78c32e607d7a726edd6d51f8f998980fb9c6f562",
+      "path": "holograph/src/holograph/graph/substrate.py",
+      "source_url": "https://github.com/oldmangrizzz/grizzly-knights/blob/78c32e607d7a726edd6d51f8f998980fb9c6f562/holograph/src/holograph/graph/substrate.py"
+    },
+    {
+      "id": "g:test",
+      "label": "UATU cast authenticity tests",
+      "kind": "module",
+      "details": "Cast-gate regression tests in source; not run in this audit",
+      "status": "file-present-not-runtime-verified",
+      "disposition": "adapt",
+      "repository": "oldmangrizzz/grizzly-knights",
+      "commit": "78c32e607d7a726edd6d51f8f998980fb9c6f562",
+      "path": "tests/pressure_22_scene1_cast_gate.py",
+      "source_url": "https://github.com/oldmangrizzz/grizzly-knights/blob/78c32e607d7a726edd6d51f8f998980fb9c6f562/tests/pressure_22_scene1_cast_gate.py"
+    },
+    {
+      "id": "g:docs",
+      "label": "Grizzly Knights project README",
+      "kind": "module",
+      "details": "Repo claims character fleet and experiments; these claims are not independently runtime verified",
+      "status": "file-present-not-runtime-verified",
+      "disposition": "reference",
+      "repository": "oldmangrizzz/grizzly-knights",
+      "commit": "78c32e607d7a726edd6d51f8f998980fb9c6f562",
+      "path": "README.md",
+      "source_url": "https://github.com/oldmangrizzz/grizzly-knights/blob/78c32e607d7a726edd6d51f8f998980fb9c6f562/README.md"
+    },
+    {
+      "id": "nc:intake",
+      "label": "Grievance intake UI",
+      "kind": "module",
+      "details": "Native user grievance entry screen",
+      "status": "file-present-not-runtime-verified",
+      "disposition": "adapt",
+      "repository": "oldmangrizzz/nerd-court",
+      "commit": "b6b19b52045b8a641ac6d34c4045c7ded40943b7",
+      "path": "Sources/Views/IntakeScreen.swift",
+      "source_url": "https://github.com/oldmangrizzz/nerd-court/blob/b6b19b52045b8a641ac6d34c4045c7ded40943b7/Sources/Views/IntakeScreen.swift"
+    },
+    {
+      "id": "nc:orchestration",
+      "label": "Five-stage trial workflow",
+      "kind": "module",
+      "details": "Research > Debate > Persistence > Playback > Finisher; source implementation exists",
+      "status": "file-present-not-runtime-verified",
+      "disposition": "adapt",
+      "repository": "oldmangrizzz/nerd-court",
+      "commit": "b6b19b52045b8a641ac6d34c4045c7ded40943b7",
+      "path": "Sources/Pipeline/TrialWorkflowFactory.swift",
+      "source_url": "https://github.com/oldmangrizzz/nerd-court/blob/b6b19b52045b8a641ac6d34c4045c7ded40943b7/Sources/Pipeline/TrialWorkflowFactory.swift"
+    },
+    {
+      "id": "nc:research",
+      "label": "ResearchNode",
+      "kind": "module",
+      "details": "Currently invokes CanonDatabase.research; builds CaseFile and fixed-staff PersonaBriefs",
+      "status": "file-present-not-runtime-verified",
+      "disposition": "replace",
+      "repository": "oldmangrizzz/nerd-court",
+      "commit": "b6b19b52045b8a641ac6d34c4045c7ded40943b7",
+      "path": "Sources/Pipeline/TrialNodes.swift",
+      "source_url": "https://github.com/oldmangrizzz/nerd-court/blob/b6b19b52045b8a641ac6d34c4045c7ded40943b7/Sources/Pipeline/TrialNodes.swift"
+    },
+    {
+      "id": "nc:canon-db",
+      "label": "CanonDatabase research",
+      "kind": "module",
+      "details": "Embedded static evidence templates; cannot be assumed sourced variant-specific research",
+      "status": "file-present-not-runtime-verified",
+      "disposition": "replace",
+      "repository": "oldmangrizzz/nerd-court",
+      "commit": "b6b19b52045b8a641ac6d34c4045c7ded40943b7",
+      "path": "Sources/Research/CanonDatabase.swift",
+      "source_url": "https://github.com/oldmangrizzz/nerd-court/blob/b6b19b52045b8a641ac6d34c4045c7ded40943b7/Sources/Research/CanonDatabase.swift"
+    },
+    {
+      "id": "nc:convex-research",
+      "label": "Convex external research action",
+      "kind": "module",
+      "details": "Separate Wikipedia/Fandom retrieval path; not wired into Swift ResearchNode",
+      "status": "file-present-not-runtime-verified",
+      "disposition": "adapt",
+      "repository": "oldmangrizzz/nerd-court",
+      "commit": "b6b19b52045b8a641ac6d34c4045c7ded40943b7",
+      "path": "convex/research.ts",
+      "source_url": "https://github.com/oldmangrizzz/nerd-court/blob/b6b19b52045b8a641ac6d34c4045c7ded40943b7/convex/research.ts"
+    },
+    {
+      "id": "nc:guest",
+      "label": "Guest character generator",
+      "kind": "module",
+      "details": "Generates simple role/universe guest descriptions",
+      "status": "file-present-not-runtime-verified",
+      "disposition": "replace",
+      "repository": "oldmangrizzz/nerd-court",
+      "commit": "b6b19b52045b8a641ac6d34c4045c7ded40943b7",
+      "path": "Sources/Debate/GuestCharacterGenerator.swift",
+      "source_url": "https://github.com/oldmangrizzz/nerd-court/blob/b6b19b52045b8a641ac6d34c4045c7ded40943b7/Sources/Debate/GuestCharacterGenerator.swift"
+    },
+    {
+      "id": "nc:staff",
+      "label": "Court staff profiles",
+      "kind": "module",
+      "details": "Dedicated Jason/Matt/Jerry/Deadpool court staff model",
+      "status": "file-present-not-runtime-verified",
+      "disposition": "adapt",
+      "repository": "oldmangrizzz/nerd-court",
+      "commit": "b6b19b52045b8a641ac6d34c4045c7ded40943b7",
+      "path": "Sources/Models/StaffCharacters.swift",
+      "source_url": "https://github.com/oldmangrizzz/nerd-court/blob/b6b19b52045b8a641ac6d34c4045c7ded40943b7/Sources/Models/StaffCharacters.swift"
+    },
+    {
+      "id": "nc:casefile",
+      "label": "CaseFile model",
+      "kind": "module",
+      "details": "Research and role briefs assembled for debate",
+      "status": "file-present-not-runtime-verified",
+      "disposition": "adapt",
+      "repository": "oldmangrizzz/nerd-court",
+      "commit": "b6b19b52045b8a641ac6d34c4045c7ded40943b7",
+      "path": "Sources/Pipeline/CaseFile.swift",
+      "source_url": "https://github.com/oldmangrizzz/nerd-court/blob/b6b19b52045b8a641ac6d34c4045c7ded40943b7/Sources/Pipeline/CaseFile.swift"
+    },
+    {
+      "id": "nc:debate-node",
+      "label": "DebateNode and scripted fallback",
+      "kind": "module",
+      "details": "DebateNode may return ScriptedDialogueEngine on LLM absence/failure",
+      "status": "file-present-not-runtime-verified",
+      "disposition": "adapt",
+      "repository": "oldmangrizzz/nerd-court",
+      "commit": "b6b19b52045b8a641ac6d34c4045c7ded40943b7",
+      "path": "Sources/Pipeline/TrialNodes.swift",
+      "source_url": "https://github.com/oldmangrizzz/nerd-court/blob/b6b19b52045b8a641ac6d34c4045c7ded40943b7/Sources/Pipeline/TrialNodes.swift"
+    },
+    {
+      "id": "nc:debate",
+      "label": "DebateEngine",
+      "kind": "module",
+      "details": "Multi-phase dialogue construction and verdict with duration estimated from text",
+      "status": "file-present-not-runtime-verified",
+      "disposition": "adapt",
+      "repository": "oldmangrizzz/nerd-court",
+      "commit": "b6b19b52045b8a641ac6d34c4045c7ded40943b7",
+      "path": "Sources/Debate/DebateEngine.swift",
+      "source_url": "https://github.com/oldmangrizzz/nerd-court/blob/b6b19b52045b8a641ac6d34c4045c7ded40943b7/Sources/Debate/DebateEngine.swift"
+    },
+    {
+      "id": "nc:llm",
+      "label": "Ollama Cloud client",
+      "kind": "module",
+      "details": "LLM request adapter",
+      "status": "file-present-not-runtime-verified",
+      "disposition": "review",
+      "repository": "oldmangrizzz/nerd-court",
+      "commit": "b6b19b52045b8a641ac6d34c4045c7ded40943b7",
+      "path": "Sources/Networking/OllamaCloudClient.swift",
+      "source_url": "https://github.com/oldmangrizzz/nerd-court/blob/b6b19b52045b8a641ac6d34c4045c7ded40943b7/Sources/Networking/OllamaCloudClient.swift"
+    },
+    {
+      "id": "nc:scripted",
+      "label": "Scripted dialogue engine",
+      "kind": "module",
+      "details": "Deterministic nonempty episode fallback; may conceal genuine generation failure unless labeled",
+      "status": "file-present-not-runtime-verified",
+      "disposition": "adapt",
+      "repository": "oldmangrizzz/nerd-court",
+      "commit": "b6b19b52045b8a641ac6d34c4045c7ded40943b7",
+      "path": "Sources/Debate/ScriptedDialogueEngine.swift",
+      "source_url": "https://github.com/oldmangrizzz/nerd-court/blob/b6b19b52045b8a641ac6d34c4045c7ded40943b7/Sources/Debate/ScriptedDialogueEngine.swift"
+    },
+    {
+      "id": "nc:episode",
+      "label": "Episode data model",
+      "kind": "module",
+      "details": "Structured transcript/verdict metadata, not completed video asset",
+      "status": "file-present-not-runtime-verified",
+      "disposition": "adapt",
+      "repository": "oldmangrizzz/nerd-court",
+      "commit": "b6b19b52045b8a641ac6d34c4045c7ded40943b7",
+      "path": "Sources/Models/Episode.swift",
+      "source_url": "https://github.com/oldmangrizzz/nerd-court/blob/b6b19b52045b8a641ac6d34c4045c7ded40943b7/Sources/Models/Episode.swift"
+    },
+    {
+      "id": "nc:persistence-node",
+      "label": "PersistenceNode",
+      "kind": "module",
+      "details": "Episode persistence stage in workflow",
+      "status": "file-present-not-runtime-verified",
+      "disposition": "adapt",
+      "repository": "oldmangrizzz/nerd-court",
+      "commit": "b6b19b52045b8a641ac6d34c4045c7ded40943b7",
+      "path": "Sources/Pipeline/TrialNodes.swift",
+      "source_url": "https://github.com/oldmangrizzz/nerd-court/blob/b6b19b52045b8a641ac6d34c4045c7ded40943b7/Sources/Pipeline/TrialNodes.swift"
+    },
+    {
+      "id": "nc:episode-store",
+      "label": "Local episode storage",
+      "kind": "module",
+      "details": "JSON-based local episode persistence for app",
+      "status": "file-present-not-runtime-verified",
+      "disposition": "adapt",
+      "repository": "oldmangrizzz/nerd-court",
+      "commit": "b6b19b52045b8a641ac6d34c4045c7ded40943b7",
+      "path": "Sources/Store/EpisodeStore.swift",
+      "source_url": "https://github.com/oldmangrizzz/nerd-court/blob/b6b19b52045b8a641ac6d34c4045c7ded40943b7/Sources/Store/EpisodeStore.swift"
+    },
+    {
+      "id": "nc:playback-node",
+      "label": "PlaybackNode",
+      "kind": "module",
+      "details": "Feeds turns to live court scene and voices",
+      "status": "file-present-not-runtime-verified",
+      "disposition": "adapt",
+      "repository": "oldmangrizzz/nerd-court",
+      "commit": "b6b19b52045b8a641ac6d34c4045c7ded40943b7",
+      "path": "Sources/Pipeline/TrialNodes.swift",
+      "source_url": "https://github.com/oldmangrizzz/nerd-court/blob/b6b19b52045b8a641ac6d34c4045c7ded40943b7/Sources/Pipeline/TrialNodes.swift"
+    },
+    {
+      "id": "nc:scene",
+      "label": "Courtroom SpriteKit scene",
+      "kind": "module",
+      "details": "Live in-app animated courtroom scene",
+      "status": "file-present-not-runtime-verified",
+      "disposition": "reference",
+      "repository": "oldmangrizzz/nerd-court",
+      "commit": "b6b19b52045b8a641ac6d34c4045c7ded40943b7",
+      "path": "Sources/Animation/CourtroomScene.swift",
+      "source_url": "https://github.com/oldmangrizzz/nerd-court/blob/b6b19b52045b8a641ac6d34c4045c7ded40943b7/Sources/Animation/CourtroomScene.swift"
+    },
+    {
+      "id": "nc:cinematic",
+      "label": "Cinematic effects",
+      "kind": "module",
+      "details": "SpriteKit effects and camera choreography; not video encoder",
+      "status": "file-present-not-runtime-verified",
+      "disposition": "reference",
+      "repository": "oldmangrizzz/nerd-court",
+      "commit": "b6b19b52045b8a641ac6d34c4045c7ded40943b7",
+      "path": "Sources/Animation/CinematicEngine.swift",
+      "source_url": "https://github.com/oldmangrizzz/nerd-court/blob/b6b19b52045b8a641ac6d34c4045c7ded40943b7/Sources/Animation/CinematicEngine.swift"
+    },
+    {
+      "id": "nc:camera",
+      "label": "Camera controller",
+      "kind": "module",
+      "details": "Stage camera logic",
+      "status": "file-present-not-runtime-verified",
+      "disposition": "reference",
+      "repository": "oldmangrizzz/nerd-court",
+      "commit": "b6b19b52045b8a641ac6d34c4045c7ded40943b7",
+      "path": "Sources/Animation/CameraController.swift",
+      "source_url": "https://github.com/oldmangrizzz/nerd-court/blob/b6b19b52045b8a641ac6d34c4045c7ded40943b7/Sources/Animation/CameraController.swift"
+    },
+    {
+      "id": "nc:portraits",
+      "label": "Character portrait node",
+      "kind": "module",
+      "details": "Character art/visuals for live UI playback",
+      "status": "file-present-not-runtime-verified",
+      "disposition": "reference",
+      "repository": "oldmangrizzz/nerd-court",
+      "commit": "b6b19b52045b8a641ac6d34c4045c7ded40943b7",
+      "path": "Sources/Animation/CharacterPortraitNode.swift",
+      "source_url": "https://github.com/oldmangrizzz/nerd-court/blob/b6b19b52045b8a641ac6d34c4045c7ded40943b7/Sources/Animation/CharacterPortraitNode.swift"
+    },
+    {
+      "id": "nc:finish-node",
+      "label": "FinisherNode",
+      "kind": "module",
+      "details": "Workflow stage after playback",
+      "status": "file-present-not-runtime-verified",
+      "disposition": "adapt",
+      "repository": "oldmangrizzz/nerd-court",
+      "commit": "b6b19b52045b8a641ac6d34c4045c7ded40943b7",
+      "path": "Sources/Pipeline/TrialNodes.swift",
+      "source_url": "https://github.com/oldmangrizzz/nerd-court/blob/b6b19b52045b8a641ac6d34c4045c7ded40943b7/Sources/Pipeline/TrialNodes.swift"
+    },
+    {
+      "id": "nc:finish-animation",
+      "label": "FinisherAnimator",
+      "kind": "module",
+      "details": "SpriteKit finisher animation mechanics",
+      "status": "file-present-not-runtime-verified",
+      "disposition": "adapt",
+      "repository": "oldmangrizzz/nerd-court",
+      "commit": "b6b19b52045b8a641ac6d34c4045c7ded40943b7",
+      "path": "Sources/Animation/FinisherAnimator.swift",
+      "source_url": "https://github.com/oldmangrizzz/nerd-court/blob/b6b19b52045b8a641ac6d34c4045c7ded40943b7/Sources/Animation/FinisherAnimator.swift"
+    },
+    {
+      "id": "nc:finish-executor",
+      "label": "FinisherExecutor",
+      "kind": "module",
+      "details": "Controls finisher execution in scene",
+      "status": "file-present-not-runtime-verified",
+      "disposition": "adapt",
+      "repository": "oldmangrizzz/nerd-court",
+      "commit": "b6b19b52045b8a641ac6d34c4045c7ded40943b7",
+      "path": "Sources/Animation/FinisherExecutor.swift",
+      "source_url": "https://github.com/oldmangrizzz/nerd-court/blob/b6b19b52045b8a641ac6d34c4045c7ded40943b7/Sources/Animation/FinisherExecutor.swift"
+    },
+    {
+      "id": "nc:voice",
+      "label": "Voice synthesis client",
+      "kind": "module",
+      "details": "Remote proxy fallback and AVFoundation playback; not full episode audio render",
+      "status": "file-present-not-runtime-verified",
+      "disposition": "adapt",
+      "repository": "oldmangrizzz/nerd-court",
+      "commit": "b6b19b52045b8a641ac6d34c4045c7ded40943b7",
+      "path": "Sources/Voice/VoiceSynthesisClient.swift",
+      "source_url": "https://github.com/oldmangrizzz/nerd-court/blob/b6b19b52045b8a641ac6d34c4045c7ded40943b7/Sources/Voice/VoiceSynthesisClient.swift"
+    },
+    {
+      "id": "nc:voice-bank",
+      "label": "Voice registry replay",
+      "kind": "module",
+      "details": "Voice registry/cache support",
+      "status": "file-present-not-runtime-verified",
+      "disposition": "adapt",
+      "repository": "oldmangrizzz/nerd-court",
+      "commit": "b6b19b52045b8a641ac6d34c4045c7ded40943b7",
+      "path": "Sources/Voice/VoiceRegistryReplay.swift",
+      "source_url": "https://github.com/oldmangrizzz/nerd-court/blob/b6b19b52045b8a641ac6d34c4045c7ded40943b7/Sources/Voice/VoiceRegistryReplay.swift"
+    },
+    {
+      "id": "nc:backend",
+      "label": "Convex schema",
+      "kind": "module",
+      "details": "Backend entities and data schema",
+      "status": "file-present-not-runtime-verified",
+      "disposition": "adapt",
+      "repository": "oldmangrizzz/nerd-court",
+      "commit": "b6b19b52045b8a641ac6d34c4045c7ded40943b7",
+      "path": "convex/schema.ts",
+      "source_url": "https://github.com/oldmangrizzz/nerd-court/blob/b6b19b52045b8a641ac6d34c4045c7ded40943b7/convex/schema.ts"
+    },
+    {
+      "id": "nc:research-data",
+      "label": "Convex research persistence",
+      "kind": "module",
+      "details": "Stores research records in backend",
+      "status": "file-present-not-runtime-verified",
+      "disposition": "adapt",
+      "repository": "oldmangrizzz/nerd-court",
+      "commit": "b6b19b52045b8a641ac6d34c4045c7ded40943b7",
+      "path": "convex/researchData.ts",
+      "source_url": "https://github.com/oldmangrizzz/nerd-court/blob/b6b19b52045b8a641ac6d34c4045c7ded40943b7/convex/researchData.ts"
+    },
+    {
+      "id": "nc:episodes-backend",
+      "label": "Convex episode persistence",
+      "kind": "module",
+      "details": "Backend episode functions",
+      "status": "file-present-not-runtime-verified",
+      "disposition": "adapt",
+      "repository": "oldmangrizzz/nerd-court",
+      "commit": "b6b19b52045b8a641ac6d34c4045c7ded40943b7",
+      "path": "convex/episodes.ts",
+      "source_url": "https://github.com/oldmangrizzz/nerd-court/blob/b6b19b52045b8a641ac6d34c4045c7ded40943b7/convex/episodes.ts"
+    },
+    {
+      "id": "nc:security",
+      "label": "Input sanitizer",
+      "kind": "module",
+      "details": "Input normalization and sanitization functions",
+      "status": "file-present-not-runtime-verified",
+      "disposition": "adapt",
+      "repository": "oldmangrizzz/nerd-court",
+      "commit": "b6b19b52045b8a641ac6d34c4045c7ded40943b7",
+      "path": "Sources/Security/InputSanitizer.swift",
+      "source_url": "https://github.com/oldmangrizzz/nerd-court/blob/b6b19b52045b8a641ac6d34c4045c7ded40943b7/Sources/Security/InputSanitizer.swift"
+    },
+    {
+      "id": "nc:tests",
+      "label": "Pipeline unit tests",
+      "kind": "module",
+      "details": "Existing tests; no current verified run in this investigation",
+      "status": "file-present-not-runtime-verified",
+      "disposition": "adapt",
+      "repository": "oldmangrizzz/nerd-court",
+      "commit": "b6b19b52045b8a641ac6d34c4045c7ded40943b7",
+      "path": "Tests/NerdCourtTests/PipelineEngineTests.swift",
+      "source_url": "https://github.com/oldmangrizzz/nerd-court/blob/b6b19b52045b8a641ac6d34c4045c7ded40943b7/Tests/NerdCourtTests/PipelineEngineTests.swift"
+    },
+    {
+      "id": "nc:ui-tests",
+      "label": "Native UI tests",
+      "kind": "module",
+      "details": "Existing UI tests under iOS; requires compatible Apple runner",
+      "status": "file-present-not-runtime-verified",
+      "disposition": "reference",
+      "repository": "oldmangrizzz/nerd-court",
+      "commit": "b6b19b52045b8a641ac6d34c4045c7ded40943b7",
+      "path": "Tests/NerdCourtUITests/CourtroomFlowUITests.swift",
+      "source_url": "https://github.com/oldmangrizzz/nerd-court/blob/b6b19b52045b8a641ac6d34c4045c7ded40943b7/Tests/NerdCourtUITests/CourtroomFlowUITests.swift"
+    },
+    {
+      "id": "nc:blueprint",
+      "label": "Historical iOS blueprint",
+      "kind": "module",
+      "details": "May 2026 iOS/TestFlight design; superseded by user's web/TV episodic product requirement",
+      "status": "file-present-not-runtime-verified",
+      "disposition": "reference",
+      "repository": "oldmangrizzz/nerd-court",
+      "commit": "b6b19b52045b8a641ac6d34c4045c7ded40943b7",
+      "path": "nerd-court-blueprint.md",
+      "source_url": "https://github.com/oldmangrizzz/nerd-court/blob/b6b19b52045b8a641ac6d34c4045c7ded40943b7/nerd-court-blueprint.md"
+    },
+    {
+      "id": "nc:build-changelog",
+      "label": "Build log claims",
+      "kind": "module",
+      "details": "Build 16/TestFlight history documented, not end-to-end video proof",
+      "status": "file-present-not-runtime-verified",
+      "disposition": "reference",
+      "repository": "oldmangrizzz/nerd-court",
+      "commit": "b6b19b52045b8a641ac6d34c4045c7ded40943b7",
+      "path": ".codex/NC/changelog.md",
+      "source_url": "https://github.com/oldmangrizzz/nerd-court/blob/b6b19b52045b8a641ac6d34c4045c7ded40943b7/.codex/NC/changelog.md"
+    },
+    {
+      "id": "nc:swift-target",
+      "label": "Xcode build definition",
+      "kind": "module",
+      "details": "Native iOS 26 Swift 6 configuration; not web/TV production target",
+      "status": "file-present-not-runtime-verified",
+      "disposition": "reference",
+      "repository": "oldmangrizzz/nerd-court",
+      "commit": "b6b19b52045b8a641ac6d34c4045c7ded40943b7",
+      "path": "project.yml",
+      "source_url": "https://github.com/oldmangrizzz/nerd-court/blob/b6b19b52045b8a641ac6d34c4045c7ded40943b7/project.yml"
+    },
+    {
+      "id": "leg:canon-core",
+      "label": "Canon Core README",
+      "kind": "module",
+      "details": "Historic living archive for lore adjudication",
+      "status": "file-present-not-runtime-verified",
+      "disposition": "reference",
+      "repository": "oldmangrizzz/nerdscourt-canon-core",
+      "commit": "30564853301258bf534a291b3decbcd410729a98",
+      "path": "README.md",
+      "source_url": "https://github.com/oldmangrizzz/nerdscourt-canon-core/blob/30564853301258bf534a291b3decbcd410729a98/README.md"
+    },
+    {
+      "id": "leg:precedent",
+      "label": "RDJ/Affleck trial precedent",
+      "kind": "module",
+      "details": "Case precedent and comedic canon trial record",
+      "status": "file-present-not-runtime-verified",
+      "disposition": "adapt",
+      "repository": "oldmangrizzz/nerdscourt-canon-core",
+      "commit": "30564853301258bf534a291b3decbcd410729a98",
+      "path": "rdj_affleck_trial_record.json",
+      "source_url": "https://github.com/oldmangrizzz/nerdscourt-canon-core/blob/30564853301258bf534a291b3decbcd410729a98/rdj_affleck_trial_record.json"
+    },
+    {
+      "id": "leg:template",
+      "label": "Trial template",
+      "kind": "module",
+      "details": "Reusable template for issue/argument/verdict structure",
+      "status": "file-present-not-runtime-verified",
+      "disposition": "adapt",
+      "repository": "oldmangrizzz/nerdscourt-canon-core",
+      "commit": "30564853301258bf534a291b3decbcd410729a98",
+      "path": "trial_template.json",
+      "source_url": "https://github.com/oldmangrizzz/nerdscourt-canon-core/blob/30564853301258bf534a291b3decbcd410729a98/trial_template.json"
+    },
+    {
+      "id": "leg:trial-forge",
+      "label": "Trial Forge",
+      "kind": "module",
+      "details": "Historic case record creator; not full video pipeline",
+      "status": "file-present-not-runtime-verified",
+      "disposition": "reference",
+      "repository": "oldmangrizzz/nerdscourt-canon-core",
+      "commit": "30564853301258bf534a291b3decbcd410729a98",
+      "path": "trial_logic/trial_forge.py",
+      "source_url": "https://github.com/oldmangrizzz/nerdscourt-canon-core/blob/30564853301258bf534a291b3decbcd410729a98/trial_logic/trial_forge.py"
+    },
+    {
+      "id": "leg:personas",
+      "label": "Persona schema",
+      "kind": "module",
+      "details": "Legacy persona schema candidate for mapping",
+      "status": "file-present-not-runtime-verified",
+      "disposition": "review",
+      "repository": "oldmangrizzz/nerdscourt-canon-core",
+      "commit": "30564853301258bf534a291b3decbcd410729a98",
+      "path": "nerdscourt_core_schema.json",
+      "source_url": "https://github.com/oldmangrizzz/nerdscourt-canon-core/blob/30564853301258bf534a291b3decbcd410729a98/nerdscourt_core_schema.json"
+    },
+    {
+      "id": "leg:router",
+      "label": "Legacy Zord model router",
+      "kind": "module",
+      "details": "Legacy model routing implementation",
+      "status": "file-present-not-runtime-verified",
+      "disposition": "reference",
+      "repository": "oldmangrizzz/nerdscourt-canon-core",
+      "commit": "30564853301258bf534a291b3decbcd410729a98",
+      "path": "swarm_logic/zord_model_router.py",
+      "source_url": "https://github.com/oldmangrizzz/nerdscourt-canon-core/blob/30564853301258bf534a291b3decbcd410729a98/swarm_logic/zord_model_router.py"
+    },
+    {
+      "id": "leg:voice",
+      "label": "Legacy voice function",
+      "kind": "module",
+      "details": "Older voice synthesis wrapper",
+      "status": "file-present-not-runtime-verified",
+      "disposition": "reference",
+      "repository": "oldmangrizzz/nerdscourt-canon-core",
+      "commit": "30564853301258bf534a291b3decbcd410729a98",
+      "path": "voice_logic/generate_voice.py",
+      "source_url": "https://github.com/oldmangrizzz/nerdscourt-canon-core/blob/30564853301258bf534a291b3decbcd410729a98/voice_logic/generate_voice.py"
+    },
+    {
+      "id": "leg:convex",
+      "label": "Legacy Convex trial collection",
+      "kind": "module",
+      "details": "Case/trial persistence contract",
+      "status": "file-present-not-runtime-verified",
+      "disposition": "reference",
+      "repository": "oldmangrizzz/nerdscourt-canon-core",
+      "commit": "30564853301258bf534a291b3decbcd410729a98",
+      "path": "convex/trials.ts",
+      "source_url": "https://github.com/oldmangrizzz/nerdscourt-canon-core/blob/30564853301258bf534a291b3decbcd410729a98/convex/trials.ts"
+    },
+    {
+      "id": "eval:score",
+      "label": "Deterministic case evaluator",
+      "kind": "module",
+      "details": "Weighted scores, explicit optional bias and verdict; not substitute for cited canon adjudication",
+      "status": "file-present-not-runtime-verified",
+      "disposition": "review",
+      "repository": "oldmangrizzz/nerdcourt",
+      "commit": "3886276aaab72c1d38df475bc8591bc088cf5aa9",
+      "path": "nerdcourt/evaluator.py",
+      "source_url": "https://github.com/oldmangrizzz/nerdcourt/blob/3886276aaab72c1d38df475bc8591bc088cf5aa9/nerdcourt/evaluator.py"
+    },
+    {
+      "id": "eval:test",
+      "label": "Evaluator tests",
+      "kind": "module",
+      "details": "Source-level test cases; not executed here",
+      "status": "file-present-not-runtime-verified",
+      "disposition": "reference",
+      "repository": "oldmangrizzz/nerdcourt",
+      "commit": "3886276aaab72c1d38df475bc8591bc088cf5aa9",
+      "path": "tests/test_evaluator.py",
+      "source_url": "https://github.com/oldmangrizzz/nerdcourt/blob/3886276aaab72c1d38df475bc8591bc088cf5aa9/tests/test_evaluator.py"
+    },
+    {
+      "id": "eval:model",
+      "label": "Case/verdict model",
+      "kind": "module",
+      "details": "Argument and Case schema for transparent scoring",
+      "status": "file-present-not-runtime-verified",
+      "disposition": "adapt",
+      "repository": "oldmangrizzz/nerdcourt",
+      "commit": "3886276aaab72c1d38df475bc8591bc088cf5aa9",
+      "path": "nerdcourt/models.py",
+      "source_url": "https://github.com/oldmangrizzz/nerdcourt/blob/3886276aaab72c1d38df475bc8591bc088cf5aa9/nerdcourt/models.py"
+    },
+    {
+      "id": "t:intake",
+      "label": "Cross-platform grievance contract",
+      "kind": "target",
+      "details": "Input schema: claims, parties, ambiguities, constraints and evidence",
+      "status": "planned",
+      "disposition": "review",
+      "priority": "P0"
+    },
+    {
+      "id": "t:classify",
+      "label": "Entity type classifier",
+      "kind": "target",
+      "details": "Distinguish actor, historical person, actor portrayal, fictional character, meta-character, and continuity",
+      "status": "planned",
+      "disposition": "review",
+      "priority": "P0"
+    },
+    {
+      "id": "t:variant",
+      "label": "Continuity / variant resolver",
+      "kind": "target",
+      "details": "Resolve franchise, medium, publisher, universe, era and portrayal; never silently collapse variants",
+      "status": "planned",
+      "disposition": "review",
+      "priority": "P0"
+    },
+    {
+      "id": "t:evidence",
+      "label": "Source and claim evidence ledger",
+      "kind": "target",
+      "details": "Source-tiered citations, issue/scene references, conflicting and unsupported claims",
+      "status": "planned",
+      "disposition": "review",
+      "priority": "P0"
+    },
+    {
+      "id": "t:gestalt",
+      "label": "Gestalt archetype knowledge base",
+      "kind": "target",
+      "details": "Keep cross-media archetype as evidence-aware reference, not a playable merged persona",
+      "status": "planned",
+      "disposition": "review",
+      "priority": "P0"
+    },
+    {
+      "id": "t:profile",
+      "label": "Variant-specific character compiler",
+      "kind": "target",
+      "details": "Construct bounded profile with known traits, observed behavior and explicitly inferred psychology",
+      "status": "planned",
+      "disposition": "review",
+      "priority": "P0"
+    },
+    {
+      "id": "t:relationship",
+      "label": "Variant-specific relationship graph",
+      "kind": "target",
+      "details": "Track knowledge, memories and relationships applicable only to this continuity",
+      "status": "planned",
+      "disposition": "review",
+      "priority": "P0"
+    },
+    {
+      "id": "t:actor",
+      "label": "Actor/performance identity mapping",
+      "kind": "target",
+      "details": "Model actor-to-role, fictional performer and portrayal relationship as typed edges",
+      "status": "planned",
+      "disposition": "review",
+      "priority": "P0"
+    },
+    {
+      "id": "t:voice",
+      "label": "Voice casting and authorization manifest",
+      "kind": "target",
+      "details": "Voice style, expressive range, source/rights constraints and approved synthesis route",
+      "status": "planned",
+      "disposition": "review",
+      "priority": "P0"
+    },
+    {
+      "id": "t:visual",
+      "label": "Visual casting manifest",
+      "kind": "target",
+      "details": "Design appearance, costume, expressions, rig references and consistency constraints",
+      "status": "planned",
+      "disposition": "review",
+      "priority": "P1"
+    },
+    {
+      "id": "t:echo",
+      "label": "Episode-bounded digital echo",
+      "kind": "target",
+      "details": "Isolated stateful performance instance with no default persistent autobiographical memory",
+      "status": "planned",
+      "disposition": "review",
+      "priority": "P0"
+    },
+    {
+      "id": "t:echo-storage",
+      "label": "Echo snapshot/reuse store",
+      "kind": "target",
+      "details": "Versioned exact identity and episode memory with opt-in reuse and purging rules",
+      "status": "planned",
+      "disposition": "review",
+      "priority": "P0"
+    },
+    {
+      "id": "t:cast",
+      "label": "Case CastManifest",
+      "kind": "target",
+      "details": "Immutable casting contract passed from UATU to court; every performer has unique stable variant ID",
+      "status": "planned",
+      "disposition": "review",
+      "priority": "P0"
+    },
+    {
+      "id": "t:research-boundary",
+      "label": "Research-to-performance gate",
+      "kind": "target",
+      "details": "No performance before factual provenance and casting decisions are settled or flagged",
+      "status": "planned",
+      "disposition": "review",
+      "priority": "P0"
+    },
+    {
+      "id": "t:arguments",
+      "label": "Prosecution/defense evidence engine",
+      "kind": "target",
+      "details": "Independent structured arguments with cites and opposing counterarguments",
+      "status": "planned",
+      "disposition": "review",
+      "priority": "P0"
+    },
+    {
+      "id": "t:verdict",
+      "label": "Cited verdict engine",
+      "kind": "target",
+      "details": "Verdict justified by admissible evidence; comedy cannot rewrite factual outcomes",
+      "status": "planned",
+      "disposition": "review",
+      "priority": "P0"
+    },
+    {
+      "id": "t:dialogue",
+      "label": "Character-fidelity dialogue runner",
+      "kind": "target",
+      "details": "Multi-character scene writing with state-aware behavior, interruptions and causal consequences",
+      "status": "planned",
+      "disposition": "review",
+      "priority": "P0"
+    },
+    {
+      "id": "t:showrunner",
+      "label": "Episode/act showrunner",
+      "kind": "target",
+      "details": "Plans beats, witness entrances, crossfire, comedic reveals, and appropriate emotional arcs",
+      "status": "planned",
+      "disposition": "review",
+      "priority": "P1"
+    },
+    {
+      "id": "t:finisher",
+      "label": "Conditional finisher choreography",
+      "kind": "target",
+      "details": "Finisher effects gated on earned verdict, characterization, tone and content constraints",
+      "status": "planned",
+      "disposition": "review",
+      "priority": "P1"
+    },
+    {
+      "id": "t:storyboard",
+      "label": "Shot list and animatic generator",
+      "kind": "target",
+      "details": "Camera positions, blocking, action, reaction shots, motion timing and transitions",
+      "status": "planned",
+      "disposition": "review",
+      "priority": "P1"
+    },
+    {
+      "id": "t:render",
+      "label": "Video render/compositor",
+      "kind": "target",
+      "details": "Generate/assemble deterministic shot frames into encoded episode media",
+      "status": "planned",
+      "disposition": "review",
+      "priority": "P1"
+    },
+    {
+      "id": "t:audio",
+      "label": "Audio post-production",
+      "kind": "target",
+      "details": "Voice rendering, cues, SFX, room tone, timing, mixing and mastering",
+      "status": "planned",
+      "disposition": "review",
+      "priority": "P1"
+    },
+    {
+      "id": "t:encode",
+      "label": "Master asset encoding and QC",
+      "kind": "target",
+      "details": "Mux video/audio, produce streaming renditions, validate A/V synchronization",
+      "status": "planned",
+      "disposition": "review",
+      "priority": "P1"
+    },
+    {
+      "id": "t:jobs",
+      "label": "Async production job orchestration",
+      "kind": "target",
+      "details": "Durable queue, retries, cancellation, idempotency, budget and progress reporting",
+      "status": "planned",
+      "disposition": "review",
+      "priority": "P0"
+    },
+    {
+      "id": "t:assets",
+      "label": "Media/object storage and CDN",
+      "kind": "target",
+      "details": "Persist episodes, subtitles, thumbnails, source manifests, immutable publish versions",
+      "status": "planned",
+      "disposition": "review",
+      "priority": "P1"
+    },
+    {
+      "id": "t:episode-contract",
+      "label": "Episode lifecycle state machine",
+      "kind": "target",
+      "details": "DRAFT > CAST > EVIDENCE > SCRIPTED > RENDERING > QC > PUBLISHED / FAILED",
+      "status": "planned",
+      "disposition": "review",
+      "priority": "P0"
+    },
+    {
+      "id": "t:web",
+      "label": "Web intake and viewing",
+      "kind": "target",
+      "details": "Usable grievance submission, job progress, video player and past-episode library",
+      "status": "planned",
+      "disposition": "review",
+      "priority": "P1"
+    },
+    {
+      "id": "t:tv",
+      "label": "TV/phone playback adapters",
+      "kind": "target",
+      "details": "Television and mobile playback clients consume shared media and episodes API",
+      "status": "planned",
+      "disposition": "review",
+      "priority": "P2"
+    },
+    {
+      "id": "t:permissions",
+      "label": "Rights/portrayal/publishing review",
+      "kind": "target",
+      "details": "Review real-performer likeness, voice use, copyrighted visuals, distribution rights, and satire context",
+      "status": "planned",
+      "disposition": "review",
+      "priority": "P0"
+    },
+    {
+      "id": "t:case-separation",
+      "label": "Continuity contamination firewall",
+      "kind": "target",
+      "details": "Episode improvisation cannot become source canon; actor and character graphs stay separate",
+      "status": "planned",
+      "disposition": "review",
+      "priority": "P0"
+    },
+    {
+      "id": "t:observability",
+      "label": "Provenance and production audit",
+      "kind": "target",
+      "details": "Every claim, model step, asset, prompt, decision and version has traceable audit links",
+      "status": "planned",
+      "disposition": "review",
+      "priority": "P0"
+    },
+    {
+      "id": "t:evaluation",
+      "label": "Character authenticity eval harness",
+      "kind": "target",
+      "details": "Version-specific behavioral stress tests, blinded fidelity checks and adversarial continuity tests",
+      "status": "planned",
+      "disposition": "review",
+      "priority": "P0"
+    },
+    {
+      "id": "t:cost",
+      "label": "Render-cost/latency benchmark",
+      "kind": "target",
+      "details": "Measure real 15–30 minute production latency and resource expenditure; no unsupported promise",
+      "status": "planned",
+      "disposition": "review",
+      "priority": "P0"
+    },
+    {
+      "id": "t:unified",
+      "label": "Unified Nerd Court repository boundaries",
+      "kind": "target",
+      "details": "Single repo with sourced modules, shared schemas and separate apps/services; legacy snapshots stay pinned",
+      "status": "planned",
+      "disposition": "review",
+      "priority": "P0"
+    },
+    {
+      "id": "q:format",
+      "label": "Real television, not an in-app simulation",
+      "kind": "requirement",
+      "details": "Finished and watchable 15–30-minute episodes",
+      "status": "user-stated",
+      "disposition": "review"
+    },
+    {
+      "id": "q:turnaround",
+      "label": "Fast on-demand commissioning",
+      "kind": "requirement",
+      "details": "Viewer expectation: production initiated by grievance and playable shortly after; measured feasibility open",
+      "status": "user-stated",
+      "disposition": "review"
+    },
+    {
+      "id": "q:channels",
+      "label": "Multi-device distribution",
+      "kind": "requirement",
+      "details": "Web, phone and television playback",
+      "status": "user-stated",
+      "disposition": "review"
+    },
+    {
+      "id": "q:canon",
+      "label": "Only canon is law",
+      "kind": "requirement",
+      "details": "Court's factual claims version-specific and evidence-grounded",
+      "status": "user-stated",
+      "disposition": "review"
+    },
+    {
+      "id": "q:psych",
+      "label": "Deep character fidelity",
+      "kind": "requirement",
+      "details": "Behavioral profiles guide actions and development, not just catchphrases",
+      "status": "user-stated",
+      "disposition": "review"
+    },
+    {
+      "id": "q:gestalt",
+      "label": "Archetype gestalt split",
+      "kind": "requirement",
+      "details": "Cross-portrayal dossier is input; exact continuity-specific individual is output",
+      "status": "user-stated",
+      "disposition": "review"
+    },
+    {
+      "id": "q:echo",
+      "label": "Temporary echo lifecycles",
+      "kind": "requirement",
+      "details": "One-off instantiation; preserve state for reuse only if needed",
+      "status": "user-stated",
+      "disposition": "review"
+    },
+    {
+      "id": "q:cast",
+      "label": "Dynamic participant casting",
+      "kind": "requirement",
+      "details": "Names and grievance trigger casting of actors, characters, witnesses, voices and histories",
+      "status": "user-stated",
+      "disposition": "review"
+    },
+    {
+      "id": "q:show",
+      "label": "Theatrical courtroom show",
+      "kind": "requirement",
+      "details": "Recurring Jason, Matt, Jerry, Deadpool; witness drama; verdict; variable finishers",
+      "status": "user-stated",
+      "disposition": "review"
+    },
+    {
+      "id": "q:comedy",
+      "label": "Intentional fourth-wall casting humor",
+      "kind": "requirement",
+      "details": "Cross-franchise connections may be scripted without contaminating source lore",
+      "status": "user-stated",
+      "disposition": "review"
+    },
+    {
+      "id": "q:unified",
+      "label": "Single-source monorepo rebuild",
+      "kind": "requirement",
+      "details": "Graph-first integration, preserving original repositories as evidence",
+      "status": "user-stated",
+      "disposition": "review"
+    },
+    {
+      "id": "q:independence",
+      "label": "No synthetic personhood claims as acceptance test",
+      "kind": "requirement",
+      "details": "Prove behavior/performance and audit, not metaphysical personhood",
+      "status": "user-stated",
+      "disposition": "review"
+    },
+    {
+      "id": "test:variant-lock",
+      "label": "Variant identity lock",
+      "kind": "test",
+      "details": "MCU Tony never inherits Earth-616 exclusive history unless explicit crossover",
+      "status": "planned",
+      "disposition": "review"
+    },
+    {
+      "id": "test:actor",
+      "label": "Actor / role separation",
+      "kind": "test",
+      "details": "RDJ, MCU Stark, portrayed Strauss, Chaplin and Doom all distinct and typed",
+      "status": "planned",
+      "disposition": "review"
+    },
+    {
+      "id": "test:provenance",
+      "label": "Cite or abstain",
+      "kind": "test",
+      "details": "Missing evidence leads to unresolved claim, not fabricated adjudication",
+      "status": "planned",
+      "disposition": "review"
+    },
+    {
+      "id": "test:persona",
+      "label": "Character fidelity stress matrix",
+      "kind": "test",
+      "details": "Same event produces distinct, source-grounded behavior across Peter/Johnny/Hill/Tony",
+      "status": "planned",
+      "disposition": "review"
+    },
+    {
+      "id": "test:echo",
+      "label": "Echo creation/restart/reuse",
+      "kind": "test",
+      "details": "Same pinned variant, versioned echo; no unapproved memory leakage",
+      "status": "planned",
+      "disposition": "review"
+    },
+    {
+      "id": "test:contamination",
+      "label": "Continuity firewall",
+      "kind": "test",
+      "details": "Nerd Court punishment never becomes original canon",
+      "status": "planned",
+      "disposition": "review"
+    },
+    {
+      "id": "test:fail",
+      "label": "Unavailable service fallback",
+      "kind": "test",
+      "details": "Transparent job failure and no false claim of rendered output",
+      "status": "planned",
+      "disposition": "review"
+    },
+    {
+      "id": "test:video",
+      "label": "Rendered episode acceptance",
+      "kind": "test",
+      "details": "Decodable 15–30-minute A/V file, subtitles, continuity, finishers and complete duration",
+      "status": "planned",
+      "disposition": "review"
+    },
+    {
+      "id": "test:perf",
+      "label": "Real throughput/cost measurement",
+      "kind": "test",
+      "details": "Timed cold/warm renders against stated fast turnaround",
+      "status": "planned",
+      "disposition": "review"
+    },
+    {
+      "id": "test:cross",
+      "label": "Web and TV player parity",
+      "kind": "test",
+      "details": "Same published episode plays on web, mobile and television",
+      "status": "planned",
+      "disposition": "review"
+    },
+    {
+      "id": "risk:wikis",
+      "label": "Wiki source authority",
+      "kind": "risk",
+      "details": "Fandom/Wikipedia may contain unsourced cross-continuity summaries",
+      "status": "file-present-not-runtime-verified",
+      "disposition": "review"
+    },
+    {
+      "id": "risk:merge",
+      "label": "Variant conflation",
+      "kind": "risk",
+      "details": "Current original UATU anchor merges multiversal identities",
+      "status": "file-present-not-runtime-verified",
+      "disposition": "review"
+    },
+    {
+      "id": "risk:drift",
+      "label": "Character drift",
+      "kind": "risk",
+      "details": "Long generation may flatten psychologically distinct performers",
+      "status": "file-present-not-runtime-verified",
+      "disposition": "review"
+    },
+    {
+      "id": "risk:voice",
+      "label": "Voice/likeness rights",
+      "kind": "risk",
+      "details": "Real performers and recognizable voices require production and publication review",
+      "status": "file-present-not-runtime-verified",
+      "disposition": "review"
+    },
+    {
+      "id": "risk:render",
+      "label": "Video output gap",
+      "kind": "risk",
+      "details": "Current Swift in-app playback does not demonstrate encoded 15–30-minute masters",
+      "status": "file-present-not-runtime-verified",
+      "disposition": "review"
+    },
+    {
+      "id": "risk:timing",
+      "label": "Latency and cost",
+      "kind": "risk",
+      "details": "Couple-minute generation of long polished episode unproven",
+      "status": "file-present-not-runtime-verified",
+      "disposition": "review"
+    },
+    {
+      "id": "risk:sprawl",
+      "label": "Large vendored/binary source corpus",
+      "kind": "risk",
+      "details": "Blind merging imports binaries, secrets, experimental tools, and licensing obligations",
+      "status": "file-present-not-runtime-verified",
+      "disposition": "review"
+    },
+    {
+      "id": "risk:legacy",
+      "label": "Historical design mismatch",
+      "kind": "risk",
+      "details": "May 2026 iOS/TestFlight blueprint differs from later web/TV product direction",
+      "status": "file-present-not-runtime-verified",
+      "disposition": "review"
+    },
+    {
+      "id": "risk:claims",
+      "label": "Psychological attribution",
+      "kind": "risk",
+      "details": "Dossiers contain deductions not necessarily canonical facts; label inference",
+      "status": "file-present-not-runtime-verified",
+      "disposition": "review"
+    },
+    {
+      "id": "risk:license",
+      "label": "Licensing and provenance",
+      "kind": "risk",
+      "details": "Third-party components, assets and research require license review before copying",
+      "status": "file-present-not-runtime-verified",
+      "disposition": "review"
+    },
+    {
+      "id": "risk:failure",
+      "label": "Silent fallback masks lack of generation",
+      "kind": "risk",
+      "details": "Scripted output may be mistaken for independent model success",
+      "status": "file-present-not-runtime-verified",
+      "disposition": "review"
+    }
+  ],
+  "edges": [
+    {
+      "from": "repo:uatu-engine",
+      "to": "u:swarm",
+      "relation": "contains",
+      "reason": "Physical file is present in this pinned source snapshot"
+    },
+    {
+      "from": "repo:uatu-engine",
+      "to": "u:character",
+      "relation": "contains",
+      "reason": "Physical file is present in this pinned source snapshot"
+    },
+    {
+      "from": "repo:uatu-engine",
+      "to": "u:economics",
+      "relation": "contains",
+      "reason": "Physical file is present in this pinned source snapshot"
+    },
+    {
+      "from": "repo:uatu-engine",
+      "to": "u:domains",
+      "relation": "contains",
+      "reason": "Physical file is present in this pinned source snapshot"
+    },
+    {
+      "from": "repo:uatu-engine",
+      "to": "u:profile",
+      "relation": "contains",
+      "reason": "Physical file is present in this pinned source snapshot"
+    },
+    {
+      "from": "repo:uatu-engine",
+      "to": "u:anchor",
+      "relation": "contains",
+      "reason": "Physical file is present in this pinned source snapshot"
+    },
+    {
+      "from": "repo:uatu-engine",
+      "to": "u:transformer",
+      "relation": "contains",
+      "reason": "Physical file is present in this pinned source snapshot"
+    },
+    {
+      "from": "repo:uatu-engine",
+      "to": "u:instantiator",
+      "relation": "contains",
+      "reason": "Physical file is present in this pinned source snapshot"
+    },
+    {
+      "from": "repo:uatu-engine",
+      "to": "u:psych",
+      "relation": "contains",
+      "reason": "Physical file is present in this pinned source snapshot"
+    },
+    {
+      "from": "repo:uatu-engine",
+      "to": "u:dialectic",
+      "relation": "contains",
+      "reason": "Physical file is present in this pinned source snapshot"
+    },
+    {
+      "from": "repo:uatu-engine",
+      "to": "u:neuro",
+      "relation": "contains",
+      "reason": "Physical file is present in this pinned source snapshot"
+    },
+    {
+      "from": "repo:uatu-engine",
+      "to": "u:ledger",
+      "relation": "contains",
+      "reason": "Physical file is present in this pinned source snapshot"
+    },
+    {
+      "from": "repo:uatu-engine",
+      "to": "u:gate",
+      "relation": "contains",
+      "reason": "Physical file is present in this pinned source snapshot"
+    },
+    {
+      "from": "repo:uatu-engine",
+      "to": "u:convexlog",
+      "relation": "contains",
+      "reason": "Physical file is present in this pinned source snapshot"
+    },
+    {
+      "from": "repo:uatu-engine",
+      "to": "u:voice",
+      "relation": "contains",
+      "reason": "Physical file is present in this pinned source snapshot"
+    },
+    {
+      "from": "repo:uatu-engine",
+      "to": "u:graph",
+      "relation": "contains",
+      "reason": "Physical file is present in this pinned source snapshot"
+    },
+    {
+      "from": "repo:uatu-engine",
+      "to": "u:graphmert",
+      "relation": "contains",
+      "reason": "Physical file is present in this pinned source snapshot"
+    },
+    {
+      "from": "repo:uatu-engine",
+      "to": "u:deploy",
+      "relation": "contains",
+      "reason": "Physical file is present in this pinned source snapshot"
+    },
+    {
+      "from": "repo:uatu-engine",
+      "to": "u:api",
+      "relation": "contains",
+      "reason": "Physical file is present in this pinned source snapshot"
+    },
+    {
+      "from": "repo:uatu-engine",
+      "to": "u:tests",
+      "relation": "contains",
+      "reason": "Physical file is present in this pinned source snapshot"
+    },
+    {
+      "from": "repo:uatu-engine",
+      "to": "u:docs",
+      "relation": "contains",
+      "reason": "Physical file is present in this pinned source snapshot"
+    },
+    {
+      "from": "repo:uatu-engine-final",
+      "to": "uf:centrifuge",
+      "relation": "contains",
+      "reason": "Physical file is present in this pinned source snapshot"
+    },
+    {
+      "from": "repo:uatu-engine-final",
+      "to": "uf:immune",
+      "relation": "contains",
+      "reason": "Physical file is present in this pinned source snapshot"
+    },
+    {
+      "from": "repo:uatu-engine-final",
+      "to": "uf:api",
+      "relation": "contains",
+      "reason": "Physical file is present in this pinned source snapshot"
+    },
+    {
+      "from": "repo:uatu-engine-final",
+      "to": "uf:docs",
+      "relation": "contains",
+      "reason": "Physical file is present in this pinned source snapshot"
+    },
+    {
+      "from": "repo:grizzly-knights",
+      "to": "g:compiler",
+      "relation": "contains",
+      "reason": "Physical file is present in this pinned source snapshot"
+    },
+    {
+      "from": "repo:grizzly-knights",
+      "to": "g:compiler-method",
+      "relation": "contains",
+      "reason": "Physical file is present in this pinned source snapshot"
+    },
+    {
+      "from": "repo:grizzly-knights",
+      "to": "g:gold-profile",
+      "relation": "contains",
+      "reason": "Physical file is present in this pinned source snapshot"
+    },
+    {
+      "from": "repo:grizzly-knights",
+      "to": "g:validate",
+      "relation": "contains",
+      "reason": "Physical file is present in this pinned source snapshot"
+    },
+    {
+      "from": "repo:grizzly-knights",
+      "to": "g:source-research",
+      "relation": "contains",
+      "reason": "Physical file is present in this pinned source snapshot"
+    },
+    {
+      "from": "repo:grizzly-knights",
+      "to": "g:persona-runtime",
+      "relation": "contains",
+      "reason": "Physical file is present in this pinned source snapshot"
+    },
+    {
+      "from": "repo:grizzly-knights",
+      "to": "g:model-router",
+      "relation": "contains",
+      "reason": "Physical file is present in this pinned source snapshot"
+    },
+    {
+      "from": "repo:grizzly-knights",
+      "to": "g:conversation-memory",
+      "relation": "contains",
+      "reason": "Physical file is present in this pinned source snapshot"
+    },
+    {
+      "from": "repo:grizzly-knights",
+      "to": "g:script",
+      "relation": "contains",
+      "reason": "Physical file is present in this pinned source snapshot"
+    },
+    {
+      "from": "repo:grizzly-knights",
+      "to": "g:episode",
+      "relation": "contains",
+      "reason": "Physical file is present in this pinned source snapshot"
+    },
+    {
+      "from": "repo:grizzly-knights",
+      "to": "g:continuity",
+      "relation": "contains",
+      "reason": "Physical file is present in this pinned source snapshot"
+    },
+    {
+      "from": "repo:grizzly-knights",
+      "to": "g:arc",
+      "relation": "contains",
+      "reason": "Physical file is present in this pinned source snapshot"
+    },
+    {
+      "from": "repo:grizzly-knights",
+      "to": "g:showrunner",
+      "relation": "contains",
+      "reason": "Physical file is present in this pinned source snapshot"
+    },
+    {
+      "from": "repo:grizzly-knights",
+      "to": "g:voice",
+      "relation": "contains",
+      "reason": "Physical file is present in this pinned source snapshot"
+    },
+    {
+      "from": "repo:grizzly-knights",
+      "to": "g:assets",
+      "relation": "contains",
+      "reason": "Physical file is present in this pinned source snapshot"
+    },
+    {
+      "from": "repo:grizzly-knights",
+      "to": "g:unity",
+      "relation": "contains",
+      "reason": "Physical file is present in this pinned source snapshot"
+    },
+    {
+      "from": "repo:grizzly-knights",
+      "to": "g:graphsubstrate",
+      "relation": "contains",
+      "reason": "Physical file is present in this pinned source snapshot"
+    },
+    {
+      "from": "repo:grizzly-knights",
+      "to": "g:test",
+      "relation": "contains",
+      "reason": "Physical file is present in this pinned source snapshot"
+    },
+    {
+      "from": "repo:grizzly-knights",
+      "to": "g:docs",
+      "relation": "contains",
+      "reason": "Physical file is present in this pinned source snapshot"
+    },
+    {
+      "from": "repo:nerd-court",
+      "to": "nc:intake",
+      "relation": "contains",
+      "reason": "Physical file is present in this pinned source snapshot"
+    },
+    {
+      "from": "repo:nerd-court",
+      "to": "nc:orchestration",
+      "relation": "contains",
+      "reason": "Physical file is present in this pinned source snapshot"
+    },
+    {
+      "from": "repo:nerd-court",
+      "to": "nc:research",
+      "relation": "contains",
+      "reason": "Physical file is present in this pinned source snapshot"
+    },
+    {
+      "from": "repo:nerd-court",
+      "to": "nc:canon-db",
+      "relation": "contains",
+      "reason": "Physical file is present in this pinned source snapshot"
+    },
+    {
+      "from": "repo:nerd-court",
+      "to": "nc:convex-research",
+      "relation": "contains",
+      "reason": "Physical file is present in this pinned source snapshot"
+    },
+    {
+      "from": "repo:nerd-court",
+      "to": "nc:guest",
+      "relation": "contains",
+      "reason": "Physical file is present in this pinned source snapshot"
+    },
+    {
+      "from": "repo:nerd-court",
+      "to": "nc:staff",
+      "relation": "contains",
+      "reason": "Physical file is present in this pinned source snapshot"
+    },
+    {
+      "from": "repo:nerd-court",
+      "to": "nc:casefile",
+      "relation": "contains",
+      "reason": "Physical file is present in this pinned source snapshot"
+    },
+    {
+      "from": "repo:nerd-court",
+      "to": "nc:debate-node",
+      "relation": "contains",
+      "reason": "Physical file is present in this pinned source snapshot"
+    },
+    {
+      "from": "repo:nerd-court",
+      "to": "nc:debate",
+      "relation": "contains",
+      "reason": "Physical file is present in this pinned source snapshot"
+    },
+    {
+      "from": "repo:nerd-court",
+      "to": "nc:llm",
+      "relation": "contains",
+      "reason": "Physical file is present in this pinned source snapshot"
+    },
+    {
+      "from": "repo:nerd-court",
+      "to": "nc:scripted",
+      "relation": "contains",
+      "reason": "Physical file is present in this pinned source snapshot"
+    },
+    {
+      "from": "repo:nerd-court",
+      "to": "nc:episode",
+      "relation": "contains",
+      "reason": "Physical file is present in this pinned source snapshot"
+    },
+    {
+      "from": "repo:nerd-court",
+      "to": "nc:persistence-node",
+      "relation": "contains",
+      "reason": "Physical file is present in this pinned source snapshot"
+    },
+    {
+      "from": "repo:nerd-court",
+      "to": "nc:episode-store",
+      "relation": "contains",
+      "reason": "Physical file is present in this pinned source snapshot"
+    },
+    {
+      "from": "repo:nerd-court",
+      "to": "nc:playback-node",
+      "relation": "contains",
+      "reason": "Physical file is present in this pinned source snapshot"
+    },
+    {
+      "from": "repo:nerd-court",
+      "to": "nc:scene",
+      "relation": "contains",
+      "reason": "Physical file is present in this pinned source snapshot"
+    },
+    {
+      "from": "repo:nerd-court",
+      "to": "nc:cinematic",
+      "relation": "contains",
+      "reason": "Physical file is present in this pinned source snapshot"
+    },
+    {
+      "from": "repo:nerd-court",
+      "to": "nc:camera",
+      "relation": "contains",
+      "reason": "Physical file is present in this pinned source snapshot"
+    },
+    {
+      "from": "repo:nerd-court",
+      "to": "nc:portraits",
+      "relation": "contains",
+      "reason": "Physical file is present in this pinned source snapshot"
+    },
+    {
+      "from": "repo:nerd-court",
+      "to": "nc:finish-node",
+      "relation": "contains",
+      "reason": "Physical file is present in this pinned source snapshot"
+    },
+    {
+      "from": "repo:nerd-court",
+      "to": "nc:finish-animation",
+      "relation": "contains",
+      "reason": "Physical file is present in this pinned source snapshot"
+    },
+    {
+      "from": "repo:nerd-court",
+      "to": "nc:finish-executor",
+      "relation": "contains",
+      "reason": "Physical file is present in this pinned source snapshot"
+    },
+    {
+      "from": "repo:nerd-court",
+      "to": "nc:voice",
+      "relation": "contains",
+      "reason": "Physical file is present in this pinned source snapshot"
+    },
+    {
+      "from": "repo:nerd-court",
+      "to": "nc:voice-bank",
+      "relation": "contains",
+      "reason": "Physical file is present in this pinned source snapshot"
+    },
+    {
+      "from": "repo:nerd-court",
+      "to": "nc:backend",
+      "relation": "contains",
+      "reason": "Physical file is present in this pinned source snapshot"
+    },
+    {
+      "from": "repo:nerd-court",
+      "to": "nc:research-data",
+      "relation": "contains",
+      "reason": "Physical file is present in this pinned source snapshot"
+    },
+    {
+      "from": "repo:nerd-court",
+      "to": "nc:episodes-backend",
+      "relation": "contains",
+      "reason": "Physical file is present in this pinned source snapshot"
+    },
+    {
+      "from": "repo:nerd-court",
+      "to": "nc:security",
+      "relation": "contains",
+      "reason": "Physical file is present in this pinned source snapshot"
+    },
+    {
+      "from": "repo:nerd-court",
+      "to": "nc:tests",
+      "relation": "contains",
+      "reason": "Physical file is present in this pinned source snapshot"
+    },
+    {
+      "from": "repo:nerd-court",
+      "to": "nc:ui-tests",
+      "relation": "contains",
+      "reason": "Physical file is present in this pinned source snapshot"
+    },
+    {
+      "from": "repo:nerd-court",
+      "to": "nc:blueprint",
+      "relation": "contains",
+      "reason": "Physical file is present in this pinned source snapshot"
+    },
+    {
+      "from": "repo:nerd-court",
+      "to": "nc:build-changelog",
+      "relation": "contains",
+      "reason": "Physical file is present in this pinned source snapshot"
+    },
+    {
+      "from": "repo:nerd-court",
+      "to": "nc:swift-target",
+      "relation": "contains",
+      "reason": "Physical file is present in this pinned source snapshot"
+    },
+    {
+      "from": "repo:nerdscourt-canon-core",
+      "to": "leg:canon-core",
+      "relation": "contains",
+      "reason": "Physical file is present in this pinned source snapshot"
+    },
+    {
+      "from": "repo:nerdscourt-canon-core",
+      "to": "leg:precedent",
+      "relation": "contains",
+      "reason": "Physical file is present in this pinned source snapshot"
+    },
+    {
+      "from": "repo:nerdscourt-canon-core",
+      "to": "leg:template",
+      "relation": "contains",
+      "reason": "Physical file is present in this pinned source snapshot"
+    },
+    {
+      "from": "repo:nerdscourt-canon-core",
+      "to": "leg:trial-forge",
+      "relation": "contains",
+      "reason": "Physical file is present in this pinned source snapshot"
+    },
+    {
+      "from": "repo:nerdscourt-canon-core",
+      "to": "leg:personas",
+      "relation": "contains",
+      "reason": "Physical file is present in this pinned source snapshot"
+    },
+    {
+      "from": "repo:nerdscourt-canon-core",
+      "to": "leg:router",
+      "relation": "contains",
+      "reason": "Physical file is present in this pinned source snapshot"
+    },
+    {
+      "from": "repo:nerdscourt-canon-core",
+      "to": "leg:voice",
+      "relation": "contains",
+      "reason": "Physical file is present in this pinned source snapshot"
+    },
+    {
+      "from": "repo:nerdscourt-canon-core",
+      "to": "leg:convex",
+      "relation": "contains",
+      "reason": "Physical file is present in this pinned source snapshot"
+    },
+    {
+      "from": "repo:nerdcourt",
+      "to": "eval:score",
+      "relation": "contains",
+      "reason": "Physical file is present in this pinned source snapshot"
+    },
+    {
+      "from": "repo:nerdcourt",
+      "to": "eval:test",
+      "relation": "contains",
+      "reason": "Physical file is present in this pinned source snapshot"
+    },
+    {
+      "from": "repo:nerdcourt",
+      "to": "eval:model",
+      "relation": "contains",
+      "reason": "Physical file is present in this pinned source snapshot"
+    },
+    {
+      "from": "u:swarm",
+      "to": "u:character",
+      "relation": "calls",
+      "reason": "Source code path or repository description supports relation; verify runtime wiring during migration"
+    },
+    {
+      "from": "u:swarm",
+      "to": "u:economics",
+      "relation": "calls",
+      "reason": "Source code path or repository description supports relation; verify runtime wiring during migration"
+    },
+    {
+      "from": "u:swarm",
+      "to": "u:domains",
+      "relation": "calls",
+      "reason": "Source code path or repository description supports relation; verify runtime wiring during migration"
+    },
+    {
+      "from": "u:swarm",
+      "to": "u:profile",
+      "relation": "produces",
+      "reason": "Source code path or repository description supports relation; verify runtime wiring during migration"
+    },
+    {
+      "from": "u:character",
+      "to": "u:profile",
+      "relation": "contributes-to",
+      "reason": "Source code path or repository description supports relation; verify runtime wiring during migration"
+    },
+    {
+      "from": "u:profile",
+      "to": "u:anchor",
+      "relation": "feeds",
+      "reason": "Source code path or repository description supports relation; verify runtime wiring during migration"
+    },
+    {
+      "from": "u:anchor",
+      "to": "u:transformer",
+      "relation": "feeds",
+      "reason": "Source code path or repository description supports relation; verify runtime wiring during migration"
+    },
+    {
+      "from": "u:transformer",
+      "to": "u:instantiator",
+      "relation": "feeds",
+      "reason": "Source code path or repository description supports relation; verify runtime wiring during migration"
+    },
+    {
+      "from": "u:instantiator",
+      "to": "u:ledger",
+      "relation": "candidate-dependency",
+      "reason": "Source code path or repository description supports relation; verify runtime wiring during migration"
+    },
+    {
+      "from": "u:instantiator",
+      "to": "u:voice",
+      "relation": "candidate-dependency",
+      "reason": "Source code path or repository description supports relation; verify runtime wiring during migration"
+    },
+    {
+      "from": "u:instantiator",
+      "to": "u:psych",
+      "relation": "candidate-dependency",
+      "reason": "Source code path or repository description supports relation; verify runtime wiring during migration"
+    },
+    {
+      "from": "u:swarm",
+      "to": "u:graph",
+      "relation": "candidate-dependency",
+      "reason": "Source code path or repository description supports relation; verify runtime wiring during migration"
+    },
+    {
+      "from": "u:swarm",
+      "to": "u:graphmert",
+      "relation": "candidate-dependency",
+      "reason": "Source code path or repository description supports relation; verify runtime wiring during migration"
+    },
+    {
+      "from": "u:gate",
+      "to": "u:convexlog",
+      "relation": "calls",
+      "reason": "Source code path or repository description supports relation; verify runtime wiring during migration"
+    },
+    {
+      "from": "uf:centrifuge",
+      "to": "uf:immune",
+      "relation": "produces-input-for",
+      "reason": "Source code path or repository description supports relation; verify runtime wiring during migration"
+    },
+    {
+      "from": "g:compiler",
+      "to": "g:gold-profile",
+      "relation": "produces",
+      "reason": "Source code path or repository description supports relation; verify runtime wiring during migration"
+    },
+    {
+      "from": "g:compiler",
+      "to": "g:validate",
+      "relation": "evaluated-by",
+      "reason": "Source code path or repository description supports relation; verify runtime wiring during migration"
+    },
+    {
+      "from": "g:source-research",
+      "to": "g:compiler",
+      "relation": "input-for",
+      "reason": "Source code path or repository description supports relation; verify runtime wiring during migration"
+    },
+    {
+      "from": "g:gold-profile",
+      "to": "g:persona-runtime",
+      "relation": "feeds",
+      "reason": "Source code path or repository description supports relation; verify runtime wiring during migration"
+    },
+    {
+      "from": "g:model-router",
+      "to": "g:persona-runtime",
+      "relation": "influences",
+      "reason": "Source code path or repository description supports relation; verify runtime wiring during migration"
+    },
+    {
+      "from": "g:conversation-memory",
+      "to": "g:persona-runtime",
+      "relation": "supports",
+      "reason": "Source code path or repository description supports relation; verify runtime wiring during migration"
+    },
+    {
+      "from": "g:continuity",
+      "to": "g:episode",
+      "relation": "supports",
+      "reason": "Source code path or repository description supports relation; verify runtime wiring during migration"
+    },
+    {
+      "from": "g:arc",
+      "to": "g:episode",
+      "relation": "supports",
+      "reason": "Source code path or repository description supports relation; verify runtime wiring during migration"
+    },
+    {
+      "from": "g:script",
+      "to": "g:episode",
+      "relation": "supports",
+      "reason": "Source code path or repository description supports relation; verify runtime wiring during migration"
+    },
+    {
+      "from": "g:episode",
+      "to": "g:showrunner",
+      "relation": "related",
+      "reason": "Source code path or repository description supports relation; verify runtime wiring during migration"
+    },
+    {
+      "from": "g:voice",
+      "to": "g:script",
+      "relation": "candidate-support",
+      "reason": "Source code path or repository description supports relation; verify runtime wiring during migration"
+    },
+    {
+      "from": "nc:orchestration",
+      "to": "nc:research",
+      "relation": "calls",
+      "reason": "Source code path or repository description supports relation; verify runtime wiring during migration"
+    },
+    {
+      "from": "nc:orchestration",
+      "to": "nc:debate-node",
+      "relation": "calls",
+      "reason": "Source code path or repository description supports relation; verify runtime wiring during migration"
+    },
+    {
+      "from": "nc:orchestration",
+      "to": "nc:persistence-node",
+      "relation": "calls",
+      "reason": "Source code path or repository description supports relation; verify runtime wiring during migration"
+    },
+    {
+      "from": "nc:orchestration",
+      "to": "nc:playback-node",
+      "relation": "calls",
+      "reason": "Source code path or repository description supports relation; verify runtime wiring during migration"
+    },
+    {
+      "from": "nc:orchestration",
+      "to": "nc:finish-node",
+      "relation": "calls",
+      "reason": "Source code path or repository description supports relation; verify runtime wiring during migration"
+    },
+    {
+      "from": "nc:research",
+      "to": "nc:canon-db",
+      "relation": "calls",
+      "reason": "Source code path or repository description supports relation; verify runtime wiring during migration"
+    },
+    {
+      "from": "nc:research",
+      "to": "nc:guest",
+      "relation": "calls",
+      "reason": "Source code path or repository description supports relation; verify runtime wiring during migration"
+    },
+    {
+      "from": "nc:research",
+      "to": "nc:staff",
+      "relation": "consumes",
+      "reason": "Source code path or repository description supports relation; verify runtime wiring during migration"
+    },
+    {
+      "from": "nc:research",
+      "to": "nc:casefile",
+      "relation": "produces",
+      "reason": "Source code path or repository description supports relation; verify runtime wiring during migration"
+    },
+    {
+      "from": "nc:convex-research",
+      "to": "nc:research-data",
+      "relation": "writes",
+      "reason": "Source code path or repository description supports relation; verify runtime wiring during migration"
+    },
+    {
+      "from": "nc:debate-node",
+      "to": "nc:debate",
+      "relation": "calls",
+      "reason": "Source code path or repository description supports relation; verify runtime wiring during migration"
+    },
+    {
+      "from": "nc:debate-node",
+      "to": "nc:scripted",
+      "relation": "fallback-to",
+      "reason": "Source code path or repository description supports relation; verify runtime wiring during migration"
+    },
+    {
+      "from": "nc:debate",
+      "to": "nc:episode",
+      "relation": "produces",
+      "reason": "Source code path or repository description supports relation; verify runtime wiring during migration"
+    },
+    {
+      "from": "nc:persistence-node",
+      "to": "nc:episode-store",
+      "relation": "writes",
+      "reason": "Source code path or repository description supports relation; verify runtime wiring during migration"
+    },
+    {
+      "from": "nc:playback-node",
+      "to": "nc:scene",
+      "relation": "uses",
+      "reason": "Source code path or repository description supports relation; verify runtime wiring during migration"
+    },
+    {
+      "from": "nc:playback-node",
+      "to": "nc:voice",
+      "relation": "uses",
+      "reason": "Source code path or repository description supports relation; verify runtime wiring during migration"
+    },
+    {
+      "from": "nc:scene",
+      "to": "nc:cinematic",
+      "relation": "uses",
+      "reason": "Source code path or repository description supports relation; verify runtime wiring during migration"
+    },
+    {
+      "from": "nc:scene",
+      "to": "nc:camera",
+      "relation": "uses",
+      "reason": "Source code path or repository description supports relation; verify runtime wiring during migration"
+    },
+    {
+      "from": "nc:scene",
+      "to": "nc:portraits",
+      "relation": "uses",
+      "reason": "Source code path or repository description supports relation; verify runtime wiring during migration"
+    },
+    {
+      "from": "nc:finish-node",
+      "to": "nc:finish-executor",
+      "relation": "uses",
+      "reason": "Source code path or repository description supports relation; verify runtime wiring during migration"
+    },
+    {
+      "from": "nc:finish-executor",
+      "to": "nc:finish-animation",
+      "relation": "uses",
+      "reason": "Source code path or repository description supports relation; verify runtime wiring during migration"
+    },
+    {
+      "from": "nc:voice",
+      "to": "nc:voice-bank",
+      "relation": "uses",
+      "reason": "Source code path or repository description supports relation; verify runtime wiring during migration"
+    },
+    {
+      "from": "leg:trial-forge",
+      "to": "leg:template",
+      "relation": "uses",
+      "reason": "Source code path or repository description supports relation; verify runtime wiring during migration"
+    },
+    {
+      "from": "leg:precedent",
+      "to": "leg:template",
+      "relation": "case-example",
+      "reason": "Source code path or repository description supports relation; verify runtime wiring during migration"
+    },
+    {
+      "from": "leg:router",
+      "to": "leg:personas",
+      "relation": "supports",
+      "reason": "Source code path or repository description supports relation; verify runtime wiring during migration"
+    },
+    {
+      "from": "eval:score",
+      "to": "eval:model",
+      "relation": "reads",
+      "reason": "Source code path or repository description supports relation; verify runtime wiring during migration"
+    },
+    {
+      "from": "eval:test",
+      "to": "eval:score",
+      "relation": "tests",
+      "reason": "Source code path or repository description supports relation; verify runtime wiring during migration"
+    },
+    {
+      "from": "u:swarm",
+      "to": "t:variant",
+      "relation": "candidate-for",
+      "reason": "Candidate source to adapt/inspect, not an implemented integration."
+    },
+    {
+      "from": "u:character",
+      "to": "t:variant",
+      "relation": "candidate-for",
+      "reason": "Candidate source to adapt/inspect, not an implemented integration."
+    },
+    {
+      "from": "u:profile",
+      "to": "t:gestalt",
+      "relation": "candidate-for",
+      "reason": "Candidate source to adapt/inspect, not an implemented integration."
+    },
+    {
+      "from": "u:anchor",
+      "to": "t:profile",
+      "relation": "candidate-for",
+      "reason": "Candidate source to adapt/inspect, not an implemented integration."
+    },
+    {
+      "from": "u:ledger",
+      "to": "t:echo-storage",
+      "relation": "candidate-for",
+      "reason": "Candidate source to adapt/inspect, not an implemented integration."
+    },
+    {
+      "from": "u:convexlog",
+      "to": "t:observability",
+      "relation": "candidate-for",
+      "reason": "Candidate source to adapt/inspect, not an implemented integration."
+    },
+    {
+      "from": "u:voice",
+      "to": "t:voice",
+      "relation": "candidate-for",
+      "reason": "Candidate source to adapt/inspect, not an implemented integration."
+    },
+    {
+      "from": "u:psych",
+      "to": "t:profile",
+      "relation": "candidate-for",
+      "reason": "Candidate source to adapt/inspect, not an implemented integration."
+    },
+    {
+      "from": "u:dialectic",
+      "to": "t:dialogue",
+      "relation": "candidate-for",
+      "reason": "Candidate source to adapt/inspect, not an implemented integration."
+    },
+    {
+      "from": "uf:centrifuge",
+      "to": "t:profile",
+      "relation": "candidate-for",
+      "reason": "Candidate source to adapt/inspect, not an implemented integration."
+    },
+    {
+      "from": "uf:immune",
+      "to": "t:evaluation",
+      "relation": "candidate-for",
+      "reason": "Candidate source to adapt/inspect, not an implemented integration."
+    },
+    {
+      "from": "g:compiler",
+      "to": "t:profile",
+      "relation": "candidate-for",
+      "reason": "Candidate source to adapt/inspect, not an implemented integration."
+    },
+    {
+      "from": "g:gold-profile",
+      "to": "t:gestalt",
+      "relation": "candidate-for",
+      "reason": "Candidate source to adapt/inspect, not an implemented integration."
+    },
+    {
+      "from": "g:source-research",
+      "to": "t:evidence",
+      "relation": "candidate-for",
+      "reason": "Candidate source to adapt/inspect, not an implemented integration."
+    },
+    {
+      "from": "g:validate",
+      "to": "t:evaluation",
+      "relation": "candidate-for",
+      "reason": "Candidate source to adapt/inspect, not an implemented integration."
+    },
+    {
+      "from": "g:model-router",
+      "to": "t:dialogue",
+      "relation": "candidate-for",
+      "reason": "Candidate source to adapt/inspect, not an implemented integration."
+    },
+    {
+      "from": "g:conversation-memory",
+      "to": "t:echo",
+      "relation": "candidate-for",
+      "reason": "Candidate source to adapt/inspect, not an implemented integration."
+    },
+    {
+      "from": "g:script",
+      "to": "t:showrunner",
+      "relation": "candidate-for",
+      "reason": "Candidate source to adapt/inspect, not an implemented integration."
+    },
+    {
+      "from": "g:episode",
+      "to": "t:showrunner",
+      "relation": "candidate-for",
+      "reason": "Candidate source to adapt/inspect, not an implemented integration."
+    },
+    {
+      "from": "g:continuity",
+      "to": "t:episode-contract",
+      "relation": "candidate-for",
+      "reason": "Candidate source to adapt/inspect, not an implemented integration."
+    },
+    {
+      "from": "g:arc",
+      "to": "t:showrunner",
+      "relation": "candidate-for",
+      "reason": "Candidate source to adapt/inspect, not an implemented integration."
+    },
+    {
+      "from": "g:voice",
+      "to": "t:voice",
+      "relation": "candidate-for",
+      "reason": "Candidate source to adapt/inspect, not an implemented integration."
+    },
+    {
+      "from": "g:assets",
+      "to": "t:visual",
+      "relation": "candidate-for",
+      "reason": "Candidate source to adapt/inspect, not an implemented integration."
+    },
+    {
+      "from": "g:graphsubstrate",
+      "to": "t:observability",
+      "relation": "candidate-for",
+      "reason": "Candidate source to adapt/inspect, not an implemented integration."
+    },
+    {
+      "from": "nc:intake",
+      "to": "t:intake",
+      "relation": "candidate-for",
+      "reason": "Candidate source to adapt/inspect, not an implemented integration."
+    },
+    {
+      "from": "nc:research",
+      "to": "t:research-boundary",
+      "relation": "candidate-for",
+      "reason": "Candidate source to adapt/inspect, not an implemented integration."
+    },
+    {
+      "from": "nc:canon-db",
+      "to": "t:evidence",
+      "relation": "candidate-for",
+      "reason": "Candidate source to adapt/inspect, not an implemented integration."
+    },
+    {
+      "from": "nc:convex-research",
+      "to": "t:evidence",
+      "relation": "candidate-for",
+      "reason": "Candidate source to adapt/inspect, not an implemented integration."
+    },
+    {
+      "from": "nc:guest",
+      "to": "t:cast",
+      "relation": "candidate-for",
+      "reason": "Candidate source to adapt/inspect, not an implemented integration."
+    },
+    {
+      "from": "nc:staff",
+      "to": "t:cast",
+      "relation": "candidate-for",
+      "reason": "Candidate source to adapt/inspect, not an implemented integration."
+    },
+    {
+      "from": "nc:casefile",
+      "to": "t:cast",
+      "relation": "candidate-for",
+      "reason": "Candidate source to adapt/inspect, not an implemented integration."
+    },
+    {
+      "from": "nc:debate",
+      "to": "t:dialogue",
+      "relation": "candidate-for",
+      "reason": "Candidate source to adapt/inspect, not an implemented integration."
+    },
+    {
+      "from": "nc:scripted",
+      "to": "t:dialogue",
+      "relation": "candidate-for",
+      "reason": "Candidate source to adapt/inspect, not an implemented integration."
+    },
+    {
+      "from": "nc:episode",
+      "to": "t:episode-contract",
+      "relation": "candidate-for",
+      "reason": "Candidate source to adapt/inspect, not an implemented integration."
+    },
+    {
+      "from": "nc:episode-store",
+      "to": "t:assets",
+      "relation": "candidate-for",
+      "reason": "Candidate source to adapt/inspect, not an implemented integration."
+    },
+    {
+      "from": "nc:playback-node",
+      "to": "t:storyboard",
+      "relation": "candidate-for",
+      "reason": "Candidate source to adapt/inspect, not an implemented integration."
+    },
+    {
+      "from": "nc:scene",
+      "to": "t:storyboard",
+      "relation": "candidate-for",
+      "reason": "Candidate source to adapt/inspect, not an implemented integration."
+    },
+    {
+      "from": "nc:cinematic",
+      "to": "t:storyboard",
+      "relation": "candidate-for",
+      "reason": "Candidate source to adapt/inspect, not an implemented integration."
+    },
+    {
+      "from": "nc:finish-animation",
+      "to": "t:finisher",
+      "relation": "candidate-for",
+      "reason": "Candidate source to adapt/inspect, not an implemented integration."
+    },
+    {
+      "from": "nc:voice",
+      "to": "t:audio",
+      "relation": "candidate-for",
+      "reason": "Candidate source to adapt/inspect, not an implemented integration."
+    },
+    {
+      "from": "nc:backend",
+      "to": "t:episode-contract",
+      "relation": "candidate-for",
+      "reason": "Candidate source to adapt/inspect, not an implemented integration."
+    },
+    {
+      "from": "nc:tests",
+      "to": "t:evaluation",
+      "relation": "candidate-for",
+      "reason": "Candidate source to adapt/inspect, not an implemented integration."
+    },
+    {
+      "from": "leg:precedent",
+      "to": "t:arguments",
+      "relation": "candidate-for",
+      "reason": "Candidate source to adapt/inspect, not an implemented integration."
+    },
+    {
+      "from": "leg:trial-forge",
+      "to": "t:arguments",
+      "relation": "candidate-for",
+      "reason": "Candidate source to adapt/inspect, not an implemented integration."
+    },
+    {
+      "from": "leg:personas",
+      "to": "t:cast",
+      "relation": "candidate-for",
+      "reason": "Candidate source to adapt/inspect, not an implemented integration."
+    },
+    {
+      "from": "eval:score",
+      "to": "t:verdict",
+      "relation": "candidate-for",
+      "reason": "Candidate source to adapt/inspect, not an implemented integration."
+    },
+    {
+      "from": "eval:test",
+      "to": "t:evaluation",
+      "relation": "candidate-for",
+      "reason": "Candidate source to adapt/inspect, not an implemented integration."
+    },
+    {
+      "from": "t:classify",
+      "to": "t:intake",
+      "relation": "depends-on",
+      "reason": "Planned technical/functional dependency; not implemented."
+    },
+    {
+      "from": "t:variant",
+      "to": "t:classify",
+      "relation": "depends-on",
+      "reason": "Planned technical/functional dependency; not implemented."
+    },
+    {
+      "from": "t:variant",
+      "to": "t:evidence",
+      "relation": "depends-on",
+      "reason": "Planned technical/functional dependency; not implemented."
+    },
+    {
+      "from": "t:profile",
+      "to": "t:variant",
+      "relation": "depends-on",
+      "reason": "Planned technical/functional dependency; not implemented."
+    },
+    {
+      "from": "t:profile",
+      "to": "t:gestalt",
+      "relation": "depends-on",
+      "reason": "Planned technical/functional dependency; not implemented."
+    },
+    {
+      "from": "t:profile",
+      "to": "t:evidence",
+      "relation": "depends-on",
+      "reason": "Planned technical/functional dependency; not implemented."
+    },
+    {
+      "from": "t:relationship",
+      "to": "t:variant",
+      "relation": "depends-on",
+      "reason": "Planned technical/functional dependency; not implemented."
+    },
+    {
+      "from": "t:relationship",
+      "to": "t:evidence",
+      "relation": "depends-on",
+      "reason": "Planned technical/functional dependency; not implemented."
+    },
+    {
+      "from": "t:actor",
+      "to": "t:classify",
+      "relation": "depends-on",
+      "reason": "Planned technical/functional dependency; not implemented."
+    },
+    {
+      "from": "t:actor",
+      "to": "t:variant",
+      "relation": "depends-on",
+      "reason": "Planned technical/functional dependency; not implemented."
+    },
+    {
+      "from": "t:voice",
+      "to": "t:profile",
+      "relation": "depends-on",
+      "reason": "Planned technical/functional dependency; not implemented."
+    },
+    {
+      "from": "t:voice",
+      "to": "t:permissions",
+      "relation": "depends-on",
+      "reason": "Planned technical/functional dependency; not implemented."
+    },
+    {
+      "from": "t:visual",
+      "to": "t:profile",
+      "relation": "depends-on",
+      "reason": "Planned technical/functional dependency; not implemented."
+    },
+    {
+      "from": "t:visual",
+      "to": "t:permissions",
+      "relation": "depends-on",
+      "reason": "Planned technical/functional dependency; not implemented."
+    },
+    {
+      "from": "t:echo",
+      "to": "t:profile",
+      "relation": "depends-on",
+      "reason": "Planned technical/functional dependency; not implemented."
+    },
+    {
+      "from": "t:echo",
+      "to": "t:relationship",
+      "relation": "depends-on",
+      "reason": "Planned technical/functional dependency; not implemented."
+    },
+    {
+      "from": "t:echo-storage",
+      "to": "t:echo",
+      "relation": "depends-on",
+      "reason": "Planned technical/functional dependency; not implemented."
+    },
+    {
+      "from": "t:cast",
+      "to": "t:echo",
+      "relation": "depends-on",
+      "reason": "Planned technical/functional dependency; not implemented."
+    },
+    {
+      "from": "t:cast",
+      "to": "t:actor",
+      "relation": "depends-on",
+      "reason": "Planned technical/functional dependency; not implemented."
+    },
+    {
+      "from": "t:cast",
+      "to": "t:voice",
+      "relation": "depends-on",
+      "reason": "Planned technical/functional dependency; not implemented."
+    },
+    {
+      "from": "t:cast",
+      "to": "t:visual",
+      "relation": "depends-on",
+      "reason": "Planned technical/functional dependency; not implemented."
+    },
+    {
+      "from": "t:research-boundary",
+      "to": "t:cast",
+      "relation": "depends-on",
+      "reason": "Planned technical/functional dependency; not implemented."
+    },
+    {
+      "from": "t:research-boundary",
+      "to": "t:evidence",
+      "relation": "depends-on",
+      "reason": "Planned technical/functional dependency; not implemented."
+    },
+    {
+      "from": "t:arguments",
+      "to": "t:evidence",
+      "relation": "depends-on",
+      "reason": "Planned technical/functional dependency; not implemented."
+    },
+    {
+      "from": "t:arguments",
+      "to": "t:research-boundary",
+      "relation": "depends-on",
+      "reason": "Planned technical/functional dependency; not implemented."
+    },
+    {
+      "from": "t:verdict",
+      "to": "t:arguments",
+      "relation": "depends-on",
+      "reason": "Planned technical/functional dependency; not implemented."
+    },
+    {
+      "from": "t:dialogue",
+      "to": "t:cast",
+      "relation": "depends-on",
+      "reason": "Planned technical/functional dependency; not implemented."
+    },
+    {
+      "from": "t:dialogue",
+      "to": "t:arguments",
+      "relation": "depends-on",
+      "reason": "Planned technical/functional dependency; not implemented."
+    },
+    {
+      "from": "t:showrunner",
+      "to": "t:dialogue",
+      "relation": "depends-on",
+      "reason": "Planned technical/functional dependency; not implemented."
+    },
+    {
+      "from": "t:showrunner",
+      "to": "t:verdict",
+      "relation": "depends-on",
+      "reason": "Planned technical/functional dependency; not implemented."
+    },
+    {
+      "from": "t:finisher",
+      "to": "t:verdict",
+      "relation": "depends-on",
+      "reason": "Planned technical/functional dependency; not implemented."
+    },
+    {
+      "from": "t:finisher",
+      "to": "t:showrunner",
+      "relation": "depends-on",
+      "reason": "Planned technical/functional dependency; not implemented."
+    },
+    {
+      "from": "t:storyboard",
+      "to": "t:showrunner",
+      "relation": "depends-on",
+      "reason": "Planned technical/functional dependency; not implemented."
+    },
+    {
+      "from": "t:storyboard",
+      "to": "t:visual",
+      "relation": "depends-on",
+      "reason": "Planned technical/functional dependency; not implemented."
+    },
+    {
+      "from": "t:storyboard",
+      "to": "t:finisher",
+      "relation": "depends-on",
+      "reason": "Planned technical/functional dependency; not implemented."
+    },
+    {
+      "from": "t:audio",
+      "to": "t:voice",
+      "relation": "depends-on",
+      "reason": "Planned technical/functional dependency; not implemented."
+    },
+    {
+      "from": "t:audio",
+      "to": "t:showrunner",
+      "relation": "depends-on",
+      "reason": "Planned technical/functional dependency; not implemented."
+    },
+    {
+      "from": "t:render",
+      "to": "t:storyboard",
+      "relation": "depends-on",
+      "reason": "Planned technical/functional dependency; not implemented."
+    },
+    {
+      "from": "t:encode",
+      "to": "t:render",
+      "relation": "depends-on",
+      "reason": "Planned technical/functional dependency; not implemented."
+    },
+    {
+      "from": "t:encode",
+      "to": "t:audio",
+      "relation": "depends-on",
+      "reason": "Planned technical/functional dependency; not implemented."
+    },
+    {
+      "from": "t:assets",
+      "to": "t:encode",
+      "relation": "depends-on",
+      "reason": "Planned technical/functional dependency; not implemented."
+    },
+    {
+      "from": "t:jobs",
+      "to": "t:episode-contract",
+      "relation": "depends-on",
+      "reason": "Planned technical/functional dependency; not implemented."
+    },
+    {
+      "from": "t:jobs",
+      "to": "t:render",
+      "relation": "depends-on",
+      "reason": "Planned technical/functional dependency; not implemented."
+    },
+    {
+      "from": "t:episode-contract",
+      "to": "t:cast",
+      "relation": "depends-on",
+      "reason": "Planned technical/functional dependency; not implemented."
+    },
+    {
+      "from": "t:episode-contract",
+      "to": "t:arguments",
+      "relation": "depends-on",
+      "reason": "Planned technical/functional dependency; not implemented."
+    },
+    {
+      "from": "t:web",
+      "to": "t:intake",
+      "relation": "depends-on",
+      "reason": "Planned technical/functional dependency; not implemented."
+    },
+    {
+      "from": "t:web",
+      "to": "t:episode-contract",
+      "relation": "depends-on",
+      "reason": "Planned technical/functional dependency; not implemented."
+    },
+    {
+      "from": "t:web",
+      "to": "t:assets",
+      "relation": "depends-on",
+      "reason": "Planned technical/functional dependency; not implemented."
+    },
+    {
+      "from": "t:tv",
+      "to": "t:assets",
+      "relation": "depends-on",
+      "reason": "Planned technical/functional dependency; not implemented."
+    },
+    {
+      "from": "t:tv",
+      "to": "t:episode-contract",
+      "relation": "depends-on",
+      "reason": "Planned technical/functional dependency; not implemented."
+    },
+    {
+      "from": "t:permissions",
+      "to": "t:actor",
+      "relation": "depends-on",
+      "reason": "Planned technical/functional dependency; not implemented."
+    },
+    {
+      "from": "t:case-separation",
+      "to": "t:variant",
+      "relation": "depends-on",
+      "reason": "Planned technical/functional dependency; not implemented."
+    },
+    {
+      "from": "t:case-separation",
+      "to": "t:echo",
+      "relation": "depends-on",
+      "reason": "Planned technical/functional dependency; not implemented."
+    },
+    {
+      "from": "t:observability",
+      "to": "t:evidence",
+      "relation": "depends-on",
+      "reason": "Planned technical/functional dependency; not implemented."
+    },
+    {
+      "from": "t:observability",
+      "to": "t:episode-contract",
+      "relation": "depends-on",
+      "reason": "Planned technical/functional dependency; not implemented."
+    },
+    {
+      "from": "t:evaluation",
+      "to": "t:cast",
+      "relation": "depends-on",
+      "reason": "Planned technical/functional dependency; not implemented."
+    },
+    {
+      "from": "t:evaluation",
+      "to": "t:case-separation",
+      "relation": "depends-on",
+      "reason": "Planned technical/functional dependency; not implemented."
+    },
+    {
+      "from": "t:cost",
+      "to": "t:render",
+      "relation": "depends-on",
+      "reason": "Planned technical/functional dependency; not implemented."
+    },
+    {
+      "from": "t:cost",
+      "to": "t:jobs",
+      "relation": "depends-on",
+      "reason": "Planned technical/functional dependency; not implemented."
+    },
+    {
+      "from": "t:unified",
+      "to": "t:cast",
+      "relation": "depends-on",
+      "reason": "Planned technical/functional dependency; not implemented."
+    },
+    {
+      "from": "t:unified",
+      "to": "t:episode-contract",
+      "relation": "depends-on",
+      "reason": "Planned technical/functional dependency; not implemented."
+    },
+    {
+      "from": "t:unified",
+      "to": "t:observability",
+      "relation": "depends-on",
+      "reason": "Planned technical/functional dependency; not implemented."
+    },
+    {
+      "from": "q:format",
+      "to": "t:encode",
+      "relation": "requires",
+      "reason": "User-stated project requirement maps to target subsystem"
+    },
+    {
+      "from": "q:format",
+      "to": "t:assets",
+      "relation": "requires",
+      "reason": "User-stated project requirement maps to target subsystem"
+    },
+    {
+      "from": "q:turnaround",
+      "to": "t:cost",
+      "relation": "requires",
+      "reason": "User-stated project requirement maps to target subsystem"
+    },
+    {
+      "from": "q:turnaround",
+      "to": "t:jobs",
+      "relation": "requires",
+      "reason": "User-stated project requirement maps to target subsystem"
+    },
+    {
+      "from": "q:channels",
+      "to": "t:web",
+      "relation": "requires",
+      "reason": "User-stated project requirement maps to target subsystem"
+    },
+    {
+      "from": "q:channels",
+      "to": "t:tv",
+      "relation": "requires",
+      "reason": "User-stated project requirement maps to target subsystem"
+    },
+    {
+      "from": "q:canon",
+      "to": "t:variant",
+      "relation": "requires",
+      "reason": "User-stated project requirement maps to target subsystem"
+    },
+    {
+      "from": "q:canon",
+      "to": "t:evidence",
+      "relation": "requires",
+      "reason": "User-stated project requirement maps to target subsystem"
+    },
+    {
+      "from": "q:psych",
+      "to": "t:profile",
+      "relation": "requires",
+      "reason": "User-stated project requirement maps to target subsystem"
+    },
+    {
+      "from": "q:psych",
+      "to": "t:evaluation",
+      "relation": "requires",
+      "reason": "User-stated project requirement maps to target subsystem"
+    },
+    {
+      "from": "q:gestalt",
+      "to": "t:gestalt",
+      "relation": "requires",
+      "reason": "User-stated project requirement maps to target subsystem"
+    },
+    {
+      "from": "q:gestalt",
+      "to": "t:variant",
+      "relation": "requires",
+      "reason": "User-stated project requirement maps to target subsystem"
+    },
+    {
+      "from": "q:echo",
+      "to": "t:echo",
+      "relation": "requires",
+      "reason": "User-stated project requirement maps to target subsystem"
+    },
+    {
+      "from": "q:echo",
+      "to": "t:echo-storage",
+      "relation": "requires",
+      "reason": "User-stated project requirement maps to target subsystem"
+    },
+    {
+      "from": "q:cast",
+      "to": "t:cast",
+      "relation": "requires",
+      "reason": "User-stated project requirement maps to target subsystem"
+    },
+    {
+      "from": "q:cast",
+      "to": "t:actor",
+      "relation": "requires",
+      "reason": "User-stated project requirement maps to target subsystem"
+    },
+    {
+      "from": "q:show",
+      "to": "t:showrunner",
+      "relation": "requires",
+      "reason": "User-stated project requirement maps to target subsystem"
+    },
+    {
+      "from": "q:show",
+      "to": "t:finisher",
+      "relation": "requires",
+      "reason": "User-stated project requirement maps to target subsystem"
+    },
+    {
+      "from": "q:comedy",
+      "to": "t:actor",
+      "relation": "requires",
+      "reason": "User-stated project requirement maps to target subsystem"
+    },
+    {
+      "from": "q:comedy",
+      "to": "t:showrunner",
+      "relation": "requires",
+      "reason": "User-stated project requirement maps to target subsystem"
+    },
+    {
+      "from": "q:unified",
+      "to": "t:unified",
+      "relation": "requires",
+      "reason": "User-stated project requirement maps to target subsystem"
+    },
+    {
+      "from": "q:independence",
+      "to": "t:evaluation",
+      "relation": "requires",
+      "reason": "User-stated project requirement maps to target subsystem"
+    },
+    {
+      "from": "t:variant",
+      "to": "test:variant-lock",
+      "relation": "acceptance-test",
+      "reason": "Specified verification requirement, not executed"
+    },
+    {
+      "from": "t:actor",
+      "to": "test:actor",
+      "relation": "acceptance-test",
+      "reason": "Specified verification requirement, not executed"
+    },
+    {
+      "from": "t:evidence",
+      "to": "test:provenance",
+      "relation": "acceptance-test",
+      "reason": "Specified verification requirement, not executed"
+    },
+    {
+      "from": "t:profile",
+      "to": "test:persona",
+      "relation": "acceptance-test",
+      "reason": "Specified verification requirement, not executed"
+    },
+    {
+      "from": "t:echo-storage",
+      "to": "test:echo",
+      "relation": "acceptance-test",
+      "reason": "Specified verification requirement, not executed"
+    },
+    {
+      "from": "t:case-separation",
+      "to": "test:contamination",
+      "relation": "acceptance-test",
+      "reason": "Specified verification requirement, not executed"
+    },
+    {
+      "from": "t:jobs",
+      "to": "test:fail",
+      "relation": "acceptance-test",
+      "reason": "Specified verification requirement, not executed"
+    },
+    {
+      "from": "t:encode",
+      "to": "test:video",
+      "relation": "acceptance-test",
+      "reason": "Specified verification requirement, not executed"
+    },
+    {
+      "from": "t:cost",
+      "to": "test:perf",
+      "relation": "acceptance-test",
+      "reason": "Specified verification requirement, not executed"
+    },
+    {
+      "from": "t:tv",
+      "to": "test:cross",
+      "relation": "acceptance-test",
+      "reason": "Specified verification requirement, not executed"
+    },
+    {
+      "from": "t:web",
+      "to": "test:cross",
+      "relation": "acceptance-test",
+      "reason": "Specified verification requirement, not executed"
+    },
+    {
+      "from": "risk:wikis",
+      "to": "t:evidence",
+      "relation": "mitigated-by",
+      "reason": "Known risk; proposed mitigation target"
+    },
+    {
+      "from": "risk:merge",
+      "to": "t:variant",
+      "relation": "mitigated-by",
+      "reason": "Known risk; proposed mitigation target"
+    },
+    {
+      "from": "risk:drift",
+      "to": "t:evaluation",
+      "relation": "mitigated-by",
+      "reason": "Known risk; proposed mitigation target"
+    },
+    {
+      "from": "risk:voice",
+      "to": "t:permissions",
+      "relation": "mitigated-by",
+      "reason": "Known risk; proposed mitigation target"
+    },
+    {
+      "from": "risk:render",
+      "to": "t:encode",
+      "relation": "mitigated-by",
+      "reason": "Known risk; proposed mitigation target"
+    },
+    {
+      "from": "risk:timing",
+      "to": "t:cost",
+      "relation": "mitigated-by",
+      "reason": "Known risk; proposed mitigation target"
+    },
+    {
+      "from": "risk:sprawl",
+      "to": "t:unified",
+      "relation": "mitigated-by",
+      "reason": "Known risk; proposed mitigation target"
+    },
+    {
+      "from": "risk:legacy",
+      "to": "t:unified",
+      "relation": "mitigated-by",
+      "reason": "Known risk; proposed mitigation target"
+    },
+    {
+      "from": "risk:claims",
+      "to": "t:evidence",
+      "relation": "mitigated-by",
+      "reason": "Known risk; proposed mitigation target"
+    },
+    {
+      "from": "risk:license",
+      "to": "t:permissions",
+      "relation": "mitigated-by",
+      "reason": "Known risk; proposed mitigation target"
+    },
+    {
+      "from": "risk:failure",
+      "to": "t:jobs",
+      "relation": "mitigated-by",
+      "reason": "Known risk; proposed mitigation target"
+    }
+  ]
+}
