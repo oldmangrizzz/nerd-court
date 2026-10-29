@@ -1,0 +1,70 @@
+{
+ "format": "nerd-court-source-inventory/v1",
+ "repository": "oldmangrizzz/nerdcourt",
+ "branch": "main",
+ "commit": "3886276aaab72c1d38df475bc8591bc088cf5aa9",
+ "scope": "tracked file paths and blob metadata only; no contents, no executable verification",
+ "truncated": false,
+ "files": [
+  {
+   "path": ".gitignore",
+   "sha": "f335c6c5164cd8ed99f6bbeee09a6f136328d879",
+   "bytes": 48
+  },
+  {
+   "path": "README.md",
+   "sha": "62697cb39891ced5077fa757f168fd6d59232ea0",
+   "bytes": 1274
+  },
+  {
+   "path": "nerdcourt/__init__.py",
+   "sha": "94034acc3cdc15e48ca1a6031e4e5133ed3a0f90",
+   "bytes": 540
+  },
+  {
+   "path": "nerdcourt/cli.py",
+   "sha": "8c77c33d0e30b8f7f98457c398241a1d0d4af5b9",
+   "bytes": 3322
+  },
+  {
+   "path": "nerdcourt/evaluator.py",
+   "sha": "b586635f66fd49300f9d45ac3bc2df460f6645db",
+   "bytes": 5441
+  },
+  {
+   "path": "nerdcourt/exceptions.py",
+   "sha": "b7ce8ae764382f34fc8efa8e26f66a3b54ea268c",
+   "bytes": 906
+  },
+  {
+   "path": "nerdcourt/models.py",
+   "sha": "d66f243bb0abc9c5e7f438f705473dee48e2304d",
+   "bytes": 5778
+  },
+  {
+   "path": "pyproject.toml",
+   "sha": "fba2190e913f2f5f2e5c2f1eb0937cf3766f3932",
+   "bytes": 684
+  },
+  {
+   "path": "tests/conftest.py",
+   "sha": "42a5c00a03e88e0ea39e64f4d96fb3fcee9f0408",
+   "bytes": 470
+  },
+  {
+   "path": "tests/test_cli.py",
+   "sha": "137340a70435c17412fdf3383dc450cfcf5ab108",
+   "bytes": 1298
+  },
+  {
+   "path": "tests/test_evaluator.py",
+   "sha": "d2f020e96864c67f3de6a193c322cb6f08e87e7c",
+   "bytes": 1295
+  },
+  {
+   "path": "tests/test_models.py",
+   "sha": "61e5abd3ce11fc6ce1be28bcdb2d9193a1fd711d",
+   "bytes": 1434
+  }
+ ]
+}
