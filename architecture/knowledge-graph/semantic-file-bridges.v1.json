@@ -1,0 +1,540 @@
+{
+  "schema": "nerd-court-semantic-file-bridge/v1",
+  "purpose": "Exact, validated join between architectural semantic modules and source-tree file nodes",
+  "edges": [
+    {
+      "from": "u:swarm",
+      "to": "file:uatu-engine:uatu_genesis_engine/orchestrator.py",
+      "relation": "backed-by-source-file",
+      "reason": "Exact file path and SHA confirmed against pinned recursive Git tree; runtime is NOT certified."
+    },
+    {
+      "from": "u:character",
+      "to": "file:uatu-engine:uatu_genesis_engine/agents/character_info_agent.py",
+      "relation": "backed-by-source-file",
+      "reason": "Exact file path and SHA confirmed against pinned recursive Git tree; runtime is NOT certified."
+    },
+    {
+      "from": "u:economics",
+      "to": "file:uatu-engine:uatu_genesis_engine/agents/economic_history_agent.py",
+      "relation": "backed-by-source-file",
+      "reason": "Exact file path and SHA confirmed against pinned recursive Git tree; runtime is NOT certified."
+    },
+    {
+      "from": "u:domains",
+      "to": "file:uatu-engine:uatu_genesis_engine/agents/knowledge_domain_agent.py",
+      "relation": "backed-by-source-file",
+      "reason": "Exact file path and SHA confirmed against pinned recursive Git tree; runtime is NOT certified."
+    },
+    {
+      "from": "u:profile",
+      "to": "file:uatu-engine:uatu_genesis_engine/models/__init__.py",
+      "relation": "backed-by-source-file",
+      "reason": "Exact file path and SHA confirmed against pinned recursive Git tree; runtime is NOT certified."
+    },
+    {
+      "from": "u:anchor",
+      "to": "file:uatu-engine:uatu_genesis_engine/orchestrator.py",
+      "relation": "backed-by-source-file",
+      "reason": "Exact file path and SHA confirmed against pinned recursive Git tree; runtime is NOT certified."
+    },
+    {
+      "from": "u:transformer",
+      "to": "file:uatu-engine:uatu_genesis_engine/agent_zero_integration/persona_transformer.py",
+      "relation": "backed-by-source-file",
+      "reason": "Exact file path and SHA confirmed against pinned recursive Git tree; runtime is NOT certified."
+    },
+    {
+      "from": "u:instantiator",
+      "to": "file:uatu-engine:uatu_genesis_engine/agent_zero_integration/agent_instantiator.py",
+      "relation": "backed-by-source-file",
+      "reason": "Exact file path and SHA confirmed against pinned recursive Git tree; runtime is NOT certified."
+    },
+    {
+      "from": "u:psych",
+      "to": "file:uatu-engine:uatu_genesis_engine/agent_zero_integration/digital_psyche_middleware.py",
+      "relation": "backed-by-source-file",
+      "reason": "Exact file path and SHA confirmed against pinned recursive Git tree; runtime is NOT certified."
+    },
+    {
+      "from": "u:dialectic",
+      "to": "file:uatu-engine:uatu_genesis_engine/agent_zero_integration/dialectic_inference.py",
+      "relation": "backed-by-source-file",
+      "reason": "Exact file path and SHA confirmed against pinned recursive Git tree; runtime is NOT certified."
+    },
+    {
+      "from": "u:neuro",
+      "to": "file:uatu-engine:uatu_genesis_engine/agent_zero_integration/neurotransmitter_engine.py",
+      "relation": "backed-by-source-file",
+      "reason": "Exact file path and SHA confirmed against pinned recursive Git tree; runtime is NOT certified."
+    },
+    {
+      "from": "u:ledger",
+      "to": "file:uatu-engine:uatu_genesis_engine/agent_zero_integration/soul_anchor_ledger.py",
+      "relation": "backed-by-source-file",
+      "reason": "Exact file path and SHA confirmed against pinned recursive Git tree; runtime is NOT certified."
+    },
+    {
+      "from": "u:gate",
+      "to": "file:uatu-engine:uatu_genesis_engine/agent_zero_integration/emergence_gate.py",
+      "relation": "backed-by-source-file",
+      "reason": "Exact file path and SHA confirmed against pinned recursive Git tree; runtime is NOT certified."
+    },
+    {
+      "from": "u:convexlog",
+      "to": "file:uatu-engine:uatu_genesis_engine/agent_zero_integration/convex_state_logger.py",
+      "relation": "backed-by-source-file",
+      "reason": "Exact file path and SHA confirmed against pinned recursive Git tree; runtime is NOT certified."
+    },
+    {
+      "from": "u:voice",
+      "to": "file:uatu-engine:uatu_genesis_engine/agent_zero_integration/tts_voice_adapter.py",
+      "relation": "backed-by-source-file",
+      "reason": "Exact file path and SHA confirmed against pinned recursive Git tree; runtime is NOT certified."
+    },
+    {
+      "from": "u:graph",
+      "to": "file:uatu-engine:uatu_genesis_engine/graph/graph_generator.py",
+      "relation": "backed-by-source-file",
+      "reason": "Exact file path and SHA confirmed against pinned recursive Git tree; runtime is NOT certified."
+    },
+    {
+      "from": "u:graphmert",
+      "to": "file:uatu-engine:uatu_genesis_engine/graphmert/compiler.py",
+      "relation": "backed-by-source-file",
+      "reason": "Exact file path and SHA confirmed against pinned recursive Git tree; runtime is NOT certified."
+    },
+    {
+      "from": "u:deploy",
+      "to": "file:uatu-engine:uatu_genesis_engine/deployment/cloud_deployer.py",
+      "relation": "backed-by-source-file",
+      "reason": "Exact file path and SHA confirmed against pinned recursive Git tree; runtime is NOT certified."
+    },
+    {
+      "from": "u:api",
+      "to": "file:uatu-engine:main.py",
+      "relation": "backed-by-source-file",
+      "reason": "Exact file path and SHA confirmed against pinned recursive Git tree; runtime is NOT certified."
+    },
+    {
+      "from": "u:tests",
+      "to": "file:uatu-engine:tests/test_soul_anchor_ledger.py",
+      "relation": "backed-by-source-file",
+      "reason": "Exact file path and SHA confirmed against pinned recursive Git tree; runtime is NOT certified."
+    },
+    {
+      "from": "u:docs",
+      "to": "file:uatu-engine:README.md",
+      "relation": "backed-by-source-file",
+      "reason": "Exact file path and SHA confirmed against pinned recursive Git tree; runtime is NOT certified."
+    },
+    {
+      "from": "uf:centrifuge",
+      "to": "file:uatu-engine-final:uatu/centrifuge.py",
+      "relation": "backed-by-source-file",
+      "reason": "Exact file path and SHA confirmed against pinned recursive Git tree; runtime is NOT certified."
+    },
+    {
+      "from": "uf:immune",
+      "to": "file:uatu-engine-final:uatu/immune.py",
+      "relation": "backed-by-source-file",
+      "reason": "Exact file path and SHA confirmed against pinned recursive Git tree; runtime is NOT certified."
+    },
+    {
+      "from": "uf:api",
+      "to": "file:uatu-engine-final:server_uatu_snippet.py",
+      "relation": "backed-by-source-file",
+      "reason": "Exact file path and SHA confirmed against pinned recursive Git tree; runtime is NOT certified."
+    },
+    {
+      "from": "uf:docs",
+      "to": "file:uatu-engine-final:README.md",
+      "relation": "backed-by-source-file",
+      "reason": "Exact file path and SHA confirmed against pinned recursive Git tree; runtime is NOT certified."
+    },
+    {
+      "from": "g:compiler",
+      "to": "file:grizzly-knights:engine/uatu_compiler.py",
+      "relation": "backed-by-source-file",
+      "reason": "Exact file path and SHA confirmed against pinned recursive Git tree; runtime is NOT certified."
+    },
+    {
+      "from": "g:compiler-method",
+      "to": "file:grizzly-knights:docs/UATU_framework_paper.md",
+      "relation": "backed-by-source-file",
+      "reason": "Exact file path and SHA confirmed against pinned recursive Git tree; runtime is NOT certified."
+    },
+    {
+      "from": "g:gold-profile",
+      "to": "file:grizzly-knights:universe/characters/johnny_storm.yaml",
+      "relation": "backed-by-source-file",
+      "reason": "Exact file path and SHA confirmed against pinned recursive Git tree; runtime is NOT certified."
+    },
+    {
+      "from": "g:validate",
+      "to": "file:grizzly-knights:scripts/verify_profiles.py",
+      "relation": "backed-by-source-file",
+      "reason": "Exact file path and SHA confirmed against pinned recursive Git tree; runtime is NOT certified."
+    },
+    {
+      "from": "g:source-research",
+      "to": "file:grizzly-knights:recovery_research/_sources/frank_castle.txt",
+      "relation": "backed-by-source-file",
+      "reason": "Exact file path and SHA confirmed against pinned recursive Git tree; runtime is NOT certified."
+    },
+    {
+      "from": "g:persona-runtime",
+      "to": "file:grizzly-knights:fanfic_town/convex/aiTown/agent.ts",
+      "relation": "backed-by-source-file",
+      "reason": "Exact file path and SHA confirmed against pinned recursive Git tree; runtime is NOT certified."
+    },
+    {
+      "from": "g:model-router",
+      "to": "file:grizzly-knights:fanfic_town/convex/agent/conversation.ts",
+      "relation": "backed-by-source-file",
+      "reason": "Exact file path and SHA confirmed against pinned recursive Git tree; runtime is NOT certified."
+    },
+    {
+      "from": "g:conversation-memory",
+      "to": "file:grizzly-knights:fanfic_town/convex/agent/memory.ts",
+      "relation": "backed-by-source-file",
+      "reason": "Exact file path and SHA confirmed against pinned recursive Git tree; runtime is NOT certified."
+    },
+    {
+      "from": "g:script",
+      "to": "file:grizzly-knights:engine/script_generator.py",
+      "relation": "backed-by-source-file",
+      "reason": "Exact file path and SHA confirmed against pinned recursive Git tree; runtime is NOT certified."
+    },
+    {
+      "from": "g:episode",
+      "to": "file:grizzly-knights:engine/episode_runner.py",
+      "relation": "backed-by-source-file",
+      "reason": "Exact file path and SHA confirmed against pinned recursive Git tree; runtime is NOT certified."
+    },
+    {
+      "from": "g:continuity",
+      "to": "file:grizzly-knights:engine/continuity.py",
+      "relation": "backed-by-source-file",
+      "reason": "Exact file path and SHA confirmed against pinned recursive Git tree; runtime is NOT certified."
+    },
+    {
+      "from": "g:arc",
+      "to": "file:grizzly-knights:engine/arc_manager.py",
+      "relation": "backed-by-source-file",
+      "reason": "Exact file path and SHA confirmed against pinned recursive Git tree; runtime is NOT certified."
+    },
+    {
+      "from": "g:showrunner",
+      "to": "file:grizzly-knights:engine/showrunner.py",
+      "relation": "backed-by-source-file",
+      "reason": "Exact file path and SHA confirmed against pinned recursive Git tree; runtime is NOT certified."
+    },
+    {
+      "from": "g:voice",
+      "to": "file:grizzly-knights:scripts/assign_voices.py",
+      "relation": "backed-by-source-file",
+      "reason": "Exact file path and SHA confirmed against pinned recursive Git tree; runtime is NOT certified."
+    },
+    {
+      "from": "g:assets",
+      "to": "file:grizzly-knights:world_view/voice_map.json",
+      "relation": "backed-by-source-file",
+      "reason": "Exact file path and SHA confirmed against pinned recursive Git tree; runtime is NOT certified."
+    },
+    {
+      "from": "g:unity",
+      "to": "file:grizzly-knights:unity_client/Assets/Scripts/AgentSpawner.cs",
+      "relation": "backed-by-source-file",
+      "reason": "Exact file path and SHA confirmed against pinned recursive Git tree; runtime is NOT certified."
+    },
+    {
+      "from": "g:graphsubstrate",
+      "to": "file:grizzly-knights:holograph/src/holograph/graph/substrate.py",
+      "relation": "backed-by-source-file",
+      "reason": "Exact file path and SHA confirmed against pinned recursive Git tree; runtime is NOT certified."
+    },
+    {
+      "from": "g:test",
+      "to": "file:grizzly-knights:tests/pressure_22_scene1_cast_gate.py",
+      "relation": "backed-by-source-file",
+      "reason": "Exact file path and SHA confirmed against pinned recursive Git tree; runtime is NOT certified."
+    },
+    {
+      "from": "g:docs",
+      "to": "file:grizzly-knights:README.md",
+      "relation": "backed-by-source-file",
+      "reason": "Exact file path and SHA confirmed against pinned recursive Git tree; runtime is NOT certified."
+    },
+    {
+      "from": "nc:intake",
+      "to": "file:nerd-court:Sources/Views/IntakeScreen.swift",
+      "relation": "backed-by-source-file",
+      "reason": "Exact file path and SHA confirmed against pinned recursive Git tree; runtime is NOT certified."
+    },
+    {
+      "from": "nc:orchestration",
+      "to": "file:nerd-court:Sources/Pipeline/TrialWorkflowFactory.swift",
+      "relation": "backed-by-source-file",
+      "reason": "Exact file path and SHA confirmed against pinned recursive Git tree; runtime is NOT certified."
+    },
+    {
+      "from": "nc:research",
+      "to": "file:nerd-court:Sources/Pipeline/TrialNodes.swift",
+      "relation": "backed-by-source-file",
+      "reason": "Exact file path and SHA confirmed against pinned recursive Git tree; runtime is NOT certified."
+    },
+    {
+      "from": "nc:canon-db",
+      "to": "file:nerd-court:Sources/Research/CanonDatabase.swift",
+      "relation": "backed-by-source-file",
+      "reason": "Exact file path and SHA confirmed against pinned recursive Git tree; runtime is NOT certified."
+    },
+    {
+      "from": "nc:convex-research",
+      "to": "file:nerd-court:convex/research.ts",
+      "relation": "backed-by-source-file",
+      "reason": "Exact file path and SHA confirmed against pinned recursive Git tree; runtime is NOT certified."
+    },
+    {
+      "from": "nc:guest",
+      "to": "file:nerd-court:Sources/Debate/GuestCharacterGenerator.swift",
+      "relation": "backed-by-source-file",
+      "reason": "Exact file path and SHA confirmed against pinned recursive Git tree; runtime is NOT certified."
+    },
+    {
+      "from": "nc:staff",
+      "to": "file:nerd-court:Sources/Models/StaffCharacters.swift",
+      "relation": "backed-by-source-file",
+      "reason": "Exact file path and SHA confirmed against pinned recursive Git tree; runtime is NOT certified."
+    },
+    {
+      "from": "nc:casefile",
+      "to": "file:nerd-court:Sources/Pipeline/CaseFile.swift",
+      "relation": "backed-by-source-file",
+      "reason": "Exact file path and SHA confirmed against pinned recursive Git tree; runtime is NOT certified."
+    },
+    {
+      "from": "nc:debate-node",
+      "to": "file:nerd-court:Sources/Pipeline/TrialNodes.swift",
+      "relation": "backed-by-source-file",
+      "reason": "Exact file path and SHA confirmed against pinned recursive Git tree; runtime is NOT certified."
+    },
+    {
+      "from": "nc:debate",
+      "to": "file:nerd-court:Sources/Debate/DebateEngine.swift",
+      "relation": "backed-by-source-file",
+      "reason": "Exact file path and SHA confirmed against pinned recursive Git tree; runtime is NOT certified."
+    },
+    {
+      "from": "nc:llm",
+      "to": "file:nerd-court:Sources/Networking/OllamaCloudClient.swift",
+      "relation": "backed-by-source-file",
+      "reason": "Exact file path and SHA confirmed against pinned recursive Git tree; runtime is NOT certified."
+    },
+    {
+      "from": "nc:scripted",
+      "to": "file:nerd-court:Sources/Debate/ScriptedDialogueEngine.swift",
+      "relation": "backed-by-source-file",
+      "reason": "Exact file path and SHA confirmed against pinned recursive Git tree; runtime is NOT certified."
+    },
+    {
+      "from": "nc:episode",
+      "to": "file:nerd-court:Sources/Models/Episode.swift",
+      "relation": "backed-by-source-file",
+      "reason": "Exact file path and SHA confirmed against pinned recursive Git tree; runtime is NOT certified."
+    },
+    {
+      "from": "nc:persistence-node",
+      "to": "file:nerd-court:Sources/Pipeline/TrialNodes.swift",
+      "relation": "backed-by-source-file",
+      "reason": "Exact file path and SHA confirmed against pinned recursive Git tree; runtime is NOT certified."
+    },
+    {
+      "from": "nc:episode-store",
+      "to": "file:nerd-court:Sources/Store/EpisodeStore.swift",
+      "relation": "backed-by-source-file",
+      "reason": "Exact file path and SHA confirmed against pinned recursive Git tree; runtime is NOT certified."
+    },
+    {
+      "from": "nc:playback-node",
+      "to": "file:nerd-court:Sources/Pipeline/TrialNodes.swift",
+      "relation": "backed-by-source-file",
+      "reason": "Exact file path and SHA confirmed against pinned recursive Git tree; runtime is NOT certified."
+    },
+    {
+      "from": "nc:scene",
+      "to": "file:nerd-court:Sources/Animation/CourtroomScene.swift",
+      "relation": "backed-by-source-file",
+      "reason": "Exact file path and SHA confirmed against pinned recursive Git tree; runtime is NOT certified."
+    },
+    {
+      "from": "nc:cinematic",
+      "to": "file:nerd-court:Sources/Animation/CinematicEngine.swift",
+      "relation": "backed-by-source-file",
+      "reason": "Exact file path and SHA confirmed against pinned recursive Git tree; runtime is NOT certified."
+    },
+    {
+      "from": "nc:camera",
+      "to": "file:nerd-court:Sources/Animation/CameraController.swift",
+      "relation": "backed-by-source-file",
+      "reason": "Exact file path and SHA confirmed against pinned recursive Git tree; runtime is NOT certified."
+    },
+    {
+      "from": "nc:portraits",
+      "to": "file:nerd-court:Sources/Animation/CharacterPortraitNode.swift",
+      "relation": "backed-by-source-file",
+      "reason": "Exact file path and SHA confirmed against pinned recursive Git tree; runtime is NOT certified."
+    },
+    {
+      "from": "nc:finish-node",
+      "to": "file:nerd-court:Sources/Pipeline/TrialNodes.swift",
+      "relation": "backed-by-source-file",
+      "reason": "Exact file path and SHA confirmed against pinned recursive Git tree; runtime is NOT certified."
+    },
+    {
+      "from": "nc:finish-animation",
+      "to": "file:nerd-court:Sources/Animation/FinisherAnimator.swift",
+      "relation": "backed-by-source-file",
+      "reason": "Exact file path and SHA confirmed against pinned recursive Git tree; runtime is NOT certified."
+    },
+    {
+      "from": "nc:finish-executor",
+      "to": "file:nerd-court:Sources/Animation/FinisherExecutor.swift",
+      "relation": "backed-by-source-file",
+      "reason": "Exact file path and SHA confirmed against pinned recursive Git tree; runtime is NOT certified."
+    },
+    {
+      "from": "nc:voice",
+      "to": "file:nerd-court:Sources/Voice/VoiceSynthesisClient.swift",
+      "relation": "backed-by-source-file",
+      "reason": "Exact file path and SHA confirmed against pinned recursive Git tree; runtime is NOT certified."
+    },
+    {
+      "from": "nc:voice-bank",
+      "to": "file:nerd-court:Sources/Voice/VoiceRegistryReplay.swift",
+      "relation": "backed-by-source-file",
+      "reason": "Exact file path and SHA confirmed against pinned recursive Git tree; runtime is NOT certified."
+    },
+    {
+      "from": "nc:backend",
+      "to": "file:nerd-court:convex/schema.ts",
+      "relation": "backed-by-source-file",
+      "reason": "Exact file path and SHA confirmed against pinned recursive Git tree; runtime is NOT certified."
+    },
+    {
+      "from": "nc:research-data",
+      "to": "file:nerd-court:convex/researchData.ts",
+      "relation": "backed-by-source-file",
+      "reason": "Exact file path and SHA confirmed against pinned recursive Git tree; runtime is NOT certified."
+    },
+    {
+      "from": "nc:episodes-backend",
+      "to": "file:nerd-court:convex/episodes.ts",
+      "relation": "backed-by-source-file",
+      "reason": "Exact file path and SHA confirmed against pinned recursive Git tree; runtime is NOT certified."
+    },
+    {
+      "from": "nc:security",
+      "to": "file:nerd-court:Sources/Security/InputSanitizer.swift",
+      "relation": "backed-by-source-file",
+      "reason": "Exact file path and SHA confirmed against pinned recursive Git tree; runtime is NOT certified."
+    },
+    {
+      "from": "nc:tests",
+      "to": "file:nerd-court:Tests/NerdCourtTests/PipelineEngineTests.swift",
+      "relation": "backed-by-source-file",
+      "reason": "Exact file path and SHA confirmed against pinned recursive Git tree; runtime is NOT certified."
+    },
+    {
+      "from": "nc:ui-tests",
+      "to": "file:nerd-court:Tests/NerdCourtUITests/CourtroomFlowUITests.swift",
+      "relation": "backed-by-source-file",
+      "reason": "Exact file path and SHA confirmed against pinned recursive Git tree; runtime is NOT certified."
+    },
+    {
+      "from": "nc:blueprint",
+      "to": "file:nerd-court:nerd-court-blueprint.md",
+      "relation": "backed-by-source-file",
+      "reason": "Exact file path and SHA confirmed against pinned recursive Git tree; runtime is NOT certified."
+    },
+    {
+      "from": "nc:build-changelog",
+      "to": "file:nerd-court:.codex/NC/changelog.md",
+      "relation": "backed-by-source-file",
+      "reason": "Exact file path and SHA confirmed against pinned recursive Git tree; runtime is NOT certified."
+    },
+    {
+      "from": "nc:swift-target",
+      "to": "file:nerd-court:project.yml",
+      "relation": "backed-by-source-file",
+      "reason": "Exact file path and SHA confirmed against pinned recursive Git tree; runtime is NOT certified."
+    },
+    {
+      "from": "leg:canon-core",
+      "to": "file:nerdscourt-canon-core:README.md",
+      "relation": "backed-by-source-file",
+      "reason": "Exact file path and SHA confirmed against pinned recursive Git tree; runtime is NOT certified."
+    },
+    {
+      "from": "leg:precedent",
+      "to": "file:nerdscourt-canon-core:rdj_affleck_trial_record.json",
+      "relation": "backed-by-source-file",
+      "reason": "Exact file path and SHA confirmed against pinned recursive Git tree; runtime is NOT certified."
+    },
+    {
+      "from": "leg:template",
+      "to": "file:nerdscourt-canon-core:trial_template.json",
+      "relation": "backed-by-source-file",
+      "reason": "Exact file path and SHA confirmed against pinned recursive Git tree; runtime is NOT certified."
+    },
+    {
+      "from": "leg:trial-forge",
+      "to": "file:nerdscourt-canon-core:trial_logic/trial_forge.py",
+      "relation": "backed-by-source-file",
+      "reason": "Exact file path and SHA confirmed against pinned recursive Git tree; runtime is NOT certified."
+    },
+    {
+      "from": "leg:personas",
+      "to": "file:nerdscourt-canon-core:nerdscourt_core_schema.json",
+      "relation": "backed-by-source-file",
+      "reason": "Exact file path and SHA confirmed against pinned recursive Git tree; runtime is NOT certified."
+    },
+    {
+      "from": "leg:router",
+      "to": "file:nerdscourt-canon-core:swarm_logic/zord_model_router.py",
+      "relation": "backed-by-source-file",
+      "reason": "Exact file path and SHA confirmed against pinned recursive Git tree; runtime is NOT certified."
+    },
+    {
+      "from": "leg:voice",
+      "to": "file:nerdscourt-canon-core:voice_logic/generate_voice.py",
+      "relation": "backed-by-source-file",
+      "reason": "Exact file path and SHA confirmed against pinned recursive Git tree; runtime is NOT certified."
+    },
+    {
+      "from": "leg:convex",
+      "to": "file:nerdscourt-canon-core:convex/trials.ts",
+      "relation": "backed-by-source-file",
+      "reason": "Exact file path and SHA confirmed against pinned recursive Git tree; runtime is NOT certified."
+    },
+    {
+      "from": "eval:score",
+      "to": "file:nerdcourt:nerdcourt/evaluator.py",
+      "relation": "backed-by-source-file",
+      "reason": "Exact file path and SHA confirmed against pinned recursive Git tree; runtime is NOT certified."
+    },
+    {
+      "from": "eval:test",
+      "to": "file:nerdcourt:tests/test_evaluator.py",
+      "relation": "backed-by-source-file",
+      "reason": "Exact file path and SHA confirmed against pinned recursive Git tree; runtime is NOT certified."
+    },
+    {
+      "from": "eval:model",
+      "to": "file:nerdcourt:nerdcourt/models.py",
+      "relation": "backed-by-source-file",
+      "reason": "Exact file path and SHA confirmed against pinned recursive Git tree; runtime is NOT certified."
+    }
+  ]
+}
