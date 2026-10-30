@@ -1,0 +1,30 @@
+name: Knowledge graph integrity
+
+on:
+  pull_request:
+    paths:
+      - 'architecture/knowledge-graph/**'
+      - '.github/workflows/knowledge-graph-integrity.yml'
+  push:
+    branches:
+      - 'architecture/unified-knowledge-graph-v1'
+    paths:
+      - 'architecture/knowledge-graph/**'
+      - '.github/workflows/knowledge-graph-integrity.yml'
+
+jobs:
+  graph-integrity:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Check out proposed architecture branch
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Run graph validation unit tests
+        run: python -m unittest discover -s architecture/knowledge-graph -p 'test_validate_graph.py' -v
+      - name: Validate full pinned graph
+        run: python architecture/knowledge-graph/validate_graph.py architecture/knowledge-graph

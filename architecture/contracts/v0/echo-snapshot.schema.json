@@ -1,0 +1,89 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:nerdcourt:contracts:v0:echo-snapshot",
+  "title": "EpisodeEchoSnapshot (PROPOSED DRAFT)",
+  "description": "Ephemeral character performance state locked to one variant, case and profile version; reuse is separately authorized. Never alters source canon.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "echo_id",
+    "episode_id",
+    "variant_entity_id",
+    "profile_revision",
+    "profile_sha256",
+    "state_scope",
+    "retention_mode",
+    "source_canon_immutable"
+  ],
+  "properties": {
+    "echo_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "episode_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "variant_entity_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "profile_revision": {
+      "type": "string",
+      "minLength": 1
+    },
+    "profile_sha256": {
+      "type": "string",
+      "pattern": "^[a-fA-F0-9]{64}$"
+    },
+    "state_scope": {
+      "const": "episode-only"
+    },
+    "retention_mode": {
+      "enum": [
+        "destroy-after-job",
+        "snapshot-for-reuse"
+      ]
+    },
+    "source_canon_immutable": {
+      "const": true
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "snapshot_uri": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "memory_segment_refs": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string"
+      }
+    },
+    "allowed_reuse_episode_ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string"
+      }
+    },
+    "source_claim_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "scene_events": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

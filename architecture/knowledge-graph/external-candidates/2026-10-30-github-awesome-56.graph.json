@@ -1,0 +1,384 @@
+{
+  "schema": "nerd-court-external-candidates/v1",
+  "as_of": "2026-10-30",
+  "origin": {
+    "video_id": "S8g5nwZN9as",
+    "video_url": "https://youtu.be/S8g5nwZN9as",
+    "title": "GitHub Trending Weekly #56",
+    "channel": "Github Awesome",
+    "release_date": "2026-10-30",
+    "verification_note": "Video auto captions and publisher description used only for discovery; project claims independently cross-checked against repository README/license paths. No candidate was installed, built, or benchmarked."
+  },
+  "scope": "This is a SUPPLEMENTAL graph. It does not modify semantic-graph.v1.json counts or mark external candidates integrated. These nodes join via the referenced existing target IDs.",
+  "nodes": [
+    {
+      "id": "x:floorplan",
+      "type": "external-candidate",
+      "label": "Floorplan",
+      "description": "Local interactive codebase topology: files, imports, request-to-endpoint matching across repos, plain-English views and health review.",
+      "disposition": "TEST ONLY",
+      "priority": "P0-evaluate",
+      "source_repository": "https://github.com/haydenschmitty/floorplan",
+      "source_commit": "2287cc1a2bb4260ec7b8fd8dde45f40599e596b4",
+      "source_readme": "https://github.com/haydenschmitty/floorplan/blob/2287cc1a2bb4260ec7b8fd8dde45f40599e596b4/README.md",
+      "source_files": [
+        "README.md",
+        "LICENSE"
+      ],
+      "license": "MIT",
+      "video_timestamp_seconds": 219,
+      "constraints": [
+        "Node 18+, local Claude Code/Codex workflow; scan does not replace independent evidence verification",
+        "README's deeper language-support list omits Swift; Nerd Court Swift semantics must be independently tested",
+        "Generated map remains local and uncommitted; versioned semantic and source graphs in this repository remain the authority"
+      ],
+      "test_gate": "On a workspace containing pinned UATU, Grizzly Knights, and advanced Nerd Court, identify exact Swift->Convex boundary plus Python UATU paths; compare against manually confirmed call edges."
+    },
+    {
+      "id": "x:kinetograph",
+      "type": "external-candidate",
+      "label": "Kinetograph",
+      "description": "Programmatic TypeScript/Remotion-compatible composition with Rust GPU compositor, audio, FFmpeg video output and agent-facing QA commands.",
+      "disposition": "TEST ONLY",
+      "priority": "P0-evaluate",
+      "source_repository": "https://github.com/0xS4N4TG/kinetograph",
+      "source_commit": "7b0f4e69013e427cd2905c5ecd292fc0268a2224",
+      "source_readme": "https://github.com/0xS4N4TG/kinetograph/blob/7b0f4e69013e427cd2905c5ecd292fc0268a2224/README.md",
+      "source_files": [
+        "README.md",
+        "LICENSE.md",
+        "packages/site/content/docs/guides/agents.mdx"
+      ],
+      "license": "PolyForm Small Business 1.0.0",
+      "video_timestamp_seconds": 524,
+      "constraints": [
+        "Upstream README explicitly calls v0.2.5 beta and notes incomplete API/features",
+        "PolyForm Small Business 1.0.0 with eligibility, revenue and distribution conditions; commercial review before adoption",
+        "Rendering demonstrations on short scenes do not establish 15-30 minute throughput or consistent character animation",
+        "Swift SpriteKit court has no proven direct adapter; requires an intermediate versioned storyboard/scene contract"
+      ],
+      "test_gate": "Produce 30-90 seconds of original Court-like test footage from a stable CastManifest/shot list; check repeatability, long-scene memory, timing, audio mixing and MP4 decode on target hardware."
+    },
+    {
+      "id": "x:pika-h3",
+      "type": "external-candidate",
+      "label": "Pika H3 Flex",
+      "description": "Reference-guided 5-15 second image/video/audio output with synchronized sound, potentially a shot-generation provider.",
+      "disposition": "LICENSE HOLD",
+      "priority": "P1-conditional",
+      "source_repository": "https://github.com/Pika-Labs/Pika-H3-Flex",
+      "source_commit": "4bf8ea508891a432106e70f675d287c27f02306d",
+      "source_readme": "https://github.com/Pika-Labs/Pika-H3-Flex/blob/4bf8ea508891a432106e70f675d287c27f02306d/README.md",
+      "source_files": [
+        "README.md",
+        "LICENSE",
+        "LICENSE-CODE",
+        "docs/hardware.md"
+      ],
+      "license": "Code: Apache-2.0; model: MiniMax H3 Community License with territorial exclusions",
+      "video_timestamp_seconds": 472,
+      "constraints": [
+        "Model adapters distributed under MiniMax H3 Community License, which excludes United States, EU, UK, Republic of Korea",
+        "Apache-2.0 applies to code, not the model weights/adapters; hosted Pika API has separate terms to review",
+        "Local tested requests primarily require H100 80GB, 66-69GiB GPU for 480p/5s; >211GB base components",
+        "Clip identity consistency, rights and camera continuity across many shots not demonstrated"
+      ],
+      "test_gate": "Do not deploy model in excluded territories without a separate, validated license. Only after license clearance, test cross-shot identity fidelity and cost."
+    },
+    {
+      "id": "x:video-to-game",
+      "type": "external-candidate",
+      "label": "Video to Game",
+      "description": "Reverse-engineers a reference video into palettes, shots, assets and a Three.js interactive world; suggests video-as-design-spec for consistent court visuals.",
+      "disposition": "REFERENCE ONLY",
+      "priority": "P2-reference",
+      "source_repository": "https://github.com/lovisdotio/video-to-game",
+      "source_commit": "d1a24fd8a47576ec4b3c36388b30deda0631def9",
+      "source_readme": "https://github.com/lovisdotio/video-to-game/blob/d1a24fd8a47576ec4b3c36388b30deda0631def9/README.md",
+      "source_files": [
+        "README.md",
+        "LICENSE"
+      ],
+      "license": "MIT repository source; model/asset rights are separate",
+      "video_timestamp_seconds": 751,
+      "constraints": [
+        "It makes playable games, not finished episodes",
+        "Reference workflow uses external fal asset/image-to-3D providers and budgets; generated asset rights and cost must be verified",
+        "Preserve existing Nerd Court storyboard/visual intent rather than adopting video-to-game's sample-game defaults"
+      ],
+      "test_gate": "Test one short original courtroom camera/character reference for reproducible assets, no production adoption until budget/rights reviewed."
+    },
+    {
+      "id": "x:filmimic",
+      "type": "external-candidate",
+      "label": "Filmimic",
+      "description": "Unreal Engine 5 post-process film looks, grain, bloom, halation and color treatment.",
+      "disposition": "DEFER",
+      "priority": "P2-defer",
+      "source_repository": "https://github.com/DreamyLab30/Filmimic",
+      "source_commit": "c8695dd65f74b42a4e8aca0b3740645506d47d24",
+      "source_readme": "https://github.com/DreamyLab30/Filmimic/blob/c8695dd65f74b42a4e8aca0b3740645506d47d24/README.md",
+      "source_files": [
+        "README.md",
+        "LICENSE"
+      ],
+      "license": "GPL-2.0-or-later; Unreal Engine separate",
+      "video_timestamp_seconds": 859,
+      "constraints": [
+        "Upstream tested baseline is Unreal Engine 5.8.3 Windows DX12 SM6, not our existing Swift renderer",
+        "GPL-2.0-or-later with separate Unreal licensing, no compatibility exception",
+        "Cooked game and Unreal Movie Render Queue path not verified upstream"
+      ],
+      "test_gate": "Do not introduce UE5 into core architecture for a finishing filter; revisit only after render backend decision and counsel license review."
+    },
+    {
+      "id": "x:lever",
+      "type": "external-candidate",
+      "label": "Lever",
+      "description": "GitHub Copilot skill/plugin for metric-based engineering feedback loops, PR reviews, changes and bounded autonomy.",
+      "disposition": "REVIEW",
+      "priority": "P1-process",
+      "source_repository": "https://github.com/github/lever",
+      "source_commit": "f859d0aa2be96981157ee0480655c84877e3cd98",
+      "source_readme": "https://github.com/github/lever/blob/f859d0aa2be96981157ee0480655c84877e3cd98/README.md",
+      "source_files": [
+        "README.md",
+        "LICENSE"
+      ],
+      "license": "MIT",
+      "video_timestamp_seconds": 700,
+      "constraints": [
+        "Developer workflow, not an on-demand television runtime",
+        "Specific GitHub Copilot integration and automation permissions must be reviewed",
+        "Existing red-green-refactor and evidence gates already supply some of this methodology"
+      ],
+      "test_gate": "Compare proposed measurable acceptance contracts against existing CI and graph gates before adding dependency."
+    },
+    {
+      "id": "x:ub-mode",
+      "type": "external-candidate",
+      "label": "ub-mode",
+      "description": "TDD and deterministic engineering-quality skill concepts: complexity, duplication, mutation testing and task-scoped changes.",
+      "disposition": "REVIEW",
+      "priority": "P1-process",
+      "source_repository": "https://github.com/unclebob/ub-mode",
+      "source_commit": "57a8bdd28e45ed41900ace0bafa2ff76dd9ed70f",
+      "source_readme": "https://github.com/unclebob/ub-mode/blob/57a8bdd28e45ed41900ace0bafa2ff76dd9ed70f/README.md",
+      "source_files": [
+        "README.md",
+        "SKILL.md"
+      ],
+      "license": "Not confirmed for root skill; review before copying",
+      "video_timestamp_seconds": 36,
+      "constraints": [
+        "External agent skill; no stand-alone LICENSE file in source root in reviewed tree",
+        "Companion tools require separate installation, suitability and license checks",
+        "Metrics alone do not prove runtime character authenticity or video production quality"
+      ],
+      "test_gate": "Use behavioral tests/mutation on first isolated resolver component; adopt only with confirmed licensing and lower cost."
+    },
+    {
+      "id": "x:oxr",
+      "type": "external-candidate",
+      "label": "SoMark OXR",
+      "description": "Document parsing with bounding boxes and Markdown/JSON output, candidate for interpreting complicated comic layouts or evidence scans.",
+      "disposition": "REVIEW",
+      "priority": "P2-optional",
+      "source_repository": "https://github.com/SoMarkAI/OXR",
+      "source_commit": "c1a1dcb312ee9f691404f127785510453c0d9350",
+      "source_readme": "https://github.com/SoMarkAI/OXR/blob/c1a1dcb312ee9f691404f127785510453c0d9350/README.md",
+      "source_files": [
+        "README.md",
+        "LICENSE"
+      ],
+      "license": "OXR Open Source License (custom Apache-based restrictions)",
+      "video_timestamp_seconds": 93,
+      "constraints": [
+        "Vendor-defined custom Apache-based license with funding/revenue restrictions and online attribution rules",
+        "Local documented path requires NVIDIA CUDA, at least 24GB GPU for low-concurrency use",
+        "Accuracy and benchmark leadership are vendor claims not independently validated here"
+      ],
+      "test_gate": "Run gold-set comics/PDF panel extraction and citation alignment; measure misses, frame-order errors and legal/license restrictions."
+    },
+    {
+      "id": "x:strata",
+      "type": "external-candidate",
+      "label": "Strata",
+      "description": "Local model serving and OpenAI/Anthropic-compatible routing; optional development inference backend.",
+      "disposition": "DEFER",
+      "priority": "P2-optional",
+      "source_repository": "https://github.com/Niko1221/Strata",
+      "source_commit": "870aedd9e1ebe1c91f94da93b59af17729f6c5c0",
+      "source_readme": "https://github.com/Niko1221/Strata/blob/870aedd9e1ebe1c91f94da93b59af17729f6c5c0/README.md",
+      "source_files": [
+        "README.md"
+      ],
+      "license": "MIT (README claimed; inspect LICENSE on adoption)",
+      "video_timestamp_seconds": 120,
+      "constraints": [
+        "Supported hardware list includes modern NVIDIA, AMD RX 6000-9000 (subset), Intel Arc, Apple Silicon; not generic all-AMD compatibility",
+        "Model performance and memory constraints need hardware-specific benchmarks",
+        "Does not solve media rendering, evidence provenance or human cast fidelity on its own"
+      ],
+      "test_gate": "Only if local inference is needed, benchmark actual intended machines/models against remote baseline."
+    }
+  ],
+  "edges": [
+    {
+      "from": "x:floorplan",
+      "to": "t:unified",
+      "relation": "candidate-for-not-implemented",
+      "reason": "On a workspace containing pinned UATU, Grizzly Knights, and advanced Nerd Court, identify exact Swift->Convex boundary plus Python UATU paths; compare against manually confirmed call edges."
+    },
+    {
+      "from": "x:floorplan",
+      "to": "t:observability",
+      "relation": "candidate-for-not-implemented",
+      "reason": "On a workspace containing pinned UATU, Grizzly Knights, and advanced Nerd Court, identify exact Swift->Convex boundary plus Python UATU paths; compare against manually confirmed call edges."
+    },
+    {
+      "from": "x:floorplan",
+      "to": "t:evaluation",
+      "relation": "candidate-for-not-implemented",
+      "reason": "On a workspace containing pinned UATU, Grizzly Knights, and advanced Nerd Court, identify exact Swift->Convex boundary plus Python UATU paths; compare against manually confirmed call edges."
+    },
+    {
+      "from": "x:kinetograph",
+      "to": "t:storyboard",
+      "relation": "candidate-for-not-implemented",
+      "reason": "Produce 30-90 seconds of original Court-like test footage from a stable CastManifest/shot list; check repeatability, long-scene memory, timing, audio mixing and MP4 decode on target hardware."
+    },
+    {
+      "from": "x:kinetograph",
+      "to": "t:render",
+      "relation": "candidate-for-not-implemented",
+      "reason": "Produce 30-90 seconds of original Court-like test footage from a stable CastManifest/shot list; check repeatability, long-scene memory, timing, audio mixing and MP4 decode on target hardware."
+    },
+    {
+      "from": "x:kinetograph",
+      "to": "t:audio",
+      "relation": "candidate-for-not-implemented",
+      "reason": "Produce 30-90 seconds of original Court-like test footage from a stable CastManifest/shot list; check repeatability, long-scene memory, timing, audio mixing and MP4 decode on target hardware."
+    },
+    {
+      "from": "x:kinetograph",
+      "to": "t:encode",
+      "relation": "candidate-for-not-implemented",
+      "reason": "Produce 30-90 seconds of original Court-like test footage from a stable CastManifest/shot list; check repeatability, long-scene memory, timing, audio mixing and MP4 decode on target hardware."
+    },
+    {
+      "from": "x:kinetograph",
+      "to": "t:evaluation",
+      "relation": "candidate-for-not-implemented",
+      "reason": "Produce 30-90 seconds of original Court-like test footage from a stable CastManifest/shot list; check repeatability, long-scene memory, timing, audio mixing and MP4 decode on target hardware."
+    },
+    {
+      "from": "x:kinetograph",
+      "to": "t:cost",
+      "relation": "candidate-for-not-implemented",
+      "reason": "Produce 30-90 seconds of original Court-like test footage from a stable CastManifest/shot list; check repeatability, long-scene memory, timing, audio mixing and MP4 decode on target hardware."
+    },
+    {
+      "from": "x:pika-h3",
+      "to": "t:render",
+      "relation": "candidate-for-not-implemented",
+      "reason": "Do not deploy model in excluded territories without a separate, validated license. Only after license clearance, test cross-shot identity fidelity and cost."
+    },
+    {
+      "from": "x:pika-h3",
+      "to": "t:visual",
+      "relation": "candidate-for-not-implemented",
+      "reason": "Do not deploy model in excluded territories without a separate, validated license. Only after license clearance, test cross-shot identity fidelity and cost."
+    },
+    {
+      "from": "x:pika-h3",
+      "to": "t:permissions",
+      "relation": "candidate-for-not-implemented",
+      "reason": "Do not deploy model in excluded territories without a separate, validated license. Only after license clearance, test cross-shot identity fidelity and cost."
+    },
+    {
+      "from": "x:video-to-game",
+      "to": "t:storyboard",
+      "relation": "candidate-for-not-implemented",
+      "reason": "Test one short original courtroom camera/character reference for reproducible assets, no production adoption until budget/rights reviewed."
+    },
+    {
+      "from": "x:video-to-game",
+      "to": "t:visual",
+      "relation": "candidate-for-not-implemented",
+      "reason": "Test one short original courtroom camera/character reference for reproducible assets, no production adoption until budget/rights reviewed."
+    },
+    {
+      "from": "x:filmimic",
+      "to": "t:render",
+      "relation": "candidate-for-not-implemented",
+      "reason": "Do not introduce UE5 into core architecture for a finishing filter; revisit only after render backend decision and counsel license review."
+    },
+    {
+      "from": "x:filmimic",
+      "to": "t:visual",
+      "relation": "candidate-for-not-implemented",
+      "reason": "Do not introduce UE5 into core architecture for a finishing filter; revisit only after render backend decision and counsel license review."
+    },
+    {
+      "from": "x:filmimic",
+      "to": "t:permissions",
+      "relation": "candidate-for-not-implemented",
+      "reason": "Do not introduce UE5 into core architecture for a finishing filter; revisit only after render backend decision and counsel license review."
+    },
+    {
+      "from": "x:lever",
+      "to": "t:evaluation",
+      "relation": "candidate-for-not-implemented",
+      "reason": "Compare proposed measurable acceptance contracts against existing CI and graph gates before adding dependency."
+    },
+    {
+      "from": "x:lever",
+      "to": "t:observability",
+      "relation": "candidate-for-not-implemented",
+      "reason": "Compare proposed measurable acceptance contracts against existing CI and graph gates before adding dependency."
+    },
+    {
+      "from": "x:lever",
+      "to": "t:cost",
+      "relation": "candidate-for-not-implemented",
+      "reason": "Compare proposed measurable acceptance contracts against existing CI and graph gates before adding dependency."
+    },
+    {
+      "from": "x:ub-mode",
+      "to": "t:evaluation",
+      "relation": "candidate-for-not-implemented",
+      "reason": "Use behavioral tests/mutation on first isolated resolver component; adopt only with confirmed licensing and lower cost."
+    },
+    {
+      "from": "x:ub-mode",
+      "to": "t:unified",
+      "relation": "candidate-for-not-implemented",
+      "reason": "Use behavioral tests/mutation on first isolated resolver component; adopt only with confirmed licensing and lower cost."
+    },
+    {
+      "from": "x:oxr",
+      "to": "t:evidence",
+      "relation": "candidate-for-not-implemented",
+      "reason": "Run gold-set comics/PDF panel extraction and citation alignment; measure misses, frame-order errors and legal/license restrictions."
+    },
+    {
+      "from": "x:oxr",
+      "to": "t:permissions",
+      "relation": "candidate-for-not-implemented",
+      "reason": "Run gold-set comics/PDF panel extraction and citation alignment; measure misses, frame-order errors and legal/license restrictions."
+    },
+    {
+      "from": "x:strata",
+      "to": "t:dialogue",
+      "relation": "candidate-for-not-implemented",
+      "reason": "Only if local inference is needed, benchmark actual intended machines/models against remote baseline."
+    },
+    {
+      "from": "x:strata",
+      "to": "t:cost",
+      "relation": "candidate-for-not-implemented",
+      "reason": "Only if local inference is needed, benchmark actual intended machines/models against remote baseline."
+    }
+  ]
+}

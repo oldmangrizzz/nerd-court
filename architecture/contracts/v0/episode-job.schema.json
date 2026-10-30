@@ -1,0 +1,214 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:nerdcourt:contracts:v0:episode-job",
+  "title": "EpisodeProductionJob (PROPOSED DRAFT)",
+  "description": "Durable production lifecycle. PUBLISHED requires an actual media master; transcript-only output is never a complete episode.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "job_id",
+    "episode_id",
+    "mode",
+    "status",
+    "grievance_id",
+    "attempt",
+    "artifacts"
+  ],
+  "properties": {
+    "job_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "episode_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "grievance_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "mode": {
+      "enum": [
+        "prototype",
+        "production"
+      ]
+    },
+    "status": {
+      "enum": [
+        "submitted",
+        "resolving-cast",
+        "researching-evidence",
+        "scripting",
+        "storyboarding",
+        "rendering",
+        "encoding",
+        "quality-check",
+        "published",
+        "failed",
+        "cancelled"
+      ]
+    },
+    "attempt": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "idempotency_key": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "requested_duration_seconds": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 1
+    },
+    "cast_manifest_revision": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "events": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "at",
+          "status"
+        ],
+        "properties": {
+          "at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "status": {
+            "type": "string"
+          },
+          "note": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        }
+      }
+    },
+    "artifacts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "kind",
+          "uri",
+          "sha256"
+        ],
+        "properties": {
+          "kind": {
+            "enum": [
+              "video-master",
+              "video-rendition",
+              "captions",
+              "audio-mix",
+              "storyboard",
+              "transcript",
+              "evidence-ledger",
+              "thumbnail"
+            ]
+          },
+          "uri": {
+            "type": "string",
+            "minLength": 1
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[a-fA-F0-9]{64}$"
+          },
+          "duration_seconds": {
+            "type": [
+              "number",
+              "null"
+            ],
+            "minimum": 0
+          },
+          "codec": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "verified_playable": {
+            "type": "boolean",
+            "default": false
+          }
+        }
+      }
+    },
+    "elapsed_ms": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 0
+    },
+    "cost_usd": {
+      "type": [
+        "number",
+        "null"
+      ],
+      "minimum": 0
+    },
+    "failure_code": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "published_at": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "date-time"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "published"
+          }
+        },
+        "required": [
+          "status"
+        ]
+      },
+      "then": {
+        "properties": {
+          "artifacts": {
+            "contains": {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "const": "video-master"
+                },
+                "verified_playable": {
+                  "const": true
+                }
+              },
+              "required": [
+                "kind",
+                "verified_playable"
+              ]
+            }
+          }
+        }
+      }
+    }
+  ]
+}

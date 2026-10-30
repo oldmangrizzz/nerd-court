@@ -1,0 +1,869 @@
+{
+ "format": "nerd-court-source-inventory/v1",
+ "repository": "oldmangrizzz/nerd-court",
+ "branch": "ship/v1-build11",
+ "commit": "b6b19b52045b8a641ac6d34c4045c7ded40943b7",
+ "scope": "tracked file paths and blob metadata only; no contents, no executable verification",
+ "truncated": false,
+ "files": [
+  {
+   "path": ".DS_Store",
+   "sha": "ebed0dca3fae0a38a6c535695b332ca0f6bd3b05",
+   "bytes": 6148,
+   "family": "review-exclusion"
+  },
+  {
+   "path": ".codex/NC/agent.md",
+   "sha": "221cd28edc46e3c5430ab654bd132feec51a1730",
+   "bytes": 1182
+  },
+  {
+   "path": ".codex/NC/changelog.md",
+   "sha": "8a0f1e3b0f23cff9ddeb5b248fecd81408fbdf50",
+   "bytes": 8695
+  },
+  {
+   "path": ".codex/NC/decisions.md",
+   "sha": "2fbb7515ff966c89440a42f48482800fa5ff894f",
+   "bytes": 2593
+  },
+  {
+   "path": ".codex/NC/handoff.md",
+   "sha": "5e869db163705aff9e2e90b27367b7d1b94f8cee",
+   "bytes": 701
+  },
+  {
+   "path": ".codex/NC/open_questions.md",
+   "sha": "f96e644fa6832508d0ac8650d1f194d93361a75b",
+   "bytes": 3451
+  },
+  {
+   "path": ".codex/NC/plan.md",
+   "sha": "74f0aa550a8d320156c37feb163e0815a6dd6138",
+   "bytes": 972
+  },
+  {
+   "path": ".codex/NC/runbook.md",
+   "sha": "5701b20a6c83d7af6a093ae4d63ea77aaf4fa504",
+   "bytes": 3663
+  },
+  {
+   "path": ".codex/NC/status.md",
+   "sha": "f454f4d3c82416459632cf956e8f88e8bd331504",
+   "bytes": 1411
+  },
+  {
+   "path": ".gitignore",
+   "sha": "510463290ea77fc586de7fb51b50afb18ecb6cac",
+   "bytes": 366
+  },
+  {
+   "path": ".xcode-cloud/workflow.yml",
+   "sha": "34c7e94c73684dd51532268efa8d433f5a0821a3",
+   "bytes": 1706
+  },
+  {
+   "path": ".xcode-version",
+   "sha": "102074d9ff75f0aebd8f4608f6c3f7f39c034ee2",
+   "bytes": 5
+  },
+  {
+   "path": "AUDIT_REPORT.md",
+   "sha": "81e293a666858100594d51bc6d6051e50fc2a48a",
+   "bytes": 10400
+  },
+  {
+   "path": "ExportOptions.plist",
+   "sha": "454a2ca38ec297ad5a9eb0a46c94464e1b90ded7",
+   "bytes": 720
+  },
+  {
+   "path": "Resources/Assets.xcassets/AppIcon.appiconset/AppIcon1024x1024@1x.png",
+   "sha": "359ffe5d07eb55fcf80e2cec5706c4f40b770e8e",
+   "bytes": 5338,
+   "family": "asset-or-binary"
+  },
+  {
+   "path": "Resources/Assets.xcassets/AppIcon.appiconset/AppIcon20x20@2x.png",
+   "sha": "ae26d718ce0260e6369fc527675756bd07c33909",
+   "bytes": 106,
+   "family": "asset-or-binary"
+  },
+  {
+   "path": "Resources/Assets.xcassets/AppIcon.appiconset/AppIcon20x20@2x~ipad.png",
+   "sha": "ae26d718ce0260e6369fc527675756bd07c33909",
+   "bytes": 106,
+   "family": "asset-or-binary"
+  },
+  {
+   "path": "Resources/Assets.xcassets/AppIcon.appiconset/AppIcon20x20@3x.png",
+   "sha": "16e53e4d5f5acd1dae69b9e93e2a85afb14035b9",
+   "bytes": 140,
+   "family": "asset-or-binary"
+  },
+  {
+   "path": "Resources/Assets.xcassets/AppIcon.appiconset/AppIcon20x20~ipad.png",
+   "sha": "542ebedc41bfff1a860167bdc6031e42bc963fb6",
+   "bytes": 83,
+   "family": "asset-or-binary"
+  },
+  {
+   "path": "Resources/Assets.xcassets/AppIcon.appiconset/AppIcon29x29@2x.png",
+   "sha": "5bff1894408628a13a2007517c07979bd06412c1",
+   "bytes": 134,
+   "family": "asset-or-binary"
+  },
+  {
+   "path": "Resources/Assets.xcassets/AppIcon.appiconset/AppIcon29x29@2x~ipad.png",
+   "sha": "5bff1894408628a13a2007517c07979bd06412c1",
+   "bytes": 134,
+   "family": "asset-or-binary"
+  },
+  {
+   "path": "Resources/Assets.xcassets/AppIcon.appiconset/AppIcon29x29@3x.png",
+   "sha": "95cab9679ac49278c2be699ed1218f9095c5ea9f",
+   "bytes": 193,
+   "family": "asset-or-binary"
+  },
+  {
+   "path": "Resources/Assets.xcassets/AppIcon.appiconset/AppIcon29x29~ipad.png",
+   "sha": "a245fef785f608a9fcfe97c2ea6b2d268e1315a1",
+   "bytes": 95,
+   "family": "asset-or-binary"
+  },
+  {
+   "path": "Resources/Assets.xcassets/AppIcon.appiconset/AppIcon40x40@2x.png",
+   "sha": "5fbe0aec42a3d4b91276d0d815c13028eabaad6e",
+   "bytes": 175,
+   "family": "asset-or-binary"
+  },
+  {
+   "path": "Resources/Assets.xcassets/AppIcon.appiconset/AppIcon40x40@2x~ipad.png",
+   "sha": "5fbe0aec42a3d4b91276d0d815c13028eabaad6e",
+   "bytes": 175,
+   "family": "asset-or-binary"
+  },
+  {
+   "path": "Resources/Assets.xcassets/AppIcon.appiconset/AppIcon40x40@3x.png",
+   "sha": "8d6332067c064c274703a3d9d0cafd4a0132a28d",
+   "bytes": 294,
+   "family": "asset-or-binary"
+  },
+  {
+   "path": "Resources/Assets.xcassets/AppIcon.appiconset/AppIcon40x40~ipad.png",
+   "sha": "ae26d718ce0260e6369fc527675756bd07c33909",
+   "bytes": 106,
+   "family": "asset-or-binary"
+  },
+  {
+   "path": "Resources/Assets.xcassets/AppIcon.appiconset/AppIcon60x60@2x.png",
+   "sha": "8d6332067c064c274703a3d9d0cafd4a0132a28d",
+   "bytes": 294,
+   "family": "asset-or-binary"
+  },
+  {
+   "path": "Resources/Assets.xcassets/AppIcon.appiconset/AppIcon60x60@3x.png",
+   "sha": "2f771532669ad546d284d25a877b218048dc239c",
+   "bytes": 497,
+   "family": "asset-or-binary"
+  },
+  {
+   "path": "Resources/Assets.xcassets/AppIcon.appiconset/AppIcon76x76@2x~ipad.png",
+   "sha": "a5efbb95b63f0d8bc1d775ca5e3b854f6f19ac78",
+   "bytes": 432,
+   "family": "asset-or-binary"
+  },
+  {
+   "path": "Resources/Assets.xcassets/AppIcon.appiconset/AppIcon76x76~ipad.png",
+   "sha": "ec531e4c92e32a8010d822fbd75ac85917b00c63",
+   "bytes": 172,
+   "family": "asset-or-binary"
+  },
+  {
+   "path": "Resources/Assets.xcassets/AppIcon.appiconset/AppIcon83.5x83.5@2x~ipad.png",
+   "sha": "4f13a573fda58df9c395263d938bf0ee77ad5f6a",
+   "bytes": 466,
+   "family": "asset-or-binary"
+  },
+  {
+   "path": "Resources/Assets.xcassets/AppIcon.appiconset/Contents.json",
+   "sha": "8d7f49cb63fee8a4dca61774bb455d757918a8e4",
+   "bytes": 2388
+  },
+  {
+   "path": "Resources/Assets.xcassets/Contents.json",
+   "sha": "73c00596a7fca3f3d4bdd64053b69d86745f9e10",
+   "bytes": 63
+  },
+  {
+   "path": "Resources/PrivacyInfo.xcprivacy",
+   "sha": "ec60d71144e293cac2e523b674fa3a0d78b4bf21",
+   "bytes": 409
+  },
+  {
+   "path": "Resources/RuntimeConfig.example.plist",
+   "sha": "f66746869331ff004e85f694e0114a4f8446efc1",
+   "bytes": 548
+  },
+  {
+   "path": "Resources/SFX/crowbar_impact.wav",
+   "sha": "52a067438618ff74159f8b20d6a44883b769fb9a",
+   "bytes": 31832,
+   "family": "asset-or-binary"
+  },
+  {
+   "path": "Resources/SFX/gavel_slam.wav",
+   "sha": "dd170a10feec503be331d254492ea8ee59282175",
+   "bytes": 44180,
+   "family": "asset-or-binary"
+  },
+  {
+   "path": "Resources/SFX/gunshot_x4.wav",
+   "sha": "11fab99a47cdaedbc233497831e127aa7ff1f6eb",
+   "bytes": 84752,
+   "family": "asset-or-binary"
+  },
+  {
+   "path": "Resources/SFX/morph_whoosh.wav",
+   "sha": "2fccaf21681f93da50c526766c7038d98a220cf5",
+   "bytes": 151256,
+   "family": "asset-or-binary"
+  },
+  {
+   "path": "Resources/SFX/splash.wav",
+   "sha": "021dc8b0f7edcace8b79fbde86be3beb2cb22300",
+   "bytes": 105920,
+   "family": "asset-or-binary"
+  },
+  {
+   "path": "Resources/Sounds/crowd_gasp.wav",
+   "sha": "02c6d929ed1128069856027533f37bfa670a85bd",
+   "bytes": 6658,
+   "family": "asset-or-binary"
+  },
+  {
+   "path": "Resources/Sounds/crowd_laugh.wav",
+   "sha": "02c6d929ed1128069856027533f37bfa670a85bd",
+   "bytes": 6658,
+   "family": "asset-or-binary"
+  },
+  {
+   "path": "Resources/Sounds/deadpool_entrance.wav",
+   "sha": "02c6d929ed1128069856027533f37bfa670a85bd",
+   "bytes": 6658,
+   "family": "asset-or-binary"
+  },
+  {
+   "path": "Resources/Sounds/dramatic_reveal.wav",
+   "sha": "02c6d929ed1128069856027533f37bfa670a85bd",
+   "bytes": 6658,
+   "family": "asset-or-binary"
+  },
+  {
+   "path": "Resources/Sounds/finisher_impact.wav",
+   "sha": "02c6d929ed1128069856027533f37bfa670a85bd",
+   "bytes": 6658,
+   "family": "asset-or-binary"
+  },
+  {
+   "path": "Resources/Sounds/gavel_strike.wav",
+   "sha": "02c6d929ed1128069856027533f37bfa670a85bd",
+   "bytes": 6658,
+   "family": "asset-or-binary"
+  },
+  {
+   "path": "Resources/Sounds/generate_stubs.sh",
+   "sha": "945859d1822a7dd040a2c01c4ea97a70e0a7afdd",
+   "bytes": 2119
+  },
+  {
+   "path": "Resources/Sounds/objection_sting.wav",
+   "sha": "02c6d929ed1128069856027533f37bfa670a85bd",
+   "bytes": 6658,
+   "family": "asset-or-binary"
+  },
+  {
+   "path": "Resources/Sounds/phase_transition.wav",
+   "sha": "02c6d929ed1128069856027533f37bfa670a85bd",
+   "bytes": 6658,
+   "family": "asset-or-binary"
+  },
+  {
+   "path": "Resources/Sounds/verdict_drumroll.wav",
+   "sha": "02c6d929ed1128069856027533f37bfa670a85bd",
+   "bytes": 6658,
+   "family": "asset-or-binary"
+  },
+  {
+   "path": "Sources/Animation/CameraController.swift",
+   "sha": "e2ff3b7c8f719293afb2f61029cbdbc2d446cd3b",
+   "bytes": 6453
+  },
+  {
+   "path": "Sources/Animation/CharacterPortraitNode.swift",
+   "sha": "fa2b7e2e60c1e1032ed624e79e7d6883a441b1f8",
+   "bytes": 25421
+  },
+  {
+   "path": "Sources/Animation/CinematicEngine.swift",
+   "sha": "8a1146b1e990b38ad88ed630aef7c9e7a2f1145b",
+   "bytes": 14088
+  },
+  {
+   "path": "Sources/Animation/ComicBeatAnimator.swift",
+   "sha": "2f77bed0d768c1435c598a961099339a8faf36f5",
+   "bytes": 902
+  },
+  {
+   "path": "Sources/Animation/CourtroomScene.swift",
+   "sha": "0d140ff2d0da1380b6c8cbb945c3e7de0f05c0f0",
+   "bytes": 25928
+  },
+  {
+   "path": "Sources/Animation/FinisherAnimator.swift",
+   "sha": "4cf690a73dfc1b35d36f72d59d02d668f6b85a04",
+   "bytes": 14948
+  },
+  {
+   "path": "Sources/Animation/FinisherExecutor.swift",
+   "sha": "702ee8833e11a0ca97e53ce8a23c30460380784a",
+   "bytes": 15396
+  },
+  {
+   "path": "Sources/Animation/SpiderVerseEffects.swift",
+   "sha": "b4ef3a4ce2398743bedefdb3cf3485e4c9d26dd7",
+   "bytes": 9497
+  },
+  {
+   "path": "Sources/Debate/DebateEngine.swift",
+   "sha": "c738598f600338237494e5a53e8e3890e4b818fa",
+   "bytes": 15781
+  },
+  {
+   "path": "Sources/Debate/GuestCharacterGenerator.swift",
+   "sha": "9534d8a6014329bcb894faa67b790f719f519414",
+   "bytes": 1183
+  },
+  {
+   "path": "Sources/Debate/OllamaDebateClient.swift",
+   "sha": "00c77970023744a5eb3d869672044d1b24321d93",
+   "bytes": 312
+  },
+  {
+   "path": "Sources/Debate/ScriptedDialogueEngine.swift",
+   "sha": "80a59ba63dbf764a1954b60fe7219cce653fe4c1",
+   "bytes": 9746
+  },
+  {
+   "path": "Sources/Debate/TurnManager.swift",
+   "sha": "9ca6afaad62916811460dba4bd402549261dbbd7",
+   "bytes": 3067
+  },
+  {
+   "path": "Sources/Models/CanonResearchResult.swift",
+   "sha": "99d8f674f0a0f7ae49fc0e6940e85329f41cf498",
+   "bytes": 735
+  },
+  {
+   "path": "Sources/Models/CanonSource.swift",
+   "sha": "f9b521813e4e373cf64bb679c0c20c186f25a2c8",
+   "bytes": 439
+  },
+  {
+   "path": "Sources/Models/CinematicFrame.swift",
+   "sha": "f64ed7f291789fe38410bebea186620e36b84f08",
+   "bytes": 2035
+  },
+  {
+   "path": "Sources/Models/DebatePhase.swift",
+   "sha": "4d935dd963948a1f77943b3fbb9bc46f5e6b7167",
+   "bytes": 2079
+  },
+  {
+   "path": "Sources/Models/Episode.swift",
+   "sha": "209c97937e6f2c9e95c506fd9934cf79a0193481",
+   "bytes": 786
+  },
+  {
+   "path": "Sources/Models/FinisherType.swift",
+   "sha": "062fd07405b9e60bf0e91b90e6989631e79f1549",
+   "bytes": 497
+  },
+  {
+   "path": "Sources/Models/Grievance.swift",
+   "sha": "1356ac090f2f198d3e6a75ec0dc950c83d6efc9a",
+   "bytes": 891
+  },
+  {
+   "path": "Sources/Models/GuestCharacter.swift",
+   "sha": "a6253f8e861b18631ae27b8b538d53a9e41ff0f7",
+   "bytes": 503
+  },
+  {
+   "path": "Sources/Models/Speaker.swift",
+   "sha": "d9cf3062a864b0f9004aa8cad0d1dddd9bc3bf60",
+   "bytes": 1488
+  },
+  {
+   "path": "Sources/Models/SpeechTurn.swift",
+   "sha": "302d365d7293ed2d1746e0c9e17cca9c37157b61",
+   "bytes": 1049
+  },
+  {
+   "path": "Sources/Models/StaffCharacters.swift",
+   "sha": "d3a0129755c00a18d40dc2af9f7725164c15b00e",
+   "bytes": 9685
+  },
+  {
+   "path": "Sources/Models/TrialTranscript.swift",
+   "sha": "9aa61a2d6251102444870b48aee16758a174fa4d",
+   "bytes": 2948
+  },
+  {
+   "path": "Sources/Models/Verdict.swift",
+   "sha": "d085f57a88cad2a6a82a047f64257e0c184d3f88",
+   "bytes": 336
+  },
+  {
+   "path": "Sources/NerdCourtApp.swift",
+   "sha": "338c10bb04ff42f2361ed113442d207f359dde2c",
+   "bytes": 1369
+  },
+  {
+   "path": "Sources/Networking/APIRouter.swift",
+   "sha": "ee028692fa23074f207c7aed116a027f81e800c6",
+   "bytes": 1838
+  },
+  {
+   "path": "Sources/Networking/ConvexClient.swift",
+   "sha": "1efccf99bdd4ec41e510f2a9e475a17425d82aff",
+   "bytes": 3735
+  },
+  {
+   "path": "Sources/Networking/OllamaCloudClient.swift",
+   "sha": "d32b5aa98b28e8b8f591db3ec2afc66a0501178e",
+   "bytes": 5872
+  },
+  {
+   "path": "Sources/Networking/ServiceProtocols.swift",
+   "sha": "a86b9b4a45d394898f45d2706f3407f606833a44",
+   "bytes": 3010
+  },
+  {
+   "path": "Sources/Pipeline/CaseFile.swift",
+   "sha": "99ed04de0aa47b5e9ce1b93a549ff496be2f1f3d",
+   "bytes": 1814
+  },
+  {
+   "path": "Sources/Pipeline/PipelineEngine.swift",
+   "sha": "72a1f7690248202251188d1f4301bc13ca16a1a8",
+   "bytes": 12039
+  },
+  {
+   "path": "Sources/Pipeline/TrialNodes.swift",
+   "sha": "18edd086f03db888c869f194a3c98fc3477986c2",
+   "bytes": 10875
+  },
+  {
+   "path": "Sources/Pipeline/TrialWorkflowFactory.swift",
+   "sha": "6fed97997ce8e43529b6094c9e9358ebe56e7809",
+   "bytes": 1720
+  },
+  {
+   "path": "Sources/Research/CanonDatabase.swift",
+   "sha": "210d819256bb7a557836ebea21c7b89162f799fb",
+   "bytes": 14264
+  },
+  {
+   "path": "Sources/Research/CanonResearchEngine.swift",
+   "sha": "06f4b8cb138230b0b61a326648bb9589b90f883b",
+   "bytes": 1529
+  },
+  {
+   "path": "Sources/Research/CanonResearchService.swift",
+   "sha": "4c3db25b4b86302691f45053c4877431eb630970",
+   "bytes": 4836
+  },
+  {
+   "path": "Sources/Research/EvidenceAssembler.swift",
+   "sha": "25c320ae41f47a7c5627b47614a5195ad2b16da7",
+   "bytes": 2221
+  },
+  {
+   "path": "Sources/Security/InputSanitizer.swift",
+   "sha": "a7e1e651fe19e19c6d23d15ff7c6b9cf5399ed27",
+   "bytes": 3714
+  },
+  {
+   "path": "Sources/Security/LLMResponseSanitizer.swift",
+   "sha": "ca53ceb0748bbe26d577b7be928c92b1d801850b",
+   "bytes": 3402
+  },
+  {
+   "path": "Sources/Security/SubmissionRateLimiter.swift",
+   "sha": "076478f46497dceffd4cf7906298816ec55ead49",
+   "bytes": 4123
+  },
+  {
+   "path": "Sources/Store/AppState.swift",
+   "sha": "eb03152e6c1ab0eb12999586e905ce0867859c33",
+   "bytes": 497
+  },
+  {
+   "path": "Sources/Store/EpisodeStore.swift",
+   "sha": "20802d6b2faeeebdba52468c4303af14822af3ef",
+   "bytes": 5410
+  },
+  {
+   "path": "Sources/Store/TrialCoordinator.swift",
+   "sha": "0893da5202b78aa1bd64d91e5a86ff7651ff52fd",
+   "bytes": 5809
+  },
+  {
+   "path": "Sources/Utils/AppConfig.swift",
+   "sha": "08cbb15b1d6dd13a7bf3111dbeedb0f9f905d791",
+   "bytes": 2336
+  },
+  {
+   "path": "Sources/Utils/SeededRandomGenerator.swift",
+   "sha": "2ecf529b8d183d0abbc198ed6cecdc4dce5c7096",
+   "bytes": 524
+  },
+  {
+   "path": "Sources/Views/Components/CharacterSlot.swift",
+   "sha": "7ce2cc6ed8e8d5716bad189e9fc61e74ca4840db",
+   "bytes": 3376
+  },
+  {
+   "path": "Sources/Views/Components/CinematicBackground.swift",
+   "sha": "104a92b5dbfb6b319afd2eff5e543ac53d73d3e0",
+   "bytes": 7677
+  },
+  {
+   "path": "Sources/Views/Components/ComicBeatOverlay.swift",
+   "sha": "4cddf5e4b7aa5b95927991a7413dc6bfd700ebf5",
+   "bytes": 5995
+  },
+  {
+   "path": "Sources/Views/Components/FinalThoughtOverlay.swift",
+   "sha": "b4f912eb8cc6096a8a64139a60f346946328d80c",
+   "bytes": 3499
+  },
+  {
+   "path": "Sources/Views/Components/FranchiseTagSelector.swift",
+   "sha": "5fd68f15f909649d33e57c7da9d1992f58815198",
+   "bytes": 3191
+  },
+  {
+   "path": "Sources/Views/Components/SpeechBubble.swift",
+   "sha": "d522180aba2c77372d8028357af0c43f2fe508dd",
+   "bytes": 6784
+  },
+  {
+   "path": "Sources/Views/Components/VerdictReveal.swift",
+   "sha": "faf3b2355bcaae681bffac9a5eb0734728425ca4",
+   "bytes": 8639
+  },
+  {
+   "path": "Sources/Views/CourtroomView.swift",
+   "sha": "65cf86b3f2816bb7cb6efeab1838f7ca53bb77bd",
+   "bytes": 19842
+  },
+  {
+   "path": "Sources/Views/EpisodeBrowser.swift",
+   "sha": "2ab58e8cd0d486c07e46792362358853baaa5c71",
+   "bytes": 7402
+  },
+  {
+   "path": "Sources/Views/EpisodeBrowserView.swift",
+   "sha": "165a351f544cb5be6c8efed69f56012da0b2118e",
+   "bytes": 2529
+  },
+  {
+   "path": "Sources/Views/EpisodePlayer.swift",
+   "sha": "a8a270c2687bb09c938f2fba22ab45dcdd25b363",
+   "bytes": 6094
+  },
+  {
+   "path": "Sources/Views/IntakeScreen.swift",
+   "sha": "0701142900750b9a1e1b7a69b7fe1ac3002d9e26",
+   "bytes": 7304
+  },
+  {
+   "path": "Sources/Voice/CharacterVoices.swift",
+   "sha": "b00df14ab856818847958d0c025e264e4e9b44b6",
+   "bytes": 981
+  },
+  {
+   "path": "Sources/Voice/LocalVoiceProfile.swift",
+   "sha": "3b59683c50b05555d12ad217dada0ac23395b9c6",
+   "bytes": 4450
+  },
+  {
+   "path": "Sources/Voice/VoiceCache.swift",
+   "sha": "378091c31109bfec6405108c433b44b7625be270",
+   "bytes": 5919
+  },
+  {
+   "path": "Sources/Voice/VoiceRegistryReplay.swift",
+   "sha": "67d1c24b4ea4acd6731380da4d97902812423108",
+   "bytes": 5922
+  },
+  {
+   "path": "Sources/Voice/VoiceSynthesisClient.swift",
+   "sha": "4e34200c48203617baf63f611cb89e45a923b993",
+   "bytes": 14068
+  },
+  {
+   "path": "Tests/NerdCourtTests/CharacterPortraitNodeRegressionTests.swift",
+   "sha": "604c9a27c27093dd71877ba4e82849c4c4fe7655",
+   "bytes": 2665
+  },
+  {
+   "path": "Tests/NerdCourtTests/ConvexClientTests.swift",
+   "sha": "b187f0d5431dced36e0a38632a2e987ed6ec283c",
+   "bytes": 6689
+  },
+  {
+   "path": "Tests/NerdCourtTests/DebateEngineTests.swift",
+   "sha": "c553724c396da5775164e765eb9e618d48a39cb6",
+   "bytes": 2937
+  },
+  {
+   "path": "Tests/NerdCourtTests/EpisodeModelRegressionTests.swift",
+   "sha": "f7bb2dd1c0c3abaab94def8da0f5fdcf09e13c68",
+   "bytes": 3471
+  },
+  {
+   "path": "Tests/NerdCourtTests/FinisherAnimatorRegressionTests.swift",
+   "sha": "0e0a9cffc2fe3b1490ab69a748250862645808e6",
+   "bytes": 2995
+  },
+  {
+   "path": "Tests/NerdCourtTests/GuestCharacterGeneratorTests.swift",
+   "sha": "6eea8a5362baf7c341bb483fbf0bdb1cf64ec40e",
+   "bytes": 1367
+  },
+  {
+   "path": "Tests/NerdCourtTests/HardeningTests.swift",
+   "sha": "1474681fb027c622d6ae5f3db2cc4360d0d98dfd",
+   "bytes": 5061
+  },
+  {
+   "path": "Tests/NerdCourtTests/InputSanitizerTests.swift",
+   "sha": "881adf5558119a3e48f8e1c357099f2d1e529bbc",
+   "bytes": 2664
+  },
+  {
+   "path": "Tests/NerdCourtTests/LocalVoiceProfileRegressionTests.swift",
+   "sha": "33fb06d300f0f3b7c17f2a73c9a9121e69776dc0",
+   "bytes": 2432
+  },
+  {
+   "path": "Tests/NerdCourtTests/PipelineEngineTests.swift",
+   "sha": "b6d471fa29eee3f09f319b19a758cd04ca40cdb3",
+   "bytes": 4727
+  },
+  {
+   "path": "Tests/NerdCourtTests/VoiceRegistryReplayTests.swift",
+   "sha": "477831f9b56896192c5ce2f5cd0f1c4365b7316c",
+   "bytes": 1226
+  },
+  {
+   "path": "Tests/NerdCourtTests/VoiceSynthesisServiceTests.swift",
+   "sha": "2003dd939f58798b53269d543d19020a1be4cb6d",
+   "bytes": 580
+  },
+  {
+   "path": "Tests/NerdCourtUITests/CourtroomFlowUITests.swift",
+   "sha": "1de5cee1036db125d5e797bdbf13579798c7da20",
+   "bytes": 1215
+  },
+  {
+   "path": "agents.md",
+   "sha": "0bd737599455210704c1f41a28f0b80d52d02829",
+   "bytes": 10140
+  },
+  {
+   "path": "ci_scripts/ExportOptions.plist.template",
+   "sha": "a9f612e4610369c09fc48fe8cd05a6c192fefbe0",
+   "bytes": 608
+  },
+  {
+   "path": "ci_scripts/archive_and_upload.sh",
+   "sha": "99a69886e385d7e935da2baa73ad5935a2667e94",
+   "bytes": 1213
+  },
+  {
+   "path": "ci_scripts/ci_post_clone.sh",
+   "sha": "17c2d35bac517747dede5d68b7201062c09717cf",
+   "bytes": 683
+  },
+  {
+   "path": "claude.md",
+   "sha": "0bd737599455210704c1f41a28f0b80d52d02829",
+   "bytes": 10140
+  },
+  {
+   "path": "convex/.DS_Store",
+   "sha": "0560517586d3d9a1ff7c31ee5127ae087ce9797f",
+   "bytes": 6148,
+   "family": "review-exclusion"
+  },
+  {
+   "path": "convex/_generated/api.d.ts",
+   "sha": "10823b9452828d277bba5375338708d67b3d421c",
+   "bytes": 1772
+  },
+  {
+   "path": "convex/_generated/api.js",
+   "sha": "44bf98583204c1f9474b38f84b48659b192eea8b",
+   "bytes": 480
+  },
+  {
+   "path": "convex/_generated/dataModel.d.ts",
+   "sha": "f97fd1942151eef5b818c0679f7a12f2c22557b5",
+   "bytes": 1736
+  },
+  {
+   "path": "convex/_generated/server.d.ts",
+   "sha": "bec05e6816acdfd63e38f63f130d5eecd078d373",
+   "bytes": 5600
+  },
+  {
+   "path": "convex/_generated/server.js",
+   "sha": "bf3d25ad33f675ef36e9b7064d9fd80c99f22c9c",
+   "bytes": 3696
+  },
+  {
+   "path": "convex/agents/deadpoolNPH.ts",
+   "sha": "6fbe0063e5920a850230ff44e2f1b34deba31819",
+   "bytes": 2513
+  },
+  {
+   "path": "convex/agents/jasonTodd.ts",
+   "sha": "3f0c59ce13225cb495ed1dd87610cb697397be86",
+   "bytes": 2023
+  },
+  {
+   "path": "convex/agents/judgeJerry.ts",
+   "sha": "ac46947162f95138b67fa640e6bf957f367fed75",
+   "bytes": 2077
+  },
+  {
+   "path": "convex/agents/mattMurdock.ts",
+   "sha": "bd45f9f2f42a31605b71711daf16f0022159af31",
+   "bytes": 2058
+  },
+  {
+   "path": "convex/episodes.ts",
+   "sha": "c3e847e97755d0d03997bd90049400a32821cabc",
+   "bytes": 1584
+  },
+  {
+   "path": "convex/grievances.ts",
+   "sha": "b01fc5759c96e1c181331704f0ae071baff2708f",
+   "bytes": 1104
+  },
+  {
+   "path": "convex/guestCharacters.ts",
+   "sha": "7d7c93a98700fef3341959f3e2246b94e3e88f99",
+   "bytes": 1338
+  },
+  {
+   "path": "convex/research.ts",
+   "sha": "11a14b3932c050f3e6eeeadd803c9cc12de23c5d",
+   "bytes": 10463
+  },
+  {
+   "path": "convex/researchData.ts",
+   "sha": "bd08b15bf90cfee7837b8e5e0a1a012cbf57cee5",
+   "bytes": 1205
+  },
+  {
+   "path": "convex/schema.ts",
+   "sha": "4a98fc4e9761040fa153b9ec5d8ff6971b64a8ea",
+   "bytes": 1991
+  },
+  {
+   "path": "copilot.instructions",
+   "sha": "0bd737599455210704c1f41a28f0b80d52d02829",
+   "bytes": 10140
+  },
+  {
+   "path": "copilot.md",
+   "sha": "0bd737599455210704c1f41a28f0b80d52d02829",
+   "bytes": 10140
+  },
+  {
+   "path": "gemini.md",
+   "sha": "0bd737599455210704c1f41a28f0b80d52d02829",
+   "bytes": 10140
+  },
+  {
+   "path": "infra/f5tts/.dockerignore",
+   "sha": "df63c63d19c0bf89345caf3aae831462e61b67e0",
+   "bytes": 52
+  },
+  {
+   "path": "infra/f5tts/Dockerfile",
+   "sha": "b2adb10540344ab2ce210bafc960398d347b2702",
+   "bytes": 934
+  },
+  {
+   "path": "infra/f5tts/server.py",
+   "sha": "b424770aee8fabf14f0e7df842b621d890e9b604",
+   "bytes": 7078
+  },
+  {
+   "path": "infra/yt-clipper/Dockerfile",
+   "sha": "979708840cc64a5196199b892812a951fdf718e4",
+   "bytes": 422
+  },
+  {
+   "path": "infra/yt-clipper/server.py",
+   "sha": "876d4898b90f2f6b75c957b48ee71659b1433298",
+   "bytes": 4606
+  },
+  {
+   "path": "nerd-court-blueprint.md",
+   "sha": "4178a15e3ce0c154b1e43f9e247f6bb8c3c32236",
+   "bytes": 30507
+  },
+  {
+   "path": "package-lock.json",
+   "sha": "17288f5dcaf3060f2292ba8ba373eeee4c81f75b",
+   "bytes": 16672
+  },
+  {
+   "path": "package.json",
+   "sha": "e8ce9d6ba8a0f428dc04148af9d189037432272d",
+   "bytes": 202
+  },
+  {
+   "path": "project.yml",
+   "sha": "753674c896df4b343f54ef1825fb32957045a7cc",
+   "bytes": 1991
+  },
+  {
+   "path": "pytest.ini",
+   "sha": "fd2badbcd81a44b4b5020836a779c11ac9e41a15",
+   "bytes": 65
+  },
+  {
+   "path": "scripts/register_voices.py",
+   "sha": "6157eea5a427c4d1714472f7909e918d09ddbbdb",
+   "bytes": 7288
+  },
+  {
+   "path": "scripts/regression/test_convex_backend.py",
+   "sha": "aa9152db5ee304f904554ccb4d6e13c656ab69af",
+   "bytes": 5909
+  },
+  {
+   "path": "scripts/regression/test_tts_service.py",
+   "sha": "c8507c0ea4ca3dd804bb000dcc52e0c5ec760dd3",
+   "bytes": 12484
+  }
+ ]
+}
